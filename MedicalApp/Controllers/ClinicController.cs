@@ -3,6 +3,7 @@ using MedicalApp_BusinessLayer.Contracts;
 using MedicalApp_BusinessLayer.Dto;
 using MedicalApp_BusinessLayer.Services;
 using MedicalApp_DataLayer.Models;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,7 @@ namespace MedicalApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("_myAllowSpecificOrigins")]
     public class ClinicController : ControllerBase
     {
         private readonly ILoggerManager _logger;
