@@ -1,4 +1,6 @@
 ﻿using MedicalApp_BusinessLayer.Contracts;
+using MedicalApp_BusinessLayer.ExtentionsRepo;
+using MedicalApp_BusinessLayer.RequestFeatures;
 using MedicalApp_BusinessLayer.Services;
 using MedicalApp_DataLayer.Data;
 using MedicalApp_DataLayer.Models;
@@ -22,8 +24,12 @@ namespace MedicalApp_BusinessLayer.Repositories
         public  void DeleteClinic(Clinic clinic)
          =>Delete(clinic);
 
-        public async Task<IEnumerable<Clinic>> GetAllClinics()
-         =>await FindAll(trackChanges: false).ToListAsync();
+        public async Task<IEnumerable<Clinic>> GetAllClinics(ClinicParamters paramters)
+         =>await FindAll(trackChanges: false)
+            .Search(paramters.SearchTerm!,paramters.Category!,paramters.City!)
+            .Skip((paramters.PageNumber - 1) * paramters.PageSize)
+            .Take(paramters.PageSize)
+            .ToListAsync();
 
         public async Task<Clinic?> GetClinicById(string clincId)
           => await FindByCondition(c => c.Id == clincId, trackChanges: false)

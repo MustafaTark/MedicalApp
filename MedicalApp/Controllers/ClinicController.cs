@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MedicalApp_BusinessLayer.Contracts;
 using MedicalApp_BusinessLayer.Dto;
+using MedicalApp_BusinessLayer.RequestFeatures;
 using MedicalApp_BusinessLayer.Services;
 using MedicalApp_DataLayer.Models;
 using Microsoft.AspNetCore.Cors;
@@ -67,6 +68,13 @@ namespace MedicalApp.Controllers
                 Token = await _authManager.CreateToken()
             }
             );
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetAllClinics([FromQuery]ClinicParamters paramters)
+        {
+           var clinics=await _repository.Clinic.GetAllClinics(paramters);
+            var clinicsDto = _mapper.Map<IEnumerable<ClinicDto>>(clinics);
+            return Ok( clinicsDto ) ;
         }
         [HttpGet("Appointment")]
         public async Task<IActionResult> GetAllAppointments(string clinicId)
