@@ -39,14 +39,18 @@ namespace MedicalApp_DataLayer.Data
             builder.Entity<User>().UseTptMappingStrategy().ToTable("Users");
             builder.Entity<Patient>()
                 .ToTable("Patients").HasBaseType<User>();
-            //builder.Entity<User>().ToTable("Patients");
+          
             builder.Entity<Clinic>()
                 .ToTable("Clinics").HasBaseType<User>();
-            //builder.Entity<User>().ToTable("Clinics");
+         
             builder.Entity<Pharmacy>()
                 .ToTable("Pharmacies").HasBaseType<User>();
-            //builder.Entity<User>().ToTable("Pharmacies");
+           
             builder.Entity<Clinic>().HasIndex(c => c.TxnNumber).IsUnique();
+            builder.Entity<Clinic>().HasIndex(c => c.Category);
+            builder.Entity<Clinic>().HasIndex(c => c.City);
+            builder.Entity<Clinic>().HasIndex(c => c.DoctorName);
+            builder.Entity<Clinic>().HasIndex(c => c.Name);
             builder.Entity<Pharmacy>().HasIndex(p => p.TxnNumber).IsUnique();
             builder.Entity<Pharmacy>().HasMany(p => p.Products).WithMany(p => p.Pharmacies);
 
