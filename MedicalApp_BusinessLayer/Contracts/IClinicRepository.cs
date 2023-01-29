@@ -1,4 +1,5 @@
-﻿using MedicalApp_DataLayer.Models;
+﻿using MedicalApp_BusinessLayer.RequestFeatures;
+using MedicalApp_DataLayer.Models;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace MedicalApp_BusinessLayer.Contracts
 {
     public interface IClinicRepository
     {
-        Task<IEnumerable<Clinic>> GetAllClinics();
+        Task<IEnumerable<Clinic>> GetAllClinics(ClinicParamters paramters);
         Task<Clinic?> GetClinicById(string id);
         void DeleteClinic(Clinic clinic);
         void UploadImage(IFormFile fil,string clinicId);
