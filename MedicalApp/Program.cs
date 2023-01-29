@@ -1,5 +1,6 @@
 
 using MedicalApp.Extentions;
+using MedicalApp.Hubs;
 using MedicalApp_BusinessLayer.Contracts;
 using MedicalApp_BusinessLayer.Repositories;
 using MedicalApp_BusinessLayer.Services;
@@ -32,8 +33,7 @@ builder.Services.ConfigureIdentity<Clinic>();
 builder.Services.ConfigureIdentity<Patient>();
 builder.Services.ConfigureIdentity<Pharmacy>();
 builder.Services.ConfigureJwt(builder.Configuration);
-//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-//    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
+builder.Services.AddSignalR();
 LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config.xml"));
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddControllers().AddJsonOptions(
@@ -55,10 +55,16 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+
 app.UseCors(MyAllowSpecificOrigins);
+app.UseRouting();
 app.UseAuthorization();
 
+app.UseEndpoints(endpoints => {
+    endpoints.MapControllers();
+    endpoints.MapHub<ChatHub>("/chatHub");
+});
+app.UseHttpsRedirection();
 app.MapControllers();
 
 app.Run();
