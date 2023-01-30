@@ -14,7 +14,9 @@ namespace MedicalApp_BusinessLayer.Contracts
         IPatientRepository Patient { get; }
         IClinicDaysRepository ClinicDays { get; }
         IRateRepository RateRepository { get; }
-        
+        IChatRepository Chat { get; }
+        IClinicMessageRepository ClinicMessage { get; }
+        IPatientMessageRepository PatientMessage { get; }
         Task SaveChanges();
     }
 }
