@@ -91,6 +91,12 @@ namespace MedicalApp.Extentions
             services.AddScoped<RepositoryBase<ClinicDayes>, ClinicDayRepository>();
             services.AddScoped<IRateRepository, RateRepository>();
             services.AddScoped<RepositoryBase<Rate>, RateRepository>();
+            services.AddScoped<IChatRepository, ChatRepository>();
+            services.AddScoped<RepositoryBase<Chat>, ChatRepository>();
+            services.AddScoped<IClinicMessageRepository, ClinicMessageRepository>();
+            services.AddScoped<RepositoryBase<ClinicMessage>, ClinicMessageRepository>();
+            services.AddScoped<IPatientMessageRepository, PatientMessageRepository>();
+            services.AddScoped<RepositoryBase<PatientMessage>, PatientMessageRepository>();
 
         }
        

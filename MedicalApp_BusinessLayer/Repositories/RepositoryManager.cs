@@ -21,13 +21,19 @@ namespace MedicalApp_BusinessLayer.Repositories
         private IClinicDaysRepository _clinicDayes;
         private IRateRepository _rate;
         private IFilesManager _filesManager;
+        private IChatRepository _chat;
+        private IClinicMessageRepository _clinicMessage;
+        private IPatientMessageRepository _patientMessage;
         public RepositoryManager(IAppointmentRepository appointment,
             IClinicRepository clinic,
             AppDbContext context,
            IPatientRepository patient,
            IClinicDaysRepository clinicDays,
            IRateRepository rate,
-           IFilesManager filesManager
+           IFilesManager filesManager,
+           IChatRepository chat,
+           IClinicMessageRepository clinicMessage,
+           IPatientMessageRepository patientMessage
             )
         {
             _appointment = appointment;
@@ -37,6 +43,9 @@ namespace MedicalApp_BusinessLayer.Repositories
             _clinicDayes= clinicDays;
           _rate= rate;
             _filesManager = filesManager;
+            _chat= chat;
+            _clinicMessage= clinicMessage;
+            _patientMessage= patientMessage;
             
         }
         public IAppointmentRepository Appointment
@@ -84,6 +93,33 @@ namespace MedicalApp_BusinessLayer.Repositories
                 if (_rate is null)
                     _rate = new RateRepository(_context);
                 return _rate;
+            }
+        } 
+        public IChatRepository Chat
+        {
+            get
+            {
+                if (_chat is null)
+                    _chat = new ChatRepository(_context);
+                return _chat;
+            }
+        } 
+        public IClinicMessageRepository ClinicMessage
+        {
+            get
+            {
+                if (_clinicMessage is null)
+                    _clinicMessage = new ClinicMessageRepository(_context);
+                return _clinicMessage;
+            }
+        } 
+        public IPatientMessageRepository PatientMessage
+        {
+            get
+            {
+                if (_patientMessage is null)
+                    _patientMessage = new PatientMessageRepository(_context);
+                return _patientMessage;
             }
         }
 

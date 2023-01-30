@@ -32,6 +32,11 @@ namespace MedicalApp
             CreateMap<Rate, RateDto>().ReverseMap();
 
             CreateMap<RateForCreateDto, Rate>();
+            CreateMap<PatientMessageForCreationDto, PatientMessage>();
+            CreateMap<ClinicMessageForCreationDto, ClinicMessage>();
+            CreateMap<ClinicMessage, MessageDto>();
+            CreateMap<PatientMessage, MessageDto>();
+            CreateMap<ChatForCreateDto, Chat>();    
 
         }
     }

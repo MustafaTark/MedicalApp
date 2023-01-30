@@ -56,15 +56,19 @@ if (app.Environment.IsDevelopment())
 }
 
 
-app.UseCors(MyAllowSpecificOrigins);
+
 app.UseRouting();
+app.UseCors(MyAllowSpecificOrigins);
+
 app.UseAuthorization();
 
-app.UseEndpoints(endpoints => {
-    endpoints.MapControllers();
-    endpoints.MapHub<ChatHub>("/chatHub");
-});
+//app.UseEndpoints(endpoints => {
+//    endpoints.MapControllers();
+//    endpoints.MapHub<ChatHub>("/chatHub");
+//});
+app.MapHub<ChatHub>("/chatHub"); 
 app.UseHttpsRedirection();
+
 app.MapControllers();
 
 app.Run();

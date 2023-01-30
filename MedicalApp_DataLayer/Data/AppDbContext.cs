@@ -24,6 +24,9 @@ namespace MedicalApp_DataLayer.Data
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Rate> Rates { get; set; }
         public DbSet<Report> Reports { get; set; }
+        public DbSet<Chat> Chats { get; set; }
+        public DbSet<ClinicMessage> ClinicMessages { get; set; }
+        public DbSet<PatientMessage> PatientMessages { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> options) : 
             base(options)
         { 
