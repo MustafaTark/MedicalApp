@@ -17,6 +17,9 @@ namespace MedicalApp_BusinessLayer.Contracts
         IChatRepository Chat { get; }
         IClinicMessageRepository ClinicMessage { get; }
         IPatientMessageRepository PatientMessage { get; }
+        IPharmacyRepository Pharmacy { get; }
+        IProductRepository Product { get; }
+        IOrderRepository Order { get; }
         Task SaveChanges();
     }
 }

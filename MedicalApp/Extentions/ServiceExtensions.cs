@@ -97,6 +97,12 @@ namespace MedicalApp.Extentions
             services.AddScoped<RepositoryBase<ClinicMessage>, ClinicMessageRepository>();
             services.AddScoped<IPatientMessageRepository, PatientMessageRepository>();
             services.AddScoped<RepositoryBase<PatientMessage>, PatientMessageRepository>();
+            services.AddScoped<RepositoryBase<Pharmacy>, PharmacyRepository>();
+            services.AddScoped<IPharmacyRepository, PharmacyRepository>();
+            services.AddScoped<RepositoryBase<Product>, ProductRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<RepositoryBase<Order>, OrderRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
 
         }
        

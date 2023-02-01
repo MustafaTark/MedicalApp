@@ -1,6 +1,7 @@
 ﻿using MedicalApp_BusinessLayer.Contracts;
 using MedicalApp_BusinessLayer.Services;
 using MedicalApp_DataLayer.Data;
+using MedicalApp_DataLayer.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -24,6 +25,9 @@ namespace MedicalApp_BusinessLayer.Repositories
         private IChatRepository _chat;
         private IClinicMessageRepository _clinicMessage;
         private IPatientMessageRepository _patientMessage;
+        private IPharmacyRepository _pharmacy;
+        private IProductRepository _product;
+        private IOrderRepository _order;
         public RepositoryManager(IAppointmentRepository appointment,
             IClinicRepository clinic,
             AppDbContext context,
@@ -33,7 +37,11 @@ namespace MedicalApp_BusinessLayer.Repositories
            IFilesManager filesManager,
            IChatRepository chat,
            IClinicMessageRepository clinicMessage,
-           IPatientMessageRepository patientMessage
+           IPatientMessageRepository patientMessage,
+           IPharmacyRepository pharmacy,
+           IProductRepository product,
+           IOrderRepository order
+
             )
         {
             _appointment = appointment;
@@ -46,6 +54,12 @@ namespace MedicalApp_BusinessLayer.Repositories
             _chat= chat;
             _clinicMessage= clinicMessage;
             _patientMessage= patientMessage;
+            _chat= chat;
+            _clinicMessage= clinicMessage;
+            _patientMessage= patientMessage;
+            _order= order;
+            _pharmacy= pharmacy;
+            _product= product;
             
         }
         public IAppointmentRepository Appointment
@@ -94,7 +108,7 @@ namespace MedicalApp_BusinessLayer.Repositories
                     _rate = new RateRepository(_context);
                 return _rate;
             }
-        } 
+        }
         public IChatRepository Chat
         {
             get
@@ -103,7 +117,7 @@ namespace MedicalApp_BusinessLayer.Repositories
                     _chat = new ChatRepository(_context);
                 return _chat;
             }
-        } 
+        }
         public IClinicMessageRepository ClinicMessage
         {
             get
@@ -112,7 +126,7 @@ namespace MedicalApp_BusinessLayer.Repositories
                     _clinicMessage = new ClinicMessageRepository(_context);
                 return _clinicMessage;
             }
-        } 
+        }
         public IPatientMessageRepository PatientMessage
         {
             get
@@ -123,7 +137,33 @@ namespace MedicalApp_BusinessLayer.Repositories
             }
         }
 
-     
+        public IPharmacyRepository Pharmacy
+        {
+            get
+            {
+                if (_pharmacy is null)
+                    _pharmacy = new PharmacyRepository(_context);
+                return _pharmacy;
+            }
+        }
+        public IProductRepository Product
+        {
+            get
+            {
+                if (_product is null)
+                    _product = new ProductRepository(_context);
+                return _product;
+            }
+        }
+        public IOrderRepository Order
+        {
+            get
+            {
+                if (_order is null)
+                    _order = new OrderRepository(_context);
+                return _order;
+            }
+        }
 
         public  Task SaveChanges() =>  _context.SaveChangesAsync();
 

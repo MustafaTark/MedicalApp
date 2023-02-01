@@ -36,7 +36,15 @@ namespace MedicalApp
             CreateMap<ClinicMessageForCreationDto, ClinicMessage>();
             CreateMap<ClinicMessage, MessageDto>();
             CreateMap<PatientMessage, MessageDto>();
+
             CreateMap<ChatForCreateDto, Chat>();    
+         
+
+            CreateMap<Pharmacy, PharmacyDto>().ReverseMap();
+            CreateMap<ProductForCreateDto, Product>().ReverseMap();
+            CreateMap<Product, ProductDto>().ReverseMap();
+            CreateMap<Order, OrderDto>();
+            CreateMap<OrderForCreateDto, Order>();
 
         }
     }
