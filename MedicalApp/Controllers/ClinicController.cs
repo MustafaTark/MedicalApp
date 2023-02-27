@@ -37,7 +37,7 @@ namespace MedicalApp.Controllers
             _repository = repository;
         }
         [HttpPost]
-      
+
         public async Task<IActionResult> RegisterUser([FromBody] ClinicForRegisterDto userForRegistration)
         {
             var user = _mapper.Map<Clinic>(userForRegistration);
@@ -54,7 +54,7 @@ namespace MedicalApp.Controllers
             return StatusCode(201);
         }
         [HttpPost("login")]
-        
+
         public async Task<IActionResult> Authenticate([FromBody] UserForLoginDto user)
         {
             if (!await _authManager.ValidateUser(user))
@@ -70,23 +70,23 @@ namespace MedicalApp.Controllers
             );
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllClinics([FromQuery]ClinicParamters paramters)
+        public async Task<IActionResult> GetAllClinics([FromQuery] ClinicParamters paramters)
         {
-           var clinics=await _repository.Clinic.GetAllClinics(paramters);
+            var clinics = await _repository.Clinic.GetAllClinics(paramters);
             var clinicsDto = _mapper.Map<IEnumerable<ClinicDto>>(clinics);
-            return Ok( clinicsDto ) ;
+            return Ok(clinicsDto);
         }
         [HttpGet("Appointment")]
         public async Task<IActionResult> GetAllAppointments(string clinicId)
         {
-            var clinic =await  _repository.Clinic.GetClinicById(clinicId);
-            if(clinic is null)
+            var clinic = await _repository.Clinic.GetClinicById(clinicId);
+            if (clinic is null)
             {
                 _logger.LogInfo($"Clinic with id: {clinicId} doesn't exist in the database.");
-               return NotFound();
+                return NotFound();
             }
-            var appointments =await  _repository.Appointment.GetAllAppointmentsToClinicAsync(clinicId);
-            var appointmentsDto=_mapper.Map<IEnumerable<AppointmentDto>>(appointments);
+            var appointments = await _repository.Appointment.GetAllAppointmentsToClinicAsync(clinicId);
+            var appointmentsDto = _mapper.Map<IEnumerable<AppointmentDto>>(appointments);
             return Ok(appointmentsDto);
         }
         [HttpGet("GetClinic")]
@@ -103,7 +103,7 @@ namespace MedicalApp.Controllers
                 _logger.LogInfo($"Clinic with id: {clinicId} doesn't exist in the database.");
                 return NotFound();
             }
-            var clinicDto=_mapper.Map<ClinicDto>(clinic);
+            var clinicDto = _mapper.Map<ClinicDto>(clinic);
             return Ok(clinicDto);
         }
         [HttpDelete("{clinicId}")]
@@ -116,7 +116,7 @@ namespace MedicalApp.Controllers
                 return NotFound();
             }
             _repository.Clinic.DeleteClinic(clinic);
-           await _repository.SaveChanges();
+            await _repository.SaveChanges();
             return NoContent();
         }
         [HttpPost("ClinicDays")]
@@ -189,12 +189,12 @@ namespace MedicalApp.Controllers
                 _logger.LogInfo($"Clinic with id: {clinicId} doesn't exist in the database.");
                 return NotFound();
             }
-            var rates=await _repository.RateRepository.GetRatesForClinic(clinicId);
+            var rates = await _repository.RateRepository.GetRatesForClinic(clinicId);
             var ratesDto = _mapper.Map<IEnumerable<RateDto>>(rates);
             return Ok(ratesDto);
         }
         [HttpPost("Upload"), DisableRequestSizeLimit]
-        public async Task< IActionResult> Upload(IFormFile file,string clinicId)
+        public async Task<IActionResult> Upload(IFormFile file, string clinicId)
         {
             if (clinicId.IsNullOrEmpty())
             {
@@ -211,9 +211,9 @@ namespace MedicalApp.Controllers
             {
                 if (file.Length > 0)
                 {
-                   _repository.Clinic.UploadImage(file,clinicId);
-                  
-                   await  _repository.SaveChanges();
+                    _repository.Clinic.UploadImage(file, clinicId);
+
+                    await _repository.SaveChanges();
                     return Ok();
                 }
                 else
@@ -227,7 +227,7 @@ namespace MedicalApp.Controllers
             }
         }
         [HttpGet("GetImage")]
-        public async Task< IActionResult> GetImage(string clinicId)
+        public async Task<IActionResult> GetImage(string clinicId)
         {
             if (clinicId.IsNullOrEmpty())
             {
@@ -240,8 +240,89 @@ namespace MedicalApp.Controllers
                 _logger.LogInfo($"Clinic with id: {clinicId} doesn't exist in the database.");
                 return NotFound();
             }
-            var fileStream= _repository.Clinic.GetImage(clinicId);
+            var fileStream = _repository.Clinic.GetImage(clinicId);
             return new FileStreamResult(fileStream, "image/png");
+        }
+        [HttpPost("Report")]
+        public async Task<IActionResult> CreateReport([FromBody] ReportForCreateDto reportForCreateDto)
+        {
+            var patient = _repository.Patient.GetPatientByIdAsync(reportForCreateDto.PatientId!);
+            if (patient is null)
+            {
+                _logger.LogInfo($"Patient with ID: {reportForCreateDto.PatientId} doesn't exist in the Database");
+                return NotFound();
+            }
+            var clinic = _repository.Clinic.GetClinicById(reportForCreateDto.ClinicId!);
+            if (clinic is null)
+            {
+                _logger.LogInfo($"Clinic with ID: {reportForCreateDto.ClinicId} doesn't exist in the Database");
+                return NotFound();
+            }
+            var appointment = _repository.Appointment.GetAppointmentByIdAsync(reportForCreateDto.AppointmentId);
+            if (appointment is null)
+            {
+                _logger.LogInfo($"Appointment with ID: {reportForCreateDto.AppointmentId} doesn't exist in the Database");
+                return NotFound();
+            }
+            var report = _mapper.Map<Report>(reportForCreateDto);
+            _repository.Report.CreateReport(report);
+            await _repository.SaveChanges();
+            //var reportToReturn = _mapper.Map<ReportDto>(report);
+            return NoContent();
+        }
+        [HttpGet("Reports")]
+        public async Task<IActionResult> GetAllReportsForClinic(string clinicId)
+        {
+            if (clinicId.IsNullOrEmpty())
+            {
+                _logger.LogInfo("Clinic Id is null");
+                return BadRequest("Clinic Id is null");
+
+            }
+            var clinic = await _repository.Clinic.GetClinicById(clinicId);
+            if (clinic is null)
+            {
+                _logger.LogInfo($"Clinic With ID: {clinicId} doesn't exist in the database");
+                return NotFound();
+            }
+            var report = await _repository.Report.GetAllReportsForClinic(clinicId, trackChanges: false);
+            var reportDto = _mapper.Map<IEnumerable<ReportDto>>(report);
+            return Ok(reportDto);
+        }
+        [HttpGet("reportIdreportId")]
+        public async Task<IActionResult> GetReport(Guid reportId)
+        {
+            if (reportId.ToString().IsNullOrEmpty())
+            {
+                _logger.LogInfo($"Report with ID: {reportId} is null");
+                return BadRequest();
+            }
+            var report = await _repository.Report.GetReportById(reportId, trackChanges: false);
+            if (report is null)
+            {
+                _logger.LogInfo($"Report with ID: {reportId} doesn't exist in the database.");
+                return NotFound();
+            }
+            var reportDto = _mapper.Map<ReportDto>(report);
+            return Ok(reportDto);
+        }
+        [HttpDelete("reportId")]
+        public async Task<IActionResult> DeleteReport(Guid reportId)
+        {
+            if (reportId.ToString().IsNullOrEmpty())
+            {
+                _logger.LogInfo($"Report with ID: {reportId} is null");
+                return BadRequest();
+            }
+            var report = await _repository.Report.GetReportById(reportId, trackChanges: false);
+            if (report is null)
+            {
+                _logger.LogInfo($"Report with ID: {reportId} doesn't exist in the database.");
+                return NotFound();
+            }
+            _repository.Report.DeleteReport(report);
+            await _repository.SaveChanges();
+            return NoContent();
         }
 
 

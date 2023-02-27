@@ -28,6 +28,7 @@ namespace MedicalApp_BusinessLayer.Repositories
         private IPharmacyRepository _pharmacy;
         private IProductRepository _product;
         private IOrderRepository _order;
+        private IReportRepository _report;
         public RepositoryManager(IAppointmentRepository appointment,
             IClinicRepository clinic,
             AppDbContext context,
@@ -40,7 +41,8 @@ namespace MedicalApp_BusinessLayer.Repositories
            IPatientMessageRepository patientMessage,
            IPharmacyRepository pharmacy,
            IProductRepository product,
-           IOrderRepository order
+           IOrderRepository order,
+           IReportRepository report
 
             )
         {
@@ -60,6 +62,7 @@ namespace MedicalApp_BusinessLayer.Repositories
             _order= order;
             _pharmacy= pharmacy;
             _product= product;
+            _report= report;
             
         }
         public IAppointmentRepository Appointment
@@ -162,6 +165,15 @@ namespace MedicalApp_BusinessLayer.Repositories
                 if (_order is null)
                     _order = new OrderRepository(_context);
                 return _order;
+            }
+        }
+        public IReportRepository Report
+        {
+            get
+            {
+                if(_report is null)
+                    _report = new ReportRepository(_context);
+                return _report;
             }
         }
 

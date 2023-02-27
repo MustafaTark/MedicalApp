@@ -9,9 +9,9 @@ namespace MedicalApp_BusinessLayer.Dto
 {
     public class UserForLoginDto
     {
-        [Required(ErrorMessage = "User name is required")]
+        [Required(ErrorMessage = "Username is a required field")]
         public string? UserName { get; set; }
-        [Required(ErrorMessage = "Password name is required")]
+        [Required(ErrorMessage = "Password is a required field")]
         public string? Password { get; set; }
     }
 }

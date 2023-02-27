@@ -8,8 +8,13 @@ namespace MedicalApp_DataLayer.Models
 {
     public class Patient :User
     {
+        public Patient()
+        {
+            Reports = new List<Report>();
+        }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
-        public byte age { get; set; }
+        public byte? Age { get; set; }
+        public ICollection<Report>? Reports { get; set; }
     }
 }

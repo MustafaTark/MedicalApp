@@ -20,6 +20,7 @@ namespace MedicalApp_BusinessLayer.Contracts
         IPharmacyRepository Pharmacy { get; }
         IProductRepository Product { get; }
         IOrderRepository Order { get; }
+        IReportRepository Report { get; }
         Task SaveChanges();
     }
 }

@@ -12,12 +12,21 @@ namespace MedicalApp_DataLayer.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid ID { get; set; }
         public string? Description { get; set; }
-        //public ICollection<Product> Products { get; set;}
-        //public Report() { 
-        //    Products = new List<Product>();
-        //}
+        public ICollection<Product> Products { get; set; }
+        public Report()
+        {
+            Products = new List<Product>();
+        }
         [ForeignKey(nameof(Appointment))]
-        public Guid Appointment { get; set; }
+        public Guid AppointmentId { get; set; }
         public Appointment? AppointmentObject { get; set; }
+
+        [ForeignKey(nameof(Patient))]
+        public string? PatientId { get; set; }
+        public Patient? PatientObject { get; set; }
+
+        [ForeignKey(nameof(Clinic))]
+        public string? ClinicId { get; set; }
+        public Clinic? ClinicObject { get; set; }
     }
 }

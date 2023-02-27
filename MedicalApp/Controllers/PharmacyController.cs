@@ -74,8 +74,8 @@ namespace MedicalApp.Controllers
         {
             try
             {
-                var pharmacy = await _repository.Pharmacy.GetAllPharmaciesAsync(paramters,trackChanges: false);
-                var pharmaciesDto = _mapper.Map<IEnumerable<PharmacyDto>>(pharmacy);
+                var pharmacies = await _repository.Pharmacy.GetAllPharmaciesAsync(paramters,trackChanges: false);
+                var pharmaciesDto = _mapper.Map<IEnumerable<PharmacyDto>>(pharmacies);
 
                 return Ok(pharmaciesDto);
             }

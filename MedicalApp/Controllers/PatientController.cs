@@ -199,6 +199,42 @@ namespace MedicalApp.Controllers
             var fileStream = _repository.Patient.GetImage(patientId);
             return new FileStreamResult(fileStream, "image/png");
         }
+        [HttpGet("Reports")]
+        public async Task<IActionResult> GetAllReportsForPatient(string patientId)
+        {
+            if (patientId.IsNullOrEmpty())
+            {
+                _logger.LogInfo("Patient Id is null");
+                return BadRequest("Patient Id is null");
+
+            }
+            var clinic = await _repository.Patient.GetPatientByIdAsync(patientId);
+            if (clinic is null)
+            {
+                _logger.LogInfo($"Patient With ID: {patientId} doesn't exist in the database");
+                return NotFound();
+            }
+            var report = await _repository.Report.GetAllReportsForPatient(patientId, trackChanges: false);
+            var reportDto = _mapper.Map<IEnumerable<ReportDto>>(report);
+            return Ok(reportDto);
+        }
+        [HttpGet("reportId")]
+        public async Task<IActionResult> GetReport(Guid reportId)
+        {
+            if (reportId.ToString().IsNullOrEmpty())
+            {
+                _logger.LogInfo($"Report with ID: {reportId} is null");
+                return BadRequest();
+            }
+            var report = await _repository.Report.GetReportById(reportId, trackChanges: false);
+            if (report is null)
+            {
+                _logger.LogInfo($"Report with ID: {reportId} doesn't exist in the database.");
+                return NotFound();
+            }
+            var reportDto = _mapper.Map<ReportDto>(report);
+            return Ok(reportDto);
+        }
 
     }
 }

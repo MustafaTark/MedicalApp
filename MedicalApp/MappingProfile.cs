@@ -45,6 +45,8 @@ namespace MedicalApp
             CreateMap<Product, ProductDto>().ReverseMap();
             CreateMap<Order, OrderDto>();
             CreateMap<OrderForCreateDto, Order>();
+            CreateMap<ReportForCreateDto, Report>();
+            CreateMap<Report, ReportDto>();
 
         }
     }
