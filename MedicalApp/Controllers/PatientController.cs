@@ -60,10 +60,12 @@ namespace MedicalApp.Controllers
                 _logger.LogWarn($"{nameof(Authenticate)}: Authentication failed. Wrong user name or password.");
                 return Unauthorized();
             }
+            var patient = await _userPatientManager.FindByNameAsync(user.UserName!);
             return Ok(
             new
             {
-                Token = await _authManager.CreateToken()
+                Token = await _authManager.CreateToken(),
+                 UserId = await _userPatientManager.GetUserIdAsync(patient!)
             }
             );
         }

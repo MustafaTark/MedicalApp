@@ -23,18 +23,23 @@ namespace MedicalApp.Controllers
         private readonly UserManager<Clinic> _userClinicManager;
         private readonly IAuthenticationManager _authManager;
         private readonly IRepositoryManager _repository;
+       
         public ClinicController(
             ILoggerManager logger,
             IMapper mapper,
             UserManager<Clinic> userClinicManager,
             IAuthenticationManager authManager,
-            IRepositoryManager repository)
+            IRepositoryManager repository
+                       
+            )
         {
             _logger = logger;
             _mapper = mapper;
             _userClinicManager = userClinicManager;
             _authManager = authManager;
             _repository = repository;
+          
+           
         }
         [HttpPost]
 
@@ -62,13 +67,22 @@ namespace MedicalApp.Controllers
                 _logger.LogWarn($"{nameof(Authenticate)}: Authentication failed. Clinic user name or password.");
                 return Unauthorized();
             }
+         var clinic=await _userClinicManager.FindByNameAsync(user.UserName!);
             return Ok(
             new
             {
-                Token = await _authManager.CreateToken()
+                Token = await _authManager.CreateToken(),
+               UserId=await _userClinicManager.GetUserIdAsync(clinic!)
             }
             );
         }
+        //[HttpGet("GetUserId")]
+        //public Task<IActionResult> GetUserId(string userId)
+        //{
+        //    var user = HttpContext.User;
+        //    var userId=
+        //    return Ok()
+        //}
         [HttpGet]
         public async Task<IActionResult> GetAllClinics([FromQuery] ClinicParamters paramters)
         {
