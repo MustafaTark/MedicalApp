@@ -11,7 +11,7 @@ namespace MedicalApp_DataLayer.Models
     {
      
         public int ID { get; set; }
-        public string? Day { get; set; }
+        public string? Day { get; set; }//enum
         [ForeignKey(nameof(Clinic))]
         public string? ClinicId { get; set; }
         public Clinic? ClinicObject { get; set; }

@@ -154,6 +154,7 @@ namespace MedicalApp.Controllers
         [HttpPost("Upload"), DisableRequestSizeLimit]
         public async Task<IActionResult> Upload(IFormFile file, string patientId)
         {
+            
             if (patientId.IsNullOrEmpty())
             {
                 _logger.LogInfo("Patient Id is null");
@@ -236,6 +237,31 @@ namespace MedicalApp.Controllers
             }
             var reportDto = _mapper.Map<ReportDto>(report);
             return Ok(reportDto);
+        }
+        [HttpPut("patientId")]
+        public async Task<IActionResult> UpdateClinic(string patientId, [FromBody] PatientForUpdateDto patientDto)
+        {
+            if (patientId.IsNullOrEmpty())
+            {
+                _logger.LogInfo("Clinic Id is null");
+                return BadRequest("Clinic Id is null");
+
+            }
+            var patientDb = await _repository.Patient.GetPatientByIdAsync(patientId);
+            if (patientDb is null)
+            {
+                _logger.LogInfo($"Patient With ID: {patientDb} doesn't exist in the database");
+                return NotFound();
+            }
+            if (patientDto is null)
+            {
+                _logger.LogInfo($"ModelState Is not Valid {ModelState}");
+                return BadRequest(ModelState);
+            }
+            _mapper.Map(patientDb, patientDto);
+
+            await _repository.SaveChanges();
+            return NoContent();
         }
 
     }

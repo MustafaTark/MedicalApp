@@ -14,6 +14,7 @@ namespace MedicalApp_BusinessLayer.Contracts
         Task<IEnumerable<Clinic>> GetAllClinics(ClinicParamters paramters);
         Task<Clinic?> GetClinicById(string id);
         void DeleteClinic(Clinic clinic);
+        void UpdateClinic(Clinic clinic);
         void UploadImage(IFormFile fil,string clinicId);
         FileStream GetImage(string clinicId);
     }

@@ -25,7 +25,7 @@ namespace MedicalApp_BusinessLayer.Repositories
          =>Delete(clinic);
 
         public async Task<IEnumerable<Clinic>> GetAllClinics(ClinicParamters paramters)
-         =>await FindAll(trackChanges: false)
+         =>await FindAll(trackChanges: false).Include(c=>c.Dayes)
             .Search(paramters.SearchTerm!,paramters.Category!,paramters.City!)
             .Skip((paramters.PageNumber - 1) * paramters.PageSize)
             .Take(paramters.PageSize)
@@ -47,5 +47,8 @@ namespace MedicalApp_BusinessLayer.Repositories
                .FirstOrDefault()!.ImageUrl;
             return _filesManager.GetFile(image!);
         }
+
+        public void UpdateClinic(Clinic clinic)
+         => Update(clinic);
     }
 }

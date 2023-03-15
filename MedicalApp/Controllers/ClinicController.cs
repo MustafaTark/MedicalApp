@@ -338,6 +338,31 @@ namespace MedicalApp.Controllers
             await _repository.SaveChanges();
             return NoContent();
         }
+        [HttpPut("clinicId")]
+        public async Task<IActionResult> UpdateClinic(string clinicId,[FromBody] ClinicForUpdateDto clinicDto)
+        {
+            if (clinicId.IsNullOrEmpty())
+            {
+                _logger.LogInfo("Clinic Id is null");
+                return BadRequest("Clinic Id is null");
+
+            }
+            var clinicDb = await _repository.Clinic.GetClinicById(clinicId);
+            if (clinicDb is null)
+            {
+                _logger.LogInfo($"Clinic With ID: {clinicId} doesn't exist in the database");
+                return NotFound();
+            }
+            if (clinicDto is null)
+            {
+                _logger.LogInfo($"ModelState Is not Valid {ModelState}");
+                return BadRequest(ModelState);
+            }
+            _mapper.Map(clinicDb,clinicDto);
+          
+           await _repository.SaveChanges();
+            return NoContent();
+        }
 
 
     }

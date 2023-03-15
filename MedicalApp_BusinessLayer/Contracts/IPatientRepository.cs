@@ -13,6 +13,7 @@ namespace MedicalApp_BusinessLayer.Contracts
         Task<Patient?> GetPatientByIdAsync(string id);
         void DeletePatient(Patient patient);
         void UploadImage(IFormFile fil, string patientId);
+
         FileStream GetImage(string patientId);
     }
 }

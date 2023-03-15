@@ -20,7 +20,9 @@ namespace MedicalApp
             CreateMap<Appointment, AppointmentDto>().ForMember(c => c.Time,
                 opt => opt.MapFrom(x => x.Time.ToString()));
             CreateMap<Clinic, ClinicDto>();
+            CreateMap<ClinicForUpdateDto, Clinic>().ReverseMap();
             CreateMap<Patient, PatientDto>();
+            CreateMap<PatientForUpdateDto, Patient>();
             //CreateMap<AppointmentForCreateDto, Appointment>().ReverseMap();
             CreateMap<AppointmentForCreateDto, Appointment>().ForMember(a => a.Time,
                 opt => opt.MapFrom(x => TimeSpan.Parse(x.Time!)));
@@ -29,9 +31,10 @@ namespace MedicalApp
                 opt=> opt.MapFrom(x => TimeSpan.Parse(x.End!)));
             CreateMap<ClinicDayes, ClinicDayDto>().ForMember(c => c.Start, opt => opt.MapFrom(x => x.Start.ToString()))
                 .ForMember(c => c.End, opt => opt.MapFrom(x => x.End.ToString()));
-            CreateMap<Rate, RateDto>().ReverseMap();
 
+            CreateMap<Rate, RateDto>().ReverseMap();
             CreateMap<RateForCreateDto, Rate>();
+
             CreateMap<PatientMessageForCreationDto, PatientMessage>();
             CreateMap<ClinicMessageForCreationDto, ClinicMessage>();
             CreateMap<ClinicMessage, MessageDto>();
@@ -41,10 +44,13 @@ namespace MedicalApp
          
 
             CreateMap<Pharmacy, PharmacyDto>().ReverseMap();
+            CreateMap<PharmacyForUpdateDto, Pharmacy>();
             CreateMap<ProductForCreateDto, Product>().ReverseMap();
             CreateMap<Product, ProductDto>().ReverseMap();
+
             CreateMap<Order, OrderDto>();
             CreateMap<OrderForCreateDto, Order>();
+
             CreateMap<ReportForCreateDto, Report>();
             CreateMap<Report, ReportDto>();
 

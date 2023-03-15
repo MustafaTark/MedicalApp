@@ -265,5 +265,30 @@ namespace MedicalApp.Controllers
             var orderDto=_mapper.Map<OrderDto>(order); 
             return Ok(orderDto);
         }
+        [HttpPut("pharmacyId")]
+        public async Task<IActionResult> UpdateClinic(string pharmacyId, [FromBody] PharmacyForUpdateDto pharmacyDto)
+        {
+            if (pharmacyId.IsNullOrEmpty())
+            {
+                _logger.LogInfo("Pharmacy Id is null");
+                return BadRequest("Pharmacy Id is null");
+
+            }
+            var pharmacyDb = await _repository.Pharmacy.GetPharmacyByIdAsync(pharmacyId,false);
+            if (pharmacyDb is null)
+            {
+                _logger.LogInfo($"Pharmacy With ID: {pharmacyDb} doesn't exist in the database");
+                return NotFound();
+            }
+            if (pharmacyDto is null)
+            {
+                _logger.LogInfo($"ModelState Is not Valid {ModelState}");
+                return BadRequest(ModelState);
+            }
+            _mapper.Map(pharmacyDb, pharmacyDto);
+
+            await _repository.SaveChanges();
+            return NoContent();
+        }
     }
 }

@@ -87,8 +87,6 @@ namespace MedicalApp.Controllers
                _logger.LogInfo("message not availble because : "+ModelState.ToString()!);
                 return BadRequest(ModelState);
             }
-           var patient =await _repository.Patient.GetPatientByIdAsync(patientMessageDto.PatientId!);
-            
             var patientMessage = _mapper.Map<PatientMessage>(patientMessageDto);
             var message = _mapper.Map<MessageDto>(patientMessage);
             _repository.PatientMessage.CreateMessage(patientMessage);
@@ -104,8 +102,6 @@ namespace MedicalApp.Controllers
                _logger.LogError("message not availble because : "+ModelState.ToString()!);
                 return BadRequest(ModelState);
             }
-           var patient =await _repository.Clinic.GetClinicById(clinicMessageDto.ClinicId!);
-          
             var clinicMessage = _mapper.Map<ClinicMessage>(clinicMessageDto);
             var message = _mapper.Map<MessageDto>(clinicMessage);
             _repository.ClinicMessage.CreateMessage(clinicMessage);

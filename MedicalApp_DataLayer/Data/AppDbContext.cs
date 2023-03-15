@@ -34,7 +34,7 @@ namespace MedicalApp_DataLayer.Data
             
            
             base.OnModelCreating(builder);
-            
+          builder.ApplyConfiguration(new RoleConfigrations()); 
 
             builder.Entity<User>().UseTptMappingStrategy().ToTable("Users");
             builder.Entity<Patient>()

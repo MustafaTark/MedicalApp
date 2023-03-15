@@ -23,7 +23,7 @@ namespace MedicalApp_BusinessLayer.Services
         }
         public async Task<bool> ValidateUser(UserForLoginDto userForAuth)
         {
-            _user = await _userManager!.FindByNameAsync(userForAuth.UserName!);
+            _user = await _userManager!.FindByNameAsync(userForAuth.UserName!)!;
             return (_user != null && await _userManager.CheckPasswordAsync(_user, userForAuth.Password!));
         }
         public async Task<string> CreateToken()
