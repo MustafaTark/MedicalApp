@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MedicalApp_BusinessLayer.Contracts;
 using MedicalApp_BusinessLayer.Dto;
+using MedicalApp_BusinessLayer.RequestFeatures;
 using MedicalApp_BusinessLayer.Services;
 using MedicalApp_DataLayer.Models;
 using Microsoft.AspNetCore.Cors;
@@ -109,11 +110,47 @@ namespace MedicalApp.Controllers
                 _logger.LogInfo($"Clinic with id: {appointmentDto.ClinicId} doesn't exist in the database.");
                 return NotFound();
             }
+           
+             
             var appointment = _mapper.Map<Appointment>(appointmentDto);
             _repository.Appointment.CreateAppointment(appointment);
            await _repository.SaveChanges();
             var appointmentToReturn=_mapper.Map<AppointmentDto>(appointment);
             return Ok(appointmentToReturn);
+        }
+        [HttpGet("AppointmentCheck")]
+       public async Task<IActionResult> CheckAppointment([FromQuery] AppointmentParamters paramters)
+        {
+            var patient = await _repository.Patient.GetPatientByIdAsync(paramters.PatientId!);
+            if (patient is null)
+            {
+                _logger.LogInfo($"Patient with id: {paramters.PatientId} doesn't exist in the database.");
+                return NotFound();
+            }
+            var clinic = await _repository.Clinic.GetClinicById(paramters.ClinicId!);
+            if (clinic is null)
+            {
+                _logger.LogInfo($"Clinic with id: {paramters.ClinicId} doesn't exist in the database.");
+                return NotFound();
+            }
+            try
+            {
+              TimeSpan.Parse(paramters.Time!);
+            }
+            catch (FormatException ex)
+            {
+                return BadRequest(ex);
+            }
+            var isavailable = await _repository.Appointment
+                                                  .CheckAppointmentAvailability(paramters);
+            
+           return Ok(
+              new
+              {
+                  IsAvailable= isavailable
+              }
+            ); 
+           
         }
         [HttpGet("GetAppointment")]
         public async Task<IActionResult> GetAppointment(Guid id)

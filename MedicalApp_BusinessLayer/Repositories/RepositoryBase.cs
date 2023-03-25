@@ -20,9 +20,11 @@ namespace MedicalApp_BusinessLayer.Repositories
         }
         public IQueryable<T> FindAll(bool trackChanges) =>
             trackChanges ?
-            _context.Set<T>().AsNoTracking()
-           :
-            _context.Set<T>();
+             _context.Set<T>()
+              :
+              _context.Set<T>().AsNoTracking();
+
+
         public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, bool trackChanges) =>
             !trackChanges ?
             _context.Set<T>().Where(expression).AsNoTracking()

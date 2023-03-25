@@ -24,6 +24,7 @@ namespace MedicalApp_DataLayer.Data
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Rate> Rates { get; set; }
         public DbSet<Report> Reports { get; set; }
+        public DbSet<City> Cities { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> options) : 
             base(options)
         { 
@@ -48,7 +49,7 @@ namespace MedicalApp_DataLayer.Data
            
             builder.Entity<Clinic>().HasIndex(c => c.TxnNumber).IsUnique();
             builder.Entity<Clinic>().HasIndex(c => c.Category);
-            builder.Entity<Clinic>().HasIndex(c => c.City);
+            builder.Entity<Clinic>().HasIndex(c => c.CityId);
             builder.Entity<Clinic>().HasIndex(c => c.DoctorName);
             builder.Entity<Clinic>().HasIndex(c => c.Name);
             builder.Entity<Pharmacy>().HasIndex(p => p.TxnNumber).IsUnique();

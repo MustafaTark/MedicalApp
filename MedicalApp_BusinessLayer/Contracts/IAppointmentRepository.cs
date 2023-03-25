@@ -1,4 +1,5 @@
 ﻿using Azure;
+using MedicalApp_BusinessLayer.RequestFeatures;
 using MedicalApp_DataLayer.Models;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace MedicalApp_BusinessLayer.Contracts
     {
         Task<IEnumerable<Appointment>> GetAllAppointmentsToClinicAsync(string clinicId);
         Task<IEnumerable<Appointment>> GetAllAppointmentsToPatientAsync(string patientId);
-        bool CheckAppointmentAvailability(Guid id);
+        Task<bool> CheckAppointmentAvailability(AppointmentParamters paramters);
         Task<Appointment?> GetAppointmentByIdAsync(Guid id);
         void CreateAppointment(Appointment appointment);
         void DeleteAppointment(Appointment appointment);

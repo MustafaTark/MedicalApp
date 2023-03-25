@@ -20,7 +20,7 @@ namespace MedicalApp_BusinessLayer.Dto
         public string? PhoneNumber { get; set; }
         public string? Name { get; set; }
         public string? Address { get; set; }
-        public string? City { get; set; }
+        public int CityId { get; set; }
         public string? Region { get; set; }
         public ICollection<string> Roles { get; set; }
         public PatientForRegisterDto() { 

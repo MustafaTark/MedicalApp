@@ -10,13 +10,13 @@ namespace MedicalApp_BusinessLayer.ExtentionsRepo
     public static class PharmacyRepositoryExtention
     {
         public static IQueryable<Pharmacy> Search(
-            this IQueryable<Pharmacy> pharmacies, string searchTerm, string city)
+            this IQueryable<Pharmacy> pharmacies, string searchTerm, int city)
         {
             var pharmaciesReturned = pharmacies;
-            if (!string.IsNullOrWhiteSpace(city))
+            if (city is not 0)
             {
-                var lowerCaseTerm = city.Trim().ToLower();
-                pharmaciesReturned = pharmaciesReturned.Where(e => e.City!.ToLower().Contains(lowerCaseTerm));
+                
+                pharmaciesReturned = pharmaciesReturned.Where(e => e.CityId!.Equals(city));
             }
             if (!string.IsNullOrWhiteSpace(searchTerm))
             {

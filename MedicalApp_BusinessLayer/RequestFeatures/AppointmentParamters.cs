@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace MedicalApp_BusinessLayer.RequestFeatures
 {
-    public class PharmacyParamters : RequestParamters
+    public class AppointmentParamters
     {
-        public string? SearchTerm { get; set; }
-        public int City { get; set; }
+        public string Time { get; set; }
+        public string? ClinicId { get; set; }
+        public string? PatientId { get; set; }
     }
 }

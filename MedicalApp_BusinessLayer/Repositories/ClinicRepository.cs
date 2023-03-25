@@ -25,7 +25,7 @@ namespace MedicalApp_BusinessLayer.Repositories
          =>Delete(clinic);
 
         public async Task<IEnumerable<Clinic>> GetAllClinics(ClinicParamters paramters)
-         =>await FindAll(trackChanges: false).Include(c=>c.Dayes)
+         =>await FindAll(trackChanges: false).Include(c=>c.Dayes).Include(c=>c.CityObj)
             .Search(paramters.SearchTerm!,paramters.Category!,paramters.City!)
             .Skip((paramters.PageNumber - 1) * paramters.PageSize)
             .Take(paramters.PageSize)

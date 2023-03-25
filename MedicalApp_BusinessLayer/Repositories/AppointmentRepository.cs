@@ -1,4 +1,5 @@
 ﻿using MedicalApp_BusinessLayer.Contracts;
+using MedicalApp_BusinessLayer.RequestFeatures;
 using MedicalApp_DataLayer.Data;
 using MedicalApp_DataLayer.Models;
 using Microsoft.EntityFrameworkCore;
@@ -18,13 +19,28 @@ namespace MedicalApp_BusinessLayer.Repositories
           
         }
 
-        public bool CheckAppointmentAvailability(Guid appointmenId)
-            => FindByCondition(a => a.ID==appointmenId, trackChanges: false).FirstOrDefault()!.IsAvailable ?
-                true : false;
+        public async Task<bool> CheckAppointmentAvailability(AppointmentParamters paramters)
+        {
+            var time =TimeSpan.Parse(paramters.Time);
+            
+           var clinicAppointment = await  FindByCondition(a => a.ClinicId== paramters.ClinicId
+                                                 && a.Time.Equals(time), trackChanges: true).FirstOrDefaultAsync();
+            var patientAppointment= await FindByCondition(a => a.PatiantId == paramters.PatientId
+                                                 && a.Time.Equals(time), trackChanges: true).FirstOrDefaultAsync();
+            if (clinicAppointment is null&& patientAppointment is null)
+            {
+                return true;
+            }
+            return false;
+        }
 
 
         public void CreateAppointment(Appointment appointment)
-          => Create(appointment);
+        {
+            appointment.IsAvailable=false;
+            Create(appointment);
+        }
+       
 
         public void DeleteAppointment(Appointment appointment)
           =>Delete(appointment);

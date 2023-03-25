@@ -10,6 +10,5 @@ namespace MedicalApp_BusinessLayer.Dto
     {
         public DateTime Date { get; set; }
         public TimeSpan Time { get; set; }
-        public bool IsAvailable { get; set; }
     }
 }

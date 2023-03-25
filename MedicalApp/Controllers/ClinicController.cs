@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.Net.Http.Headers;
+using System.Security.Claims;
 
 namespace MedicalApp.Controllers
 {
@@ -56,6 +57,7 @@ namespace MedicalApp.Controllers
                 return BadRequest(ModelState);
             }
             await _userClinicManager.AddToRolesAsync(user, userForRegistration.Roles!);
+            var clinic = await _userClinicManager.FindByNameAsync(user.UserName!);
             return StatusCode(201);
         }
         [HttpPost("login")]
@@ -76,13 +78,13 @@ namespace MedicalApp.Controllers
             }
             );
         }
-        //[HttpGet("GetUserId")]
-        //public Task<IActionResult> GetUserId(string userId)
-        //{
-        //    var user = HttpContext.User;
-        //    var userId=
-        //    return Ok()
-        //}
+        [HttpGet("Claims")]
+        public IActionResult GetClaims()
+        {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            var claims = identity!.Claims.Select(c => new { Type = c.Type, Value = c.Value });
+            return Ok(claims);
+        }
         [HttpGet]
         public async Task<IActionResult> GetAllClinics([FromQuery] ClinicParamters paramters)
         {
@@ -154,23 +156,34 @@ namespace MedicalApp.Controllers
             return NoContent();
         }
         [HttpGet("ClinicDayes")]
-        public async Task<IActionResult> GetClinicDay(int clinicDayId)
+        public async Task<IActionResult> GetClinicDayes(string clinicId)
         {
-            if (clinicDayId.ToString().IsNullOrEmpty())
+            if (clinicId.IsNullOrEmpty())
             {
                 _logger.LogInfo("Clinic Id is null");
                 return BadRequest("Clinic Id is null");
             }
-            var clinicDay = await _repository.ClinicDays.GetClinicDay(clinicDayId);
-            if (clinicDay is null)
-            {
-                _logger.LogInfo($"Clinic with id: {clinicDayId} doesn't exist in the database.");
-                return NotFound();
-            }
-            var clinicDayDto = _mapper.Map<ClinicDayDto>(clinicDay);
-            return Ok(clinicDayDto);
-
+            var dayes=await _repository.ClinicDays.GetClinicDayes(clinicId);
+            return Ok(dayes);
         }
+        //[HttpGet("ClinicDayes")]
+        //public async Task<IActionResult> GetClinicDay(int clinicDayId)
+        //{
+        //    if (clinicDayId.ToString().IsNullOrEmpty())
+        //    {
+        //        _logger.LogInfo("Clinic Id is null");
+        //        return BadRequest("Clinic Id is null");
+        //    }
+        //    var clinicDay = await _repository.ClinicDays.GetClinicDay(clinicDayId);
+        //    if (clinicDay is null)
+        //    {
+        //        _logger.LogInfo($"Clinic with id: {clinicDayId} doesn't exist in the database.");
+        //        return NotFound();
+        //    }
+        //    var clinicDayDto = _mapper.Map<ClinicDayDto>(clinicDay);
+        //    return Ok(clinicDayDto);
+
+        //}
         [HttpDelete("ClinicDayes")]
         public async Task<IActionResult> DeleteClinicDay(int dayId)
         {
@@ -303,7 +316,7 @@ namespace MedicalApp.Controllers
             var reportDto = _mapper.Map<IEnumerable<ReportDto>>(report);
             return Ok(reportDto);
         }
-        [HttpGet("reportIdreportId")]
+        [HttpGet("reportId")]
         public async Task<IActionResult> GetReport(Guid reportId)
         {
             if (reportId.ToString().IsNullOrEmpty())

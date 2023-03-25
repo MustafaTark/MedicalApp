@@ -20,7 +20,7 @@ namespace MedicalApp_DataLayer.Models
         public string? TxnNumber { get; set; }
         [NotNull]
         public string? DoctorName { get; set; }
-        public string? Category { get; set; }//enum
+        public string? Category { get; set; }
         public ICollection<ClinicDayes> Dayes { get; set; }
         public Clinic()
         {

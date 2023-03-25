@@ -27,7 +27,7 @@ builder.Services.AddCors(options =>
                });
 });
 builder.Services.ConfigureLifeTime();
-builder.Services.ConfigureSqlContext(builder.Configuration);//DB
+builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.ConfigureIdentity<User>();
 builder.Services.ConfigureIdentity<Clinic>();
 builder.Services.ConfigureIdentity<Patient>();
@@ -35,7 +35,7 @@ builder.Services.ConfigureIdentity<Pharmacy>();
 builder.Services.ConfigureJwt(builder.Configuration);
 builder.Services.AddSignalR();
 LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config.xml"));
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()); // AUTO MAPPER
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddControllers().AddJsonOptions(
   opt=>
       opt.JsonSerializerOptions.ReferenceHandler= ReferenceHandler.IgnoreCycles
@@ -55,7 +55,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
+//ILoggerManager logger = new LoggerManager();
+//app.ConfigureExceptionHandler(logger);
 app.UseRouting();
 
 app.UseCors(MyAllowSpecificOrigins);

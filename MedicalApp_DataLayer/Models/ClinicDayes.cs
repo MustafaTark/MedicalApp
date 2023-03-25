@@ -7,11 +7,22 @@ using System.Threading.Tasks;
 
 namespace MedicalApp_DataLayer.Models
 {
+    public enum Dayes
+    {
+        Saturday,
+        Sunday,
+        Monday,
+        Tuesday,
+        Wednesday,
+        Thursday,
+        Friday
+    }
     public class ClinicDayes
     {
      
         public int ID { get; set; }
-        public string? Day { get; set; }//enum
+        [Column("Day")]
+        public Dayes? Day { get; set; }
         [ForeignKey(nameof(Clinic))]
         public string? ClinicId { get; set; }
         public Clinic? ClinicObject { get; set; }
