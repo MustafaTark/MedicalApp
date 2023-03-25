@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MedicalApp_DataLayer.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,7 @@ namespace MedicalApp_BusinessLayer.Contracts
         IProductRepository Product { get; }
         IOrderRepository Order { get; }
         IReportRepository Report { get; }
+        Task<IEnumerable<City>> GetCityAsync();
         Task SaveChanges();
     }
 }

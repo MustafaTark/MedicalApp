@@ -166,6 +166,12 @@ namespace MedicalApp.Controllers
             var dayes=await _repository.ClinicDays.GetClinicDayes(clinicId);
             return Ok(dayes);
         }
+        [HttpGet("Cities")]
+        public async Task<IActionResult> GetCites()
+        {
+            var cities = await _repository.GetCityAsync();
+            return  Ok( cities);
+        }
         //[HttpGet("ClinicDayes")]
         //public async Task<IActionResult> GetClinicDay(int clinicDayId)
         //{
