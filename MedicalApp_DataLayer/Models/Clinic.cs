@@ -21,6 +21,8 @@ namespace MedicalApp_DataLayer.Models
         [NotNull]
         public string? DoctorName { get; set; }
         public string? Category { get; set; }
+        public double Price { get; set; }
+        public string? Description { get; set; }
         public ICollection<ClinicDayes> Dayes { get; set; }
         public Clinic()
         {

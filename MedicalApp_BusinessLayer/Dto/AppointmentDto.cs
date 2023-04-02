@@ -8,6 +8,7 @@ namespace MedicalApp_BusinessLayer.Dto
 {
     public class AppointmentDto
     {
+        public Guid Id { get; set; }
         public DateTime Date { get; set; }
         public TimeSpan Time { get; set; }
     }

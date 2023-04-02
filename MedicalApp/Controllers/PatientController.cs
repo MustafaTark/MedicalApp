@@ -169,6 +169,19 @@ namespace MedicalApp.Controllers
             var appointmentDto=_mapper.Map<AppointmentDto>(appointment);
             return Ok(appointmentDto);
         }
+        [HttpGet("Appointment")]
+        public async Task<IActionResult> GetAllAppointments(string patientId)
+        {
+            var clinic = await _repository.Patient.GetPatientByIdAsync(patientId);
+            if (clinic is null)
+            {
+                _logger.LogInfo($"Clinic with id: {patientId} doesn't exist in the database.");
+                return NotFound();
+            }
+            var appointments = await _repository.Appointment.GetAllAppointmentsToPatientAsync(patientId);
+            var appointmentsDto = _mapper.Map<IEnumerable<AppointmentDto>>(appointments);
+            return Ok(appointmentsDto);
+        }
         [HttpPost("Rates")]
         public async Task<IActionResult> AddRate(string clinicId, [FromBody] RateForCreateDto rateDto)
         {

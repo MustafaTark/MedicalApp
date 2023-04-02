@@ -54,6 +54,8 @@ namespace MedicalApp
             CreateMap<ReportForCreateDto, Report>();
             CreateMap<Report, ReportDto>();
 
+            CreateMap<City, CityDto>();
+
         }
     }
 }
