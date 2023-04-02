@@ -24,7 +24,7 @@ namespace MedicalApp_BusinessLayer.Repositories
            => Delete(patient);
 
         public async Task<Patient?> GetPatientByIdAsync(string id)
-          => await FindByCondition(p=>p.Id==id,trackChanges:false).FirstOrDefaultAsync();
+          => await FindByCondition(p=>p.Id==id,trackChanges:false).Include(p=>p.CityObj).FirstOrDefaultAsync();
         public void UploadImage(IFormFile file, string patientId)
         {
             string fileName = _filesManager.UploadFiles(file);
