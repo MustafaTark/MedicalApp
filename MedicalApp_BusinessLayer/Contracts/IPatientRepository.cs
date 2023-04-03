@@ -10,7 +10,7 @@ namespace MedicalApp_BusinessLayer.Contracts
 {
     public interface IPatientRepository
     {
-        Task<Patient?> GetPatientByIdAsync(string id);
+        Task<Patient?> GetPatientByIdAsync(string id,bool trackChanges);
         void DeletePatient(Patient patient);
         void UploadImage(IFormFile fil, string patientId);
 

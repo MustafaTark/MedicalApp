@@ -16,6 +16,15 @@ namespace MedicalApp_BusinessLayer.Repositories
         public void CreateRate(Rate rate)
          =>Create(rate);
 
+        public async Task<double> GetOverallRate(string clinicId)
+        {
+
+              var rates = await FindByCondition(r=>r.ClinicId==clinicId,trackChanges:false)
+                .Where(r => r.ClinicId == clinicId)
+                .ToListAsync();
+            return rates.Average(c => c.Number);
+        }
+
         public async Task<IEnumerable<Rate>> GetRatesForClinic(string clinicId)
            => await FindByCondition(r => r.ClinicId == clinicId, trackChanges: false).ToListAsync();
     }

@@ -279,7 +279,7 @@ namespace MedicalApp.Controllers
         [HttpPost("Report")]
         public async Task<IActionResult> CreateReport([FromBody] ReportForCreateDto reportForCreateDto)
         {
-            var patient = _repository.Patient.GetPatientByIdAsync(reportForCreateDto.PatientId!);
+            var patient = _repository.Patient.GetPatientByIdAsync(reportForCreateDto.PatientId!,trackChanges:false);
             if (patient is null)
             {
                 _logger.LogInfo($"Patient with ID: {reportForCreateDto.PatientId} doesn't exist in the Database");

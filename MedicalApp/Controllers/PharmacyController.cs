@@ -205,7 +205,7 @@ namespace MedicalApp.Controllers
                 _logger.LogError("patientId is null!");
                 return BadRequest("patientId is null");
             }
-            var patient = await _repository.Patient.GetPatientByIdAsync(patientId);
+            var patient = await _repository.Patient.GetPatientByIdAsync(patientId,trackChanges:false);
             if(patient is null)
             {
                 _logger.LogInfo($"Patient with id : {patientId} doesn't exist in database");

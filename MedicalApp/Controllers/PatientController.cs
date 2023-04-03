@@ -73,7 +73,7 @@ namespace MedicalApp.Controllers
         [HttpGet("{patientId}")]
         public async Task<IActionResult> GetPatient(string patientId)
         {
-            var patient=await _repository.Patient.GetPatientByIdAsync(patientId);
+            var patient=await _repository.Patient.GetPatientByIdAsync(patientId, trackChanges: false);
             if(patient is null)
             {
                 _logger.LogInfo($"Patient with id: {patientId} doesn't exist in the database.");
@@ -85,7 +85,7 @@ namespace MedicalApp.Controllers
         [HttpDelete("{patientId}")]
         public async Task<IActionResult> DeletePatient(string patientId)
         {
-            var patient =await _repository.Patient.GetPatientByIdAsync(patientId);
+            var patient =await _repository.Patient.GetPatientByIdAsync(patientId, trackChanges: false);
             if (patient is null)
             {
                 _logger.LogInfo($"Patient with id: {patientId} doesn't exist in the database.");
@@ -98,7 +98,7 @@ namespace MedicalApp.Controllers
         [HttpPost("Reserve")]
         public async Task<IActionResult> CreateAppointment([FromBody] AppointmentForCreateDto appointmentDto)
         {
-            var patient = await  _repository.Patient.GetPatientByIdAsync(appointmentDto.PatiantId!);
+            var patient = await  _repository.Patient.GetPatientByIdAsync(appointmentDto.PatiantId!, trackChanges: false);
             if (patient is null)
             {
                 _logger.LogInfo($"Patient with id: {appointmentDto.PatiantId} doesn't exist in the database.");
@@ -121,7 +121,7 @@ namespace MedicalApp.Controllers
         [HttpGet("AppointmentCheck")]
        public async Task<IActionResult> CheckAppointment([FromQuery] AppointmentParamters paramters)
         {
-            var patient = await _repository.Patient.GetPatientByIdAsync(paramters.PatientId!);
+            var patient = await _repository.Patient.GetPatientByIdAsync(paramters.PatientId!, trackChanges: false);
             if (patient is null)
             {
                 _logger.LogInfo($"Patient with id: {paramters.PatientId} doesn't exist in the database.");
@@ -172,7 +172,7 @@ namespace MedicalApp.Controllers
         [HttpGet("Appointment")]
         public async Task<IActionResult> GetAllAppointments(string patientId)
         {
-            var clinic = await _repository.Patient.GetPatientByIdAsync(patientId);
+            var clinic = await _repository.Patient.GetPatientByIdAsync(patientId, trackChanges: true);
             if (clinic is null)
             {
                 _logger.LogInfo($"Clinic with id: {patientId} doesn't exist in the database.");
@@ -210,7 +210,7 @@ namespace MedicalApp.Controllers
                 _logger.LogInfo("Patient Id is null");
                 return BadRequest("Patient Id is null");
             }
-            var patient = await _repository.Patient.GetPatientByIdAsync(patientId);
+            var patient = await _repository.Patient.GetPatientByIdAsync(patientId, trackChanges: false);
             if (patient is null)
             {
                 _logger.LogInfo($"Patient with id: {patientId} doesn't exist in the database.");
@@ -243,7 +243,7 @@ namespace MedicalApp.Controllers
                 _logger.LogInfo("Patient Id is null");
                 return BadRequest("Patient Id is null");
             }
-            var patient = await _repository.Patient.GetPatientByIdAsync(patientId);
+            var patient = await _repository.Patient.GetPatientByIdAsync(patientId, trackChanges: false);
             if (patient is null)
             {
                 _logger.LogInfo($"Patient with id: {patientId} doesn't exist in the database.");
@@ -261,8 +261,8 @@ namespace MedicalApp.Controllers
                 return BadRequest("Patient Id is null");
 
             }
-            var clinic = await _repository.Patient.GetPatientByIdAsync(patientId);
-            if (clinic is null)
+            var patient = await _repository.Patient.GetPatientByIdAsync(patientId, trackChanges: false);
+            if (patient is null)
             {
                 _logger.LogInfo($"Patient With ID: {patientId} doesn't exist in the database");
                 return NotFound();
@@ -297,7 +297,7 @@ namespace MedicalApp.Controllers
                 return BadRequest("Clinic Id is null");
 
             }
-            var patientDb = await _repository.Patient.GetPatientByIdAsync(patientId);
+            var patientDb = await _repository.Patient.GetPatientByIdAsync(patientId, trackChanges: true);
             if (patientDb is null)
             {
                 _logger.LogInfo($"Patient With ID: {patientDb} doesn't exist in the database");
