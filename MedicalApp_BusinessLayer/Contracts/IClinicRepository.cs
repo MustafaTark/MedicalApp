@@ -12,7 +12,7 @@ namespace MedicalApp_BusinessLayer.Contracts
     public interface IClinicRepository
     {
         Task<IEnumerable<Clinic>> GetAllClinics(ClinicParamters paramters);
-        Task<Clinic?> GetClinicById(string id);
+        Task<Clinic?> GetClinicById(string id , bool trackChanges);
         void DeleteClinic(Clinic clinic);
         void UpdateClinic(Clinic clinic);
         void UploadImage(IFormFile fil,string clinicId);
