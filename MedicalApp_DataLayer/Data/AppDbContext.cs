@@ -46,7 +46,8 @@ namespace MedicalApp_DataLayer.Data
          
             builder.Entity<Pharmacy>()
                 .ToTable("Pharmacies").HasBaseType<User>();
-           
+           builder.Entity<Rate>()
+                  .HasIndex(r => r.ClinicId);
             builder.Entity<Clinic>().HasIndex(c => c.TxnNumber).IsUnique();
             builder.Entity<Clinic>().HasIndex(c => c.Category);
             builder.Entity<Clinic>().HasIndex(c => c.CityId);

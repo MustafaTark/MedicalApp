@@ -226,6 +226,28 @@ namespace MedicalApp.Controllers
             var ratesDto = _mapper.Map<IEnumerable<RateDto>>(rates);
             return Ok(ratesDto);
         }
+        [HttpGet("OverallRate")]
+        public async Task<IActionResult> GetOverall(string clinicId)
+        {
+            if (clinicId.IsNullOrEmpty())
+            {
+                _logger.LogInfo("Clinic Id is null");
+                return BadRequest("Clinic Id is null");
+            }
+            var clinic = await _repository.Clinic.GetClinicById(clinicId, trackChanges: false);
+            if (clinic is null)
+            {
+                _logger.LogInfo($"Clinic with id: {clinicId} doesn't exist in the database.");
+                return NotFound();
+            }
+            double overall= await _repository.RateRepository.GetOverallRate(clinicId);
+            return Ok(
+                new
+                {
+                    Overall= overall
+                }
+                );
+        }
         [HttpPost("Upload"), DisableRequestSizeLimit]
         public async Task<IActionResult> Upload(IFormFile file, string clinicId)
         {
