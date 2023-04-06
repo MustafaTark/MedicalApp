@@ -12,8 +12,10 @@ namespace MedicalApp_DataLayer.Models
         public Guid Id { get; set; }
         [ForeignKey(nameof(Clinic))]
         public string? ClinicId { get; set; }
+        public Clinic? ClinicObj { get; set;}
         [ForeignKey(nameof(Patient))]
         public string? PatientId { get; set; }
+        public Patient? PatientObj { get; set; }
         public ICollection<ClinicMessage> ClinicMessages { get; set; }
         public ICollection<PatientMessage> PatientMessages { get; set; }
         public Chat()

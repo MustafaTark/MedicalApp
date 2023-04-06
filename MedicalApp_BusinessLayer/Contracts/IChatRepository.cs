@@ -9,6 +9,9 @@ namespace MedicalApp_BusinessLayer.Contracts
 {
     public interface IChatRepository
     {
+        Task<IEnumerable<Chat>> GetAllToPatient(string patientId);
+        Task<IEnumerable<Chat>> GetAllToClinic(string clinicId);
+        Task<Guid> GetChatToPatientAndClinic(string patientId,string clinicId);
         Task<Chat?> GetChatByIdAsync(Guid id);
         void CreateChat(Chat chat);
     }

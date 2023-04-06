@@ -57,8 +57,7 @@ namespace MedicalApp.Controllers
                 return BadRequest(ModelState);
             }
             await _userClinicManager.AddToRolesAsync(user, userForRegistration.Roles!);
-            var clinic = await _userClinicManager.FindByNameAsync(user.UserName!);
-            return StatusCode(201);
+              return StatusCode(201);
         }
         [HttpPost("login")]
 

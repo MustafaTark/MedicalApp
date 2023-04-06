@@ -7,6 +7,7 @@ using MedicalApp_DataLayer.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.IdentityModel.Tokens;
 
 namespace MedicalApp.Controllers
 {
@@ -41,6 +42,7 @@ namespace MedicalApp.Controllers
             var chat =_mapper.Map<Chat>(chatDto);
             _repository.Chat.CreateChat(chat);
             await _repository.SaveChanges();
+         
             return NoContent();
         }
         [HttpGet("PatientMessages")]
@@ -78,6 +80,65 @@ namespace MedicalApp.Controllers
             var ClinicMessages = await _repository.ClinicMessage.GetClinicMessages(chatId);
             var ClinicMessagesDto = _mapper.Map<IEnumerable<MessageDto>>(ClinicMessages);
             return Ok(ClinicMessagesDto);
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetChat(string patientId, string clinicId)
+        {
+            if (clinicId.IsNullOrEmpty())
+            {
+                _logger.LogInfo("Clinic Id is null");
+                return BadRequest("Clinic Id is null");
+            }
+            if (patientId.IsNullOrEmpty())
+            {
+                _logger.LogInfo("Patient Id is null");
+                return BadRequest("Patient Id is null");
+            }
+            var chatId =await _repository.Chat.GetChatToPatientAndClinic(patientId, clinicId);
+            return Ok(
+                new
+                {
+                    ChatId= chatId,
+                }
+                );
+        }
+        [HttpGet("ClinicChats")]
+        public async Task<IActionResult> GetClinicChats(string clinicId)
+        {
+          
+            if (clinicId.IsNullOrEmpty())
+            {
+                _logger.LogInfo("Clinic Id is null");
+                return BadRequest("Clinic Id is null");
+            }
+            var clinic = await _repository.Clinic.GetClinicById(clinicId, trackChanges: false);
+            if (clinic is null)
+            {
+                _logger.LogInfo($"Clinic with id: {clinicId} doesn't exist in the database.");
+                return NotFound();
+            }
+            var chats = await _repository.Chat.GetAllToClinic(clinicId);
+            var chatsDto=_mapper.Map<IEnumerable<ChatDto>>(chats);
+            return Ok(chatsDto);
+        }
+        [HttpGet("PatientChats")]
+        public async Task<IActionResult> GetPatientChats(string patientId)
+        {
+
+            if (patientId.IsNullOrEmpty())
+            {
+                _logger.LogInfo("Patient Id is null");
+                return BadRequest("Patient Id is null");
+            }
+            var patient = await _repository.Patient.GetPatientByIdAsync(patientId, trackChanges: false);
+            if (patient is null)
+            {
+                _logger.LogInfo($"Patient with id: {patientId} doesn't exist in the database.");
+                return NotFound();
+            }
+            var chats = await _repository.Chat.GetAllToPatient(patientId);
+            var chatsDto = _mapper.Map<IEnumerable<ChatDto>>(chats);
+            return Ok(chatsDto);
         }
         [HttpPost("PatientMessages")]
         public async Task<IActionResult> PostPatientMessage(PatientMessageForCreationDto patientMessageDto)
