@@ -10,13 +10,13 @@ namespace MedicalApp_BusinessLayer.ExtentionsRepo
     public static class ClinicRepositoryExtention
     {
         public static IQueryable<Clinic> Search(
-            this IQueryable<Clinic> clinics,string searchTerm,string category,int city)
+            this IQueryable<Clinic> clinics,string searchTerm,int category,int city)
         {
             var clinicsReturned = clinics;
-            if (!string.IsNullOrWhiteSpace(category))
+            if (category is not 0)
             {
-                var lowerCaseTerm = category.Trim().ToLower();
-                clinicsReturned = clinicsReturned.Where(e => e.Category!.Contains(lowerCaseTerm));
+            
+                clinicsReturned = clinicsReturned.Where(e => e.CategoryId!.Equals(category));
             }
             if (city is not 0)
             {

@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MedicalApp_DataLayer.Models
 {
@@ -20,7 +21,9 @@ namespace MedicalApp_DataLayer.Models
         public string? TxnNumber { get; set; }
         [NotNull]
         public string? DoctorName { get; set; }
-        public string? Category { get; set; }
+        [ForeignKey(nameof(Category))]
+        public int CategoryId { get; set; }
+        public Category? CategoryObj { get; set; }
         public double Price { get; set; }
         public string? Description { get; set; }
         public ICollection<ClinicDayes> Dayes { get; set; }

@@ -18,7 +18,7 @@ namespace MedicalApp_BusinessLayer.Dto
         public string? PhoneNumber { get; set; }
         public string? TxnNumber { get; set; }
         public string? DoctorName { get; set; }
-        public string? Category { get; set; }
+        public int? CategoryId { get; set; }
         public string? Name { get; set; }
         public double Price { get; set; }
         public string? Description { get; set; }

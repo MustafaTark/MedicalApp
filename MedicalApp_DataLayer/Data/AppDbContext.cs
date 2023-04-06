@@ -52,7 +52,7 @@ namespace MedicalApp_DataLayer.Data
            builder.Entity<Rate>()
                   .HasIndex(r => r.ClinicId);
             builder.Entity<Clinic>().HasIndex(c => c.TxnNumber).IsUnique();
-            builder.Entity<Clinic>().HasIndex(c => c.Category);
+            builder.Entity<Clinic>().HasIndex(c => c.CategoryId);
             builder.Entity<Clinic>().HasIndex(c => c.CityId);
             builder.Entity<Clinic>().HasIndex(c => c.DoctorName);
             builder.Entity<Clinic>().HasIndex(c => c.Name);
