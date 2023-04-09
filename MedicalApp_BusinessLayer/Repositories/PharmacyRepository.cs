@@ -4,6 +4,7 @@ using MedicalApp_BusinessLayer.RequestFeatures;
 using MedicalApp_BusinessLayer.Services;
 using MedicalApp_DataLayer.Data;
 using MedicalApp_DataLayer.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -15,8 +16,10 @@ namespace MedicalApp_BusinessLayer.Repositories
 {
     public class PharmacyRepository :RepositoryBase<Pharmacy> , IPharmacyRepository
     {
-        public PharmacyRepository(AppDbContext dbContext) : base(dbContext)
+        private readonly IFilesManager _filesManager;
+        public PharmacyRepository(AppDbContext dbContext, IFilesManager filesManager) : base(dbContext)
         {
+            _filesManager = filesManager;
         }
         public void DeletePharmacy(Pharmacy pharmacy) => Delete(pharmacy);
 
@@ -29,5 +32,31 @@ namespace MedicalApp_BusinessLayer.Repositories
         public async Task<Pharmacy?> GetPharmacyByIdAsync(string pharmacyId, bool trackChanges) 
             => await FindByCondition(p => p.Id.Equals(pharmacyId), trackChanges).Include(p => p.CityObj)
             .FirstOrDefaultAsync();
+
+        public void UploadImage(IFormFile file, string pharmacyId)
+        {
+            string fileName = _filesManager.UploadFiles(file);
+            FindByCondition(p => p.Id == pharmacyId, trackChanges: true)
+              .FirstOrDefault()!.ImageUrl = fileName;
+        }
+        public FileStream GetImage(string pharmacyId)
+        {
+            var image = FindByCondition(c => c.Id == pharmacyId, trackChanges: true)
+                .FirstOrDefault()!.ImageUrl;
+            return _filesManager.GetFile(image!);
+        }
+
+        public void AssignProductsForPharmacy(string pharmacyId, List<int> ids)
+        {
+            var pharmacy = FindByCondition(p => p.Id == pharmacyId, trackChanges: false);
+            foreach (var id in ids)
+            {
+                var product = _context.Products.Where(p => p.ID == id).SingleOrDefault();
+                _context.Set<Pharmacy>().FirstOrDefault(p => p.Id == pharmacyId)!.Products.Add(product!);
+
+            }
+        }
+
+
     }
 }

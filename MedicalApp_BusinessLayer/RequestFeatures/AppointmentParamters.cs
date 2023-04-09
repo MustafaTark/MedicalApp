@@ -8,7 +8,7 @@ namespace MedicalApp_BusinessLayer.RequestFeatures
 {
     public class AppointmentParamters
     {
-        public string Time { get; set; }
+        public string? Time { get; set; }
         public string? ClinicId { get; set; }
         public string? PatientId { get; set; }
     }

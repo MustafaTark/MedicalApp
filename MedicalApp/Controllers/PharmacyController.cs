@@ -87,7 +87,7 @@ namespace MedicalApp.Controllers
                 return StatusCode(500, "Internal Server Error!");
             }
         }
-        [HttpGet("{pharmacyId}")]
+        [HttpGet("PharmacyDetails")]
         public async Task<IActionResult> GetPharmacy(string pharmacyId)
         {
             if (pharmacyId.IsNullOrEmpty())
@@ -116,6 +116,56 @@ namespace MedicalApp.Controllers
             _repository.Pharmacy.DeletePharmacy(pharmacy);
             await _repository.SaveChanges();
             return NoContent();
+        }
+        [HttpPost("Upload"), DisableRequestSizeLimit]
+        public async Task<IActionResult> Upload(IFormFile file, string pharmacyId)
+        {
+            if (pharmacyId.IsNullOrEmpty())
+            {
+                _logger.LogInfo("Pharmacy Id  is null");
+                return BadRequest("Pharmacy Id is null");
+            }
+            var pharmacy = await _repository.Pharmacy.GetPharmacyByIdAsync(pharmacyId, trackChanges: false);
+            if (pharmacy is null)
+            {
+                _logger.LogInfo($"Pharmacy with ID: {pharmacyId} doesn't exist in the database.");
+                return NotFound();
+            }
+            try
+            {
+                if (file.Length > 0)
+                {
+                    _repository.Pharmacy.UploadImage(file, pharmacyId);
+
+                    await _repository.SaveChanges();
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}");
+            }
+        }
+        [HttpGet("GetImage")]
+        public async Task<IActionResult> GetImage(string pharmacyId)
+        {
+            if (pharmacyId.IsNullOrEmpty())
+            {
+                _logger.LogInfo("Pharmacy Id is null");
+                return BadRequest("Pharmacy Id is null");
+            }
+            var pharmacy = await _repository.Pharmacy.GetPharmacyByIdAsync(pharmacyId, trackChanges: false);
+            if (pharmacy is null)
+            {
+                _logger.LogInfo($"Pharmacy with ID: {pharmacyId} doesn't exist in the database.");
+                return NotFound();
+            }
+            var fileStream = _repository.Pharmacy.GetImage(pharmacyId);
+            return new FileStreamResult(fileStream, "image/png");
         }
         [HttpPost("Product")]
         public async Task<IActionResult> CreateProductsToPharmacy(string pharmacyId,
@@ -165,21 +215,141 @@ namespace MedicalApp.Controllers
             return Ok(productDto);
         }
 
-        [HttpDelete("Product")]
-        public async Task<IActionResult> DeleteProduct(int productId)
+        //[HttpDelete("Product")]
+        //public async Task<IActionResult> DeleteProduct(int productId)
+        //{
+        //    if (productId is 0)
+        //    {
+        //        _logger.LogInfo("Product ID is null!");
+        //        return BadRequest("Product ID is null");
+        //    }
+        //    var product = await _repository.Product.GetProductByIdAsync(productId, trackChanges: false);
+        //    if (product is null)
+        //    {
+        //        _logger.LogInfo($"Product with id: {productId} doesn't exist in the database.");
+        //        return NotFound();
+        //    }
+        //    _repository.Product.DeleteProduct(product);
+        //    await _repository.SaveChanges();
+        //    return NoContent();
+        //}
+        [HttpPost("UploadPrductImage"), DisableRequestSizeLimit]
+        public async Task<IActionResult> UploadImage(IFormFile file, int productId)
         {
-            if (productId is 0)
+            if (productId == 0)
             {
-                _logger.LogInfo("Product ID is null!");
-                return BadRequest("Product ID is null");
+                _logger.LogInfo("Prodcut Id  is null");
+                return BadRequest("Product Id is null");
             }
             var product = await _repository.Product.GetProductByIdAsync(productId, trackChanges: false);
             if (product is null)
             {
-                _logger.LogInfo($"Product with id: {productId} doesn't exist in the database.");
+                _logger.LogInfo($"Product with ID: {productId} doesn't exist in the database.");
                 return NotFound();
             }
-            _repository.Product.DeleteProduct(product);
+            try
+            {
+                if (file.Length > 0)
+                {
+                    _repository.Product.UploadImage(file, productId);
+
+                    await _repository.SaveChanges();
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}");
+            }
+        }
+        [HttpGet("GetImageForProdcut")]
+        public async Task<IActionResult> GetProductImage(int productId)
+        {
+            if (productId == 0)
+            {
+                _logger.LogInfo("Product Id is null");
+                return BadRequest("Product Id is null");
+            }
+            var product = await _repository.Product.GetProductByIdAsync(productId, trackChanges: false);
+            if (product is null)
+            {
+                _logger.LogInfo($"Product with ID: {productId} doesn't exist in the database.");
+                return NotFound();
+            }
+            var fileStream = _repository.Product.GetImage(productId);
+            return new FileStreamResult(fileStream, "image/png");
+        }
+        [HttpPut("AssignProdcuts")]
+        public async Task<IActionResult> AssignProductsForPharamcy([FromQuery] ProductParamters paramters,
+            string pharmacyId , List<int> ids)
+        {
+            if (pharmacyId.IsNullOrEmpty() || ids.IsNullOrEmpty())
+            {
+                _logger.LogInfo("Pharmacy Id || Products' Ids is null");
+                return BadRequest("Pharmacy Id || Products' Id is null");
+            }
+            var pharmacy = await _repository.Pharmacy.GetPharmacyByIdAsync(pharmacyId, trackChanges: false);
+            if (pharmacy is null)
+            {
+                _logger.LogInfo($"Pharmacy with ID: {pharmacyId} doesn't exist in the database.");
+                return NotFound();
+            }
+            var products = await _repository.Product.GetAllProductsAsync(paramters,trackChanges: true);
+            foreach (var product in products)
+            {
+                _repository.Pharmacy.AssignProductsForPharmacy(pharmacyId, ids);
+                await _repository.SaveChanges();
+            }
+            return NoContent();
+        }
+        [HttpGet("PharmacyProduct")]
+        public async Task<IActionResult> GetPharmacyProduct(string pharmacyId,int productId)
+        {
+            if (pharmacyId.IsNullOrEmpty() || productId == 0)
+            {
+                _logger.LogInfo("Pharmacy/Product Id is null");
+                return BadRequest("Pharmacy/Product Id is null");
+            }
+            var pharmacy = await _repository.Pharmacy.GetPharmacyByIdAsync(pharmacyId, trackChanges: false);
+            if (pharmacy is null)
+            {
+                _logger.LogInfo($"Pharmacy with ID: {pharmacyId} doesn't exist in the database.");
+                return NotFound();
+            }
+            var product = await _repository.Product.GetProdcutForPharmacy(pharmacyId, productId);
+            if (product is null)
+            {
+                _logger.LogError($"Product with ID {productId} doesn't exist in the Pharamcy");
+                return NotFound($"Product with ID {productId} doesn't exist in the Pharamcy");
+            }
+            var productDto = _mapper.Map<ProductDto>(product);
+            return Ok(productDto);
+        }
+        [HttpDelete("PharmacyProduct")]
+        public async Task<IActionResult> DeletePharmacyProduct(string pharmacyId, int productId)
+        {
+            if (pharmacyId.IsNullOrEmpty() || productId == 0)
+            {
+                _logger.LogInfo("Pharmacy/Product Id is null");
+                return BadRequest("Pharmacy/Product Id is null");
+            }
+            var pharmacy = await _repository.Pharmacy.GetPharmacyByIdAsync(pharmacyId, trackChanges: true);
+            if (pharmacy is null)
+            {
+                _logger.LogInfo($"Pharmacy with ID: {pharmacyId} doesn't exist in the database.");
+                return NotFound();
+            }
+            var product = await _repository.Product.GetProdcutForPharmacy(pharmacyId, productId);
+            if(product is null)
+            {
+                _logger.LogError($"Product with ID {productId} doesn't exist in the Pharamcy");
+                return NotFound($"Product with ID {productId} doesn't exist in the Pharamcy");
+            }
+              _repository.Product.DeleteProduct(pharmacyId,productId);
             await _repository.SaveChanges();
             return NoContent();
         }

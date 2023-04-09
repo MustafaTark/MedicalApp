@@ -145,7 +145,7 @@ namespace MedicalApp_BusinessLayer.Repositories
             get
             {
                 if (_pharmacy is null)
-                    _pharmacy = new PharmacyRepository(_context);
+                    _pharmacy = new PharmacyRepository(_context, _filesManager);
                 return _pharmacy;
             }
         }
@@ -154,7 +154,7 @@ namespace MedicalApp_BusinessLayer.Repositories
             get
             {
                 if (_product is null)
-                    _product = new ProductRepository(_context);
+                    _product = new ProductRepository(_context , _filesManager);
                 return _product;
             }
         }

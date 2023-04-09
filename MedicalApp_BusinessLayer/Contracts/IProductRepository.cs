@@ -1,5 +1,6 @@
 ﻿using MedicalApp_BusinessLayer.RequestFeatures;
 using MedicalApp_DataLayer.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,12 @@ namespace MedicalApp_BusinessLayer.Contracts
         void AddProductsToPharmacy(string pharmacyId, List<Product> product);
         Task<IEnumerable<Product?>> GetAllProductsAsync(ProductParamters paramters, bool trackChanges);
         Task<Product?> GetProductByIdAsync(int productId, bool trackChanges);
-        void DeleteProduct(Product product);
+        void DeleteProduct(string pharmacyId, int productId);
         Task<IEnumerable<Product>> GetPharmacyProducts(string pharmacyId);
+        void UploadImage(IFormFile file, int productId);
+        FileStream GetImage(int productId);
+        Task<Product?> GetProdcutForPharmacy(string pharmacyId, int productId);
+
+
     }
 }
