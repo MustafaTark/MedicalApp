@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MedicalApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230123080724_roles")]
-    partial class roles
+    [Migration("20230315184351_TEmpDayes")]
+    partial class TEmpDayes
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -64,9 +64,6 @@ namespace MedicalApp.Migrations
                     b.Property<string>("ClinicId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Day")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<TimeSpan>("End")
                         .HasColumnType("time");
 
@@ -97,6 +94,13 @@ namespace MedicalApp.Migrations
                     b.Property<string>("PharmacyId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int")
+                        .HasColumnName("Status");
+
+                    b.Property<double>("Total")
+                        .HasColumnType("float");
+
                     b.HasKey("Id");
 
                     b.HasIndex("PharmacyId");
@@ -112,7 +116,16 @@ namespace MedicalApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<int>("Quntity")
                         .HasColumnType("int");
 
                     b.Property<double>("Total")
@@ -133,7 +146,13 @@ namespace MedicalApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
+                    b.Property<string>("Category")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -181,18 +200,25 @@ namespace MedicalApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("Appointment")
+                    b.Property<Guid>("AppointmentId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("AppointmentObjectID")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("ClinicId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PatientId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("ID");
 
-                    b.HasIndex("AppointmentObjectID");
+                    b.HasIndex("AppointmentId");
+
+                    b.HasIndex("ClinicId");
+
+                    b.HasIndex("PatientId");
 
                     b.ToTable("Reports");
                 });
@@ -209,7 +235,7 @@ namespace MedicalApp.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -232,7 +258,7 @@ namespace MedicalApp.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -308,19 +334,19 @@ namespace MedicalApp.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "3abe9574-2aef-44fd-b299-d702a6f2cab0",
+                            Id = "b75ece68-802c-4c84-9730-25e204fb1b76",
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         },
                         new
                         {
-                            Id = "1922c5cc-62af-420d-a09b-1739e19f6716",
+                            Id = "4ff686f2-286a-4766-98fa-3810ccb06599",
                             Name = "Clinic",
                             NormalizedName = "CLINIC"
                         },
                         new
                         {
-                            Id = "6bfd66a4-ace1-42d5-9a3f-c7ae1304245d",
+                            Id = "9bd15de1-32ba-42db-a47d-c65dddd045dd",
                             Name = "Pharmacy",
                             NormalizedName = "PHARMACY"
                         });
@@ -452,15 +478,23 @@ namespace MedicalApp.Migrations
                     b.HasBaseType("MedicalApp_DataLayer.Models.User");
 
                     b.Property<string>("Category")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("DoctorName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("TxnNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.HasIndex("Category");
+
+                    b.HasIndex("City");
+
+                    b.HasIndex("DoctorName");
+
+                    b.HasIndex("Name");
 
                     b.HasIndex("TxnNumber")
                         .IsUnique()
@@ -473,14 +507,16 @@ namespace MedicalApp.Migrations
                 {
                     b.HasBaseType("MedicalApp_DataLayer.Models.User");
 
+                    b.Property<byte?>("Age")
+                        .HasColumnType("tinyint");
+
                     b.Property<string>("FirstName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte>("age")
-                        .HasColumnType("tinyint");
 
                     b.ToTable("Patients", (string)null);
                 });
@@ -536,9 +572,23 @@ namespace MedicalApp.Migrations
                 {
                     b.HasOne("MedicalApp_DataLayer.Models.Appointment", "AppointmentObject")
                         .WithMany()
-                        .HasForeignKey("AppointmentObjectID");
+                        .HasForeignKey("AppointmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MedicalApp_DataLayer.Models.Clinic", "ClinicObject")
+                        .WithMany()
+                        .HasForeignKey("ClinicId");
+
+                    b.HasOne("MedicalApp_DataLayer.Models.Patient", "PatientObject")
+                        .WithMany("Reports")
+                        .HasForeignKey("PatientId");
 
                     b.Navigation("AppointmentObject");
+
+                    b.Navigation("ClinicObject");
+
+                    b.Navigation("PatientObject");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -647,6 +697,11 @@ namespace MedicalApp.Migrations
             modelBuilder.Entity("MedicalApp_DataLayer.Models.Clinic", b =>
                 {
                     b.Navigation("Dayes");
+                });
+
+            modelBuilder.Entity("MedicalApp_DataLayer.Models.Patient", b =>
+                {
+                    b.Navigation("Reports");
                 });
 
             modelBuilder.Entity("MedicalApp_DataLayer.Models.Pharmacy", b =>

@@ -7,7 +7,7 @@
 namespace MedicalApp.Migrations
 {
     /// <inheritdoc />
-    public partial class roles : Migration
+    public partial class AddNewRoles : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,9 +17,9 @@ namespace MedicalApp.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1922c5cc-62af-420d-a09b-1739e19f6716", null, "Clinic", "CLINIC" },
-                    { "3abe9574-2aef-44fd-b299-d702a6f2cab0", null, "Patient", "PATIENT" },
-                    { "6bfd66a4-ace1-42d5-9a3f-c7ae1304245d", null, "Pharmacy", "PHARMACY" }
+                    { "1e41052d-69f6-45b6-9729-c3f1d5e25630", null, "Clinic", "CLINIC" },
+                    { "25a29e0c-9a4e-4c1c-9860-ccee87efbebd", null, "Pharmacy", "PHARMACY" },
+                    { "ff3255c5-229c-4d10-bbc9-2ea4c0f78aae", null, "Patient", "PATIENT" }
                 });
         }
 
@@ -29,17 +29,17 @@ namespace MedicalApp.Migrations
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "1922c5cc-62af-420d-a09b-1739e19f6716");
+                keyValue: "1e41052d-69f6-45b6-9729-c3f1d5e25630");
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "3abe9574-2aef-44fd-b299-d702a6f2cab0");
+                keyValue: "25a29e0c-9a4e-4c1c-9860-ccee87efbebd");
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "6bfd66a4-ace1-42d5-9a3f-c7ae1304245d");
+                keyValue: "ff3255c5-229c-4d10-bbc9-2ea4c0f78aae");
         }
     }
 }

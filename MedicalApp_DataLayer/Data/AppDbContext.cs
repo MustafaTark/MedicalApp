@@ -26,6 +26,7 @@ namespace MedicalApp_DataLayer.Data
         public DbSet<Report> Reports { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<Chat> Chats { get; set; }
+        public DbSet<Category> Categories { get; set; }
         public DbSet<ClinicMessage> ClinicMessages { get; set; }
         public DbSet<PatientMessage> PatientMessages { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> options) : 

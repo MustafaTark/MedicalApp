@@ -4,6 +4,7 @@ using MedicalApp_DataLayer.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MedicalApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230323214348_RefactorCity")]
+    partial class RefactorCity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,44 +51,6 @@ namespace MedicalApp.Migrations
                     b.HasIndex("ClinicId");
 
                     b.ToTable("Appointments");
-                });
-
-            modelBuilder.Entity("MedicalApp_DataLayer.Models.Category", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("MedicalApp_DataLayer.Models.Chat", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ClinicId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("PatientId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClinicId");
-
-                    b.HasIndex("PatientId");
-
-                    b.ToTable("Chats");
                 });
 
             modelBuilder.Entity("MedicalApp_DataLayer.Models.City", b =>
@@ -131,33 +96,6 @@ namespace MedicalApp.Migrations
                     b.HasIndex("ClinicId");
 
                     b.ToTable("ClinicDayes");
-                });
-
-            modelBuilder.Entity("MedicalApp_DataLayer.Models.ClinicMessage", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("ChatId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ClinicId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Message")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ChatId");
-
-                    b.HasIndex("ClinicId");
-
-                    b.ToTable("ClinicMessages");
                 });
 
             modelBuilder.Entity("MedicalApp_DataLayer.Models.Order", b =>
@@ -221,33 +159,6 @@ namespace MedicalApp.Migrations
                     b.ToTable("OrderItems");
                 });
 
-            modelBuilder.Entity("MedicalApp_DataLayer.Models.PatientMessage", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("ChatId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Message")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PatientId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ChatId");
-
-                    b.HasIndex("PatientId");
-
-                    b.ToTable("PatientMessages");
-                });
-
             modelBuilder.Entity("MedicalApp_DataLayer.Models.Product", b =>
                 {
                     b.Property<int>("ID")
@@ -290,7 +201,7 @@ namespace MedicalApp.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<string>("ClinicId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<byte>("Number")
                         .HasMaxLength(5)
@@ -300,8 +211,6 @@ namespace MedicalApp.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("ClinicId");
 
                     b.ToTable("Rates");
                 });
@@ -448,19 +357,19 @@ namespace MedicalApp.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "7605f4cd-9a10-4482-a4ff-46d153f2d34a",
+                            Id = "c2740340-5960-441f-ae72-1d1cd03c9dd5",
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         },
                         new
                         {
-                            Id = "e9368186-d346-492d-9cbd-9eeae0f9071c",
+                            Id = "2d2d5e19-54f4-4997-bfb2-3566840fe17e",
                             Name = "Clinic",
                             NormalizedName = "CLINIC"
                         },
                         new
                         {
-                            Id = "701d19d5-e2de-4071-9306-3fb3cf16b7d0",
+                            Id = "befd067d-f07d-4e70-8f01-25bfacd719be",
                             Name = "Pharmacy",
                             NormalizedName = "PHARMACY"
                         });
@@ -591,24 +500,18 @@ namespace MedicalApp.Migrations
                 {
                     b.HasBaseType("MedicalApp_DataLayer.Models.User");
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("Category")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("DoctorName")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
-
                     b.Property<string>("TxnNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("Category");
 
                     b.HasIndex("DoctorName");
 
@@ -654,38 +557,10 @@ namespace MedicalApp.Migrations
                     b.ToTable("Pharmacies", (string)null);
                 });
 
-            modelBuilder.Entity("MedicalApp_DataLayer.Models.Chat", b =>
-                {
-                    b.HasOne("MedicalApp_DataLayer.Models.Clinic", "ClinicObj")
-                        .WithMany()
-                        .HasForeignKey("ClinicId");
-
-                    b.HasOne("MedicalApp_DataLayer.Models.Patient", "PatientObj")
-                        .WithMany()
-                        .HasForeignKey("PatientId");
-
-                    b.Navigation("ClinicObj");
-
-                    b.Navigation("PatientObj");
-                });
-
             modelBuilder.Entity("MedicalApp_DataLayer.Models.ClinicDayes", b =>
                 {
                     b.HasOne("MedicalApp_DataLayer.Models.Clinic", "ClinicObject")
                         .WithMany("Dayes")
-                        .HasForeignKey("ClinicId");
-
-                    b.Navigation("ClinicObject");
-                });
-
-            modelBuilder.Entity("MedicalApp_DataLayer.Models.ClinicMessage", b =>
-                {
-                    b.HasOne("MedicalApp_DataLayer.Models.Chat", null)
-                        .WithMany("ClinicMessages")
-                        .HasForeignKey("ChatId");
-
-                    b.HasOne("MedicalApp_DataLayer.Models.Clinic", "ClinicObject")
-                        .WithMany()
                         .HasForeignKey("ClinicId");
 
                     b.Navigation("ClinicObject");
@@ -705,19 +580,6 @@ namespace MedicalApp.Migrations
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("MedicalApp_DataLayer.Models.PatientMessage", b =>
-                {
-                    b.HasOne("MedicalApp_DataLayer.Models.Chat", null)
-                        .WithMany("PatientMessages")
-                        .HasForeignKey("ChatId");
-
-                    b.HasOne("MedicalApp_DataLayer.Models.Patient", "PatientObject")
-                        .WithMany()
-                        .HasForeignKey("PatientId");
-
-                    b.Navigation("PatientObject");
                 });
 
             modelBuilder.Entity("MedicalApp_DataLayer.Models.Product", b =>
@@ -827,19 +689,11 @@ namespace MedicalApp.Migrations
 
             modelBuilder.Entity("MedicalApp_DataLayer.Models.Clinic", b =>
                 {
-                    b.HasOne("MedicalApp_DataLayer.Models.Category", "CategoryObj")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("MedicalApp_DataLayer.Models.User", null)
                         .WithOne()
                         .HasForeignKey("MedicalApp_DataLayer.Models.Clinic", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("CategoryObj");
                 });
 
             modelBuilder.Entity("MedicalApp_DataLayer.Models.Patient", b =>
@@ -858,13 +712,6 @@ namespace MedicalApp.Migrations
                         .HasForeignKey("MedicalApp_DataLayer.Models.Pharmacy", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("MedicalApp_DataLayer.Models.Chat", b =>
-                {
-                    b.Navigation("ClinicMessages");
-
-                    b.Navigation("PatientMessages");
                 });
 
             modelBuilder.Entity("MedicalApp_DataLayer.Models.Order", b =>

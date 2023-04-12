@@ -4,6 +4,7 @@ using MedicalApp_DataLayer.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MedicalApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230406151817_CategoryMigration")]
+    partial class CategoryMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,7 +67,7 @@ namespace MedicalApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Category");
                 });
 
             modelBuilder.Entity("MedicalApp_DataLayer.Models.Chat", b =>
@@ -448,19 +451,19 @@ namespace MedicalApp.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "7605f4cd-9a10-4482-a4ff-46d153f2d34a",
+                            Id = "a57dea48-c60b-4e85-8705-a2a07c53b537",
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         },
                         new
                         {
-                            Id = "e9368186-d346-492d-9cbd-9eeae0f9071c",
+                            Id = "d5b602ff-8c8e-41c0-96e0-e9280711067d",
                             Name = "Clinic",
                             NormalizedName = "CLINIC"
                         },
                         new
                         {
-                            Id = "701d19d5-e2de-4071-9306-3fb3cf16b7d0",
+                            Id = "71ed2a65-e719-4524-9d76-aa97e507532c",
                             Name = "Pharmacy",
                             NormalizedName = "PHARMACY"
                         });

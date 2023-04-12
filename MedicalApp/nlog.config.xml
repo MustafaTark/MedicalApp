@@ -6,7 +6,7 @@
 internalLogFile="F:\Asp.NET Core\MedicalApp\MedicalApp\InternalLogs\internallog.txt">
 	<targets>
 		<target name="logfile" xsi:type="File"
-fileName="F:\Asp.NET Core\MembersTestCaching\MembersTestCaching\logs\${shortdate}_logfile.txt"
+fileName="F:\Asp.NET Core\MedicalApp\MedicalApp\logs\${shortdate}_logfile.txt"
 				layout="${longdate} ${level:uppercase=true} ${message}"/>
 	</targets>
 	<rules>
