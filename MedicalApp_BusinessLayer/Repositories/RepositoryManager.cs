@@ -181,6 +181,10 @@ namespace MedicalApp_BusinessLayer.Repositories
         {
             return await _context.Cities.ToListAsync();
         }
+        public async Task<IEnumerable<Category>> GetCategories()
+        {
+            return await _context.Categories.ToListAsync();
+        }
 
         public  Task SaveChanges() =>  _context.SaveChangesAsync();
 

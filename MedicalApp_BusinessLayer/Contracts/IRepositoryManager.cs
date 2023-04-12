@@ -23,6 +23,7 @@ namespace MedicalApp_BusinessLayer.Contracts
         IOrderRepository Order { get; }
         IReportRepository Report { get; }
         Task<IEnumerable<City>> GetCityAsync();
+        Task<IEnumerable<Category>> GetCategories();
         Task SaveChanges();
     }
 }
