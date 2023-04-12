@@ -14,7 +14,9 @@ namespace MedicalApp_BusinessLayer.Contracts
         Task<Pharmacy?> GetPharmacyByIdAsync(string pharmacyId, bool trackChanges);
         Task<IEnumerable<Pharmacy?>> GetAllPharmaciesAsync(PharmacyParamters paramters, bool trackChanges);
         void DeletePharmacy(Pharmacy pharmacy);
-        //Task<Pharmacy?> GetPharmacyProducts(string pharmacyId);
+        void UploadImage(IFormFile file, string pharmacyId);
+        FileStream GetImage(string pharmacyId);
+        void AssignProductsForPharmacy(string pharmacyId, List<int> Ids);
 
 
     }

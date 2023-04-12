@@ -37,8 +37,8 @@ namespace MedicalApp
 
             CreateMap<PatientMessageForCreationDto, PatientMessage>();
             CreateMap<ClinicMessageForCreationDto, ClinicMessage>();
-            CreateMap<ClinicMessage, MessageDto>();
-            CreateMap<PatientMessage, MessageDto>();
+            CreateMap<ClinicMessage, MessageDto>().ReverseMap();
+            CreateMap<PatientMessage, MessageDto>().ReverseMap();
 
             CreateMap<ChatForCreateDto, Chat>();    
          

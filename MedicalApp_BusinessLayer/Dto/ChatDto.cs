@@ -12,8 +12,8 @@ namespace MedicalApp_BusinessLayer.Dto
     {
         public Guid Id { get; set; }
         public string? ClinicId { get; set; }
-        public Clinic? ClinicObj { get; set; }
+        //public Clinic? ClinicObj { get; set; }
         public string? PatientId { get; set; }
-        public Patient? PatientObj { get; set; }
+        //public Patient? PatientObj { get; set; }
     }
 }

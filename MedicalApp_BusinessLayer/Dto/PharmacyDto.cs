@@ -8,6 +8,7 @@ namespace MedicalApp_BusinessLayer.Dto
 {
     public class PharmacyDto
     {
+        public string? Id { get; set; }
         public string? PhoneNumber { get; set; }
         public string? Name { get; set; }
         public string? Address { get; set; }
