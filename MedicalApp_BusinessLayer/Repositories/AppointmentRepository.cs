@@ -21,12 +21,15 @@ namespace MedicalApp_BusinessLayer.Repositories
 
         public async Task<bool> CheckAppointmentAvailability(AppointmentParamters paramters)
         {
-            var time =TimeSpan.Parse(paramters.Time);
+            var time =TimeSpan.Parse(paramters.Time!);
             
            var clinicAppointment = await  FindByCondition(a => a.ClinicId== paramters.ClinicId
-                                                 && a.Time.Equals(time), trackChanges: true).FirstOrDefaultAsync();
+                                                 && a.Time.Equals(time)&& a.Date == paramters.Date,
+                                                 trackChanges: true).FirstOrDefaultAsync();
             var patientAppointment= await FindByCondition(a => a.PatiantId == paramters.PatientId
-                                                 && a.Time.Equals(time), trackChanges: true).FirstOrDefaultAsync();
+                                                 && a.Time.Equals(time)&& a.Date == paramters.Date
+                                                  , trackChanges: true).FirstOrDefaultAsync();
+
             if (clinicAppointment is null&& patientAppointment is null)
             {
                 return true;

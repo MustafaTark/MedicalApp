@@ -11,5 +11,6 @@ namespace MedicalApp_BusinessLayer.RequestFeatures
         public string? Time { get; set; }
         public string? ClinicId { get; set; }
         public string? PatientId { get; set; }
+        public DateTime Date { get; set; }  
     }
 }
