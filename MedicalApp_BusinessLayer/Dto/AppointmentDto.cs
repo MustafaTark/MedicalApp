@@ -11,5 +11,7 @@ namespace MedicalApp_BusinessLayer.Dto
         public Guid Id { get; set; }
         public DateTime Date { get; set; }
         public TimeSpan Time { get; set; }
+        public string? PatiantId { get; set; }
+        public string? ClinicId { get; set; }
     }
 }

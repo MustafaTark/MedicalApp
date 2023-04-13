@@ -167,20 +167,6 @@ namespace MedicalApp.Controllers
             var fileStream = _repository.Pharmacy.GetImage(pharmacyId);
             return new FileStreamResult(fileStream, "image/png");
         }
-        [HttpPost("Product")]
-        public async Task<IActionResult> CreateProductsToPharmacy(string pharmacyId,
-            [FromBody] List<ProductForCreateDto> products)
-        {
-            if (products is null)
-            {
-                _logger.LogError("ProductForCreateDto object sent from client is null ");
-                return BadRequest("ProductforCreateDto object is null!");
-            }
-            var productsEntity = _mapper.Map<IEnumerable<Product>>(products).ToList();
-            _repository.Product.AddProductsToPharmacy(pharmacyId, productsEntity);
-            await _repository.SaveChanges();
-            return NoContent();
-        }
         [HttpGet("Product")]
         public async Task<IActionResult> GetAllProducts([FromQuery] ProductParamters paramters)
         {
