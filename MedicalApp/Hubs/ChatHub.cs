@@ -9,9 +9,9 @@ namespace MedicalApp.Hubs
     [EnableCors("_myAllowSpecificOrigins")]
     public class ChatHub : Hub<IChatClient>
     {
-        public async Task SendMessage(MessageDto message)
-        {
-            await Clients.All.ReceiveMessage(message);
-        }
+        //public async Task SendMessage(MessageDto message)
+        //{
+        //    await Clients.All.ReceiveMessage(message);
+        //}
     }
 }

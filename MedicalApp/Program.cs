@@ -23,7 +23,10 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                policy =>
                {
-                   policy.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod();
+                   policy.WithOrigins("http://localhost:3000")
+                   .AllowAnyHeader()
+                   .AllowAnyMethod()
+                   .AllowCredentials();
                });
 });
 builder.Services.ConfigureLifeTime();
@@ -64,9 +67,9 @@ app.UseAuthorization();
 
 app.UseEndpoints(endpoints => {
     endpoints.MapControllers();
-    endpoints.MapHub<ChatHub>("/chatHub");
+    endpoints.MapHub<ChatHub>("hubs/chat");
 });
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.MapControllers();
 
 app.Run();

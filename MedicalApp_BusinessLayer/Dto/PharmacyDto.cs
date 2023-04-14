@@ -12,7 +12,7 @@ namespace MedicalApp_BusinessLayer.Dto
         public string? PhoneNumber { get; set; }
         public string? Name { get; set; }
         public string? Address { get; set; }
-        public int CityId { get; set; }
+        public CityDto? City { get; set; }
         public string? Region { get; set; }
     }
 }
