@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MedicalApp_DataLayer.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,7 @@ namespace MedicalApp_BusinessLayer.Dto
         public string? PhoneNumber { get; set; }
         public string? ImageUrl { get; set; }
         public string? Address { get; set; }
-        public int? City { get; set; }
+        public City? CityObj { get; set; }
         public string? Region { get; set; }
     }
 }
