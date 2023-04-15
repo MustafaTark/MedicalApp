@@ -27,8 +27,8 @@ namespace MedicalApp_BusinessLayer.Repositories
             => await FindByCondition(e => e.PatientId == patientId, trackChanges)
              .OrderBy(o => o.AppointmentObject!)
              .ToListAsync();
-        public async Task<Report?> GetReportById(Guid reportId, bool TrackChanges)
-            => await FindByCondition(r => r.ID == reportId, TrackChanges)
+        public async Task<Report?> GetReportById(Guid appointmentId, bool TrackChanges)
+            => await FindByCondition(r => r.AppointmentId == appointmentId, TrackChanges)
              .SingleOrDefaultAsync();
     }
 }

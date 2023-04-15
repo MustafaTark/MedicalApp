@@ -349,18 +349,18 @@ namespace MedicalApp.Controllers
             var reportDto = _mapper.Map<IEnumerable<ReportDto>>(report);
             return Ok(reportDto);
         }
-        [HttpGet("reportId")]
-        public async Task<IActionResult> GetReport(Guid reportId)
+        [HttpGet("ReportAppointment")]
+        public async Task<IActionResult> GetReport(Guid appointmentId)
         {
-            if (reportId.ToString().IsNullOrEmpty())
+            if (appointmentId.ToString().IsNullOrEmpty())
             {
-                _logger.LogInfo($"Report with ID: {reportId} is null");
-                return BadRequest();
+                _logger.LogInfo($"Appointment with ID: {appointmentId} is null");
+                return BadRequest($"There is no Appointment with Add {appointmentId}");
             }
-            var report = await _repository.Report.GetReportById(reportId, trackChanges: false);
+            var report = await _repository.Report.GetReportById(appointmentId, trackChanges: false);
             if (report is null)
             {
-                _logger.LogInfo($"Report with ID: {reportId} doesn't exist in the database.");
+                _logger.LogInfo($"Report with ID: {appointmentId} doesn't exist in the database.");
                 return NotFound();
             }
             var reportDto = _mapper.Map<ReportDto>(report);
