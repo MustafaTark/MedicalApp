@@ -10,9 +10,11 @@ namespace MedicalApp_BusinessLayer.Dto
 {
     public class OrderDto
     {
+        public int Id { get; set; }
+
         public DateTime Date { get; set; }
       
         public Status Status { get; set; }
-        public ICollection<OrderItem>? Items { get; set; }
+        public ICollection<OrderItemForCreateDto>? Items { get; set; }
     }
 }

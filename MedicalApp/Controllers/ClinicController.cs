@@ -327,8 +327,7 @@ namespace MedicalApp.Controllers
             var report = _mapper.Map<Report>(reportForCreateDto);
             _repository.Report.CreateReport(report);
             await _repository.SaveChanges();
-            //var reportToReturn = _mapper.Map<ReportDto>(report);
-            return NoContent();
+            return Ok(new {ReportId = report.ID});
         }
         [HttpGet("Reports")]
         public async Task<IActionResult> GetAllReportsForClinic(string clinicId)

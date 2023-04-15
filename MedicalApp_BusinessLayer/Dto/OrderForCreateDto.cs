@@ -13,6 +13,6 @@ namespace MedicalApp_BusinessLayer.Dto
         public DateTime Date { get; set; } = DateTime.Now;
         public string? PharmacyId { get; set; }
         public string? PatientId { get; set; }
-        public ICollection<OrderItem>? Items { get; set; }
+        public ICollection<OrderItemForCreateDto>? Items { get; set; }
     }
 }

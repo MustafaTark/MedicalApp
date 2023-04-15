@@ -402,7 +402,7 @@ namespace MedicalApp.Controllers
             var order = _mapper.Map<Order>(orderDto);
             _repository.Order.CreateOrder(order);
            await _repository.SaveChanges();
-            return NoContent();
+            return Ok(new {OrderId =  order.Id} );
         }
         [HttpGet("Order")]
         public async Task<IActionResult> GetOrderById(int orderId)
