@@ -306,19 +306,19 @@ namespace MedicalApp.Controllers
         [HttpPost("Report")]
         public async Task<IActionResult> CreateReport([FromBody] ReportForCreateDto reportForCreateDto)
         {
-            var patient = _repository.Patient.GetPatientByIdAsync(reportForCreateDto.PatientId!,trackChanges:false);
+            var patient = await _repository.Patient.GetPatientByIdAsync(reportForCreateDto.PatientId!,trackChanges:false);
             if (patient is null)
             {
                 _logger.LogInfo($"Patient with ID: {reportForCreateDto.PatientId} doesn't exist in the Database");
                 return NotFound();
             }
-            var clinic = _repository.Clinic.GetClinicById(reportForCreateDto.ClinicId! , trackChanges : false);
+            var clinic = await _repository.Clinic.GetClinicById(reportForCreateDto.ClinicId! , trackChanges : false);
             if (clinic is null)
             {
                 _logger.LogInfo($"Clinic with ID: {reportForCreateDto.ClinicId} doesn't exist in the Database");
                 return NotFound();
             }
-            var appointment = _repository.Appointment.GetAppointmentByIdAsync(reportForCreateDto.AppointmentId);
+            var appointment =await  _repository.Appointment.GetAppointmentByIdAsync(reportForCreateDto.AppointmentId);
             if (appointment is null)
             {
                 _logger.LogInfo($"Appointment with ID: {reportForCreateDto.AppointmentId} doesn't exist in the Database");
@@ -366,17 +366,17 @@ namespace MedicalApp.Controllers
             return Ok(reportDto);
         }
         [HttpDelete("reportId")]
-        public async Task<IActionResult> DeleteReport(Guid reportId)
+        public async Task<IActionResult> DeleteReport(Guid appointmentId)
         {
-            if (reportId.ToString().IsNullOrEmpty())
+            if (appointmentId.ToString().IsNullOrEmpty())
             {
-                _logger.LogInfo($"Report with ID: {reportId} is null");
+                _logger.LogInfo($"Report with ID: {appointmentId} is null");
                 return BadRequest();
             }
-            var report = await _repository.Report.GetReportById(reportId, trackChanges: false);
+            var report = await _repository.Report.GetReportById(appointmentId, trackChanges: false);
             if (report is null)
             {
-                _logger.LogInfo($"Report with ID: {reportId} doesn't exist in the database.");
+                _logger.LogInfo($"Report with ID: {appointmentId} doesn't exist in the database.");
                 return NotFound();
             }
             _repository.Report.DeleteReport(report);

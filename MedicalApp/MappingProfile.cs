@@ -23,7 +23,7 @@ namespace MedicalApp
             CreateMap<ClinicForUpdateDto, Clinic>().ReverseMap();
             CreateMap<Patient, PatientDto>();
             CreateMap<PatientForUpdateDto, Patient>();
-            //CreateMap<AppointmentForCreateDto, Appointment>().ReverseMap();
+
             CreateMap<AppointmentForCreateDto, Appointment>().ForMember(a => a.Time,
                 opt => opt.MapFrom(x => TimeSpan.Parse(x.Time!)));
             CreateMap<ClinicDayForCreateDto, ClinicDayes>().ForMember(a => a.Start,
@@ -50,6 +50,7 @@ namespace MedicalApp
 
             CreateMap<Order, OrderDto>();
             CreateMap<OrderForCreateDto, Order>();
+            CreateMap<OrderItemForCreateDto, OrderItem>();
 
             CreateMap<ReportForCreateDto, Report>();
             CreateMap<Report, ReportDto>();
