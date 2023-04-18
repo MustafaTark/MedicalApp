@@ -12,5 +12,7 @@ namespace MedicalApp_BusinessLayer.Contracts
         Task<IEnumerable<Rate>> GetRatesForClinic(string clinicId);
         void CreateRate(Rate rate);
         Task<double> GetOverallRate(string clinicId);
+        Task UpdateRate(string patientId, string clinicId, int newNumber);
+        Task<int> GetSingleRateToPatient(string patientId, string clinicId);
     }
 }

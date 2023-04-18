@@ -201,6 +201,63 @@ namespace MedicalApp.Controllers
            await  _repository.SaveChanges();
             return NoContent();
         }
+        [HttpPut("Rates")]
+        public async Task<IActionResult> UpdateRate(string patientId, string clinicId,[FromBody] int newNumber)
+        {
+            if (clinicId.IsNullOrEmpty())
+            {
+                _logger.LogInfo("Clinic Id is null");
+                return BadRequest("Clinic Id is null");
+            }
+            var clinic = await _repository.Clinic.GetClinicById(clinicId, trackChanges: false);
+            if (clinic is null)
+            {
+                _logger.LogInfo($"Clinic with id: {clinicId} doesn't exist in the database.");
+                return NotFound();
+            }
+            if (patientId.IsNullOrEmpty())
+            {
+                _logger.LogInfo("Patient Id is null");
+                return BadRequest("Patient Id is null");
+            }
+            var patient = await _repository.Patient.GetPatientByIdAsync(patientId, trackChanges: false);
+            if (patient is null)
+            {
+                _logger.LogInfo($"Patient with id: {patientId} doesn't exist in the database.");
+                return NotFound();
+            }
+           await _repository.RateRepository.UpdateRate(patientId,clinicId, newNumber);
+           await _repository.SaveChanges();
+            return NoContent();
+        }
+        [HttpGet("Rates")]
+        public async Task<IActionResult> GetRateToPatient(string patientId,string clinicId)
+        {
+            if (clinicId.IsNullOrEmpty())
+            {
+                _logger.LogInfo("Clinic Id is null");
+                return BadRequest("Clinic Id is null");
+            }
+            var clinic = await _repository.Clinic.GetClinicById(clinicId, trackChanges: false);
+            if (clinic is null)
+            {
+                _logger.LogInfo($"Clinic with id: {clinicId} doesn't exist in the database.");
+                return NotFound();
+            }
+            if (patientId.IsNullOrEmpty())
+            {
+                _logger.LogInfo("Patient Id is null");
+                return BadRequest("Patient Id is null");
+            }
+            var patient = await _repository.Patient.GetPatientByIdAsync(patientId, trackChanges: false);
+            if (patient is null)
+            {
+                _logger.LogInfo($"Patient with id: {patientId} doesn't exist in the database.");
+                return NotFound();
+            }
+            int number = await _repository.RateRepository.GetSingleRateToPatient(patientId, clinicId);
+            return Ok(number);
+        }
         [HttpPost("Upload"), DisableRequestSizeLimit]
         public async Task<IActionResult> Upload(IFormFile file, string patientId)
         {

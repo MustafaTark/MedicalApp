@@ -341,7 +341,7 @@ namespace MedicalApp.Controllers
         }
 
         [HttpGet("pharmacyId")]
-        public async Task<IActionResult> GetPharmacyProducts(string pharmacyId)
+        public async Task<IActionResult> GetPharmacyProducts(ProductParamters paramters, string pharmacyId)
         {
             var pharmacy = await _repository.Pharmacy.GetPharmacyByIdAsync(pharmacyId, trackChanges: false);
             if (pharmacy is null)
@@ -349,7 +349,7 @@ namespace MedicalApp.Controllers
                 _logger.LogInfo($"Pharmacy with id: {pharmacyId} doesn't exist in the database.");
                 return NotFound();
             }
-            var productsFromDb = await _repository.Product.GetPharmacyProducts(pharmacyId);
+            var productsFromDb = await _repository.Product.GetPharmacyProducts(paramters,pharmacyId);
             var productsDto = _mapper.Map<IEnumerable<ProductDto>>(productsFromDb);
             return Ok(productsFromDb);
         }

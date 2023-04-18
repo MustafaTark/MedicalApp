@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,11 +47,13 @@ namespace MedicalApp_BusinessLayer.Repositories
         public async Task<Product?> GetProductByIdAsync(int productId, bool trackChanges)
             => await FindByCondition(p => p.ID.Equals(productId), trackChanges)
                .FirstOrDefaultAsync();
-        public async Task<IEnumerable<Product>> GetPharmacyProducts(string pharmacyId)
+        public async Task<IEnumerable<Product>> GetPharmacyProducts(ProductParamters paramters, string pharmacyId)
             => await FindByCondition(p => 
             p.Pharmacies
-            .FirstOrDefault(p => p.Id.Equals(pharmacyId))!.Id==pharmacyId 
-            , trackChanges:false).ToListAsync();
+            .FirstOrDefault(p => p.Id.Equals(pharmacyId))!.Id==pharmacyId, trackChanges:false)
+            .Skip((paramters.PageNumber - 1) * paramters.PageSize)
+            .Take(paramters.PageSize)
+            .ToListAsync();
 
         public async Task<Product?> GetProdcutForPharmacy(string pharmacyId, int productId)
          => await FindByCondition(p => p.ID == productId && p.Pharmacies.FirstOrDefault(p=> p.Id == pharmacyId)!.Id == pharmacyId, trackChanges: true)

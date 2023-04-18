@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,5 +28,13 @@ namespace MedicalApp_BusinessLayer.Repositories
 
         public async Task<IEnumerable<Rate>> GetRatesForClinic(string clinicId)
            => await FindByCondition(r => r.ClinicId == clinicId, trackChanges: false).ToListAsync();
+        public async Task<int> GetSingleRateToPatient(string patientId, string clinicId)
+          => await FindByCondition(p => p.PatiantId == patientId && p.ClinicId == clinicId, trackChanges: false)
+                   .Select(r => r.Number).FirstOrDefaultAsync();
+        public async Task UpdateRate(string patientId,string clinicId,int newNumber)
+        {
+            await FindByCondition(p => p.PatiantId == patientId && p.ClinicId == clinicId, trackChanges: true)
+            .ExecuteUpdateAsync(r => r.SetProperty(r => r.Number,r=>(r.Number-r.Number)+newNumber));
+        }
     }
 }
