@@ -51,6 +51,7 @@ namespace MedicalApp_BusinessLayer.Repositories
             => await FindByCondition(p => 
             p.Pharmacies
             .FirstOrDefault(p => p.Id.Equals(pharmacyId))!.Id==pharmacyId, trackChanges:false)
+            .SearchProducts(paramters.SearchTerm!)
             .Skip((paramters.PageNumber - 1) * paramters.PageSize)
             .Take(paramters.PageSize)
             .ToListAsync();

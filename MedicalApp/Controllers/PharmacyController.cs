@@ -341,7 +341,7 @@ namespace MedicalApp.Controllers
         }
 
         [HttpGet("pharmacyId")]
-        public async Task<IActionResult> GetPharmacyProducts(ProductParamters paramters, string pharmacyId)
+        public async Task<IActionResult> GetPharmacyProducts([FromQuery]ProductParamters paramters, string pharmacyId)
         {
             var pharmacy = await _repository.Pharmacy.GetPharmacyByIdAsync(pharmacyId, trackChanges: false);
             if (pharmacy is null)
