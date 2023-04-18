@@ -8,6 +8,7 @@ namespace MedicalApp_BusinessLayer.ViewModels
 {
     public class ClinicDayVM
     {
+        public int ID { get; set; }
         public string? Day { get; set; } 
         public List<string>? Times { get; set; }
     }

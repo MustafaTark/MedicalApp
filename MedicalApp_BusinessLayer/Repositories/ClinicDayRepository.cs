@@ -32,7 +32,7 @@ namespace MedicalApp_BusinessLayer.Repositories
         public async Task<IEnumerable<ClinicDayVM>> GetClinicDayes(string clinicId)
         {
             var clinicDayes= await FindByCondition(c => c.ClinicId == clinicId, trackChanges: false)
-                                   .Select(c => new {day=c.Day,start=c.Start,end=c.End})
+                                   .Select(c => new {Id=c.ID,day=c.Day,start=c.Start,end=c.End})
                                    .ToListAsync();
             var clnicsDayesVM = new List<ClinicDayVM>();
             var duration = TimeSpan.FromMinutes(30);
@@ -46,6 +46,7 @@ namespace MedicalApp_BusinessLayer.Repositories
                 clnicsDayesVM.Add(
                     new ClinicDayVM
                     {
+                        ID = clinicDay.Id,
                         Day = clinicDay.day.ToString(),
                         Times = times
                     }
