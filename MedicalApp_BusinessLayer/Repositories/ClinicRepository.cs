@@ -33,6 +33,7 @@ namespace MedicalApp_BusinessLayer.Repositories
 
         public async Task<Clinic?> GetClinicById(string clincId , bool trackChanges)
           => await FindByCondition(c => c.Id == clincId, trackChanges).Include(c => c.CityObj)
+            .Include(c => c.CategoryObj)
             .Include(c=>c.Dayes).FirstOrDefaultAsync()!;
 
         public void  UploadImage(IFormFile file,string clincId)
