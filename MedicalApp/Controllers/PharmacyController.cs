@@ -368,8 +368,8 @@ namespace MedicalApp.Controllers
                 return NotFound($"Patient with id : {patientId} doesn't exist in database");
             }
             var orders = await _repository.Order.GetOrdersForPatientAsync(patientId);
-            //var ordersDto = _mapper.Map<IEnumerable<OrderDto>>(orders);
-            return Ok(orders);
+            var ordersDto = _mapper.Map<IEnumerable<OrderDto>>(orders);
+            return Ok(ordersDto);
 
         }
         [HttpGet("OrderForPharmacy")]
