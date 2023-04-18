@@ -39,6 +39,11 @@ namespace MedicalApp.Controllers
                 _logger.LogInfo("message not availble because : " + ModelState.ToString()!);
                 return BadRequest(ModelState);
             }
+            var chatEntity = _repository.Chat.GetChatToPatientAndClinic(chatDto.PatientId!,chatDto.ClinicId!);
+            if (chatEntity is not null)
+            {
+                return BadRequest("Chat already created");
+            }
             var chat =_mapper.Map<Chat>(chatDto);
             _repository.Chat.CreateChat(chat);
             await _repository.SaveChanges();
@@ -131,6 +136,7 @@ namespace MedicalApp.Controllers
                 return BadRequest("Patient Id is null");
             }
             var patient = await _repository.Patient.GetPatientByIdAsync(patientId, trackChanges: false);
+           
             if (patient is null)
             {
                 _logger.LogInfo($"Patient with id: {patientId} doesn't exist in the database.");
@@ -149,7 +155,13 @@ namespace MedicalApp.Controllers
                 return BadRequest(ModelState);
             }
             var patientMessage = _mapper.Map<PatientMessage>(patientMessageDto);
-            var message = _mapper.Map<MessageDto>(patientMessage);
+            var message = new MessageDto
+            {
+                Date= patientMessage.Date,
+                Message = patientMessage.Message,
+                Role = "Patient"
+            };
+            
             _repository.PatientMessage.CreateMessage(patientMessage);
            await  _repository.SaveChanges();
             await _messageHub.Clients.All.ReceiveMessage(message);
@@ -164,7 +176,12 @@ namespace MedicalApp.Controllers
                 return BadRequest(ModelState);
             }
             var clinicMessage = _mapper.Map<ClinicMessage>(clinicMessageDto);
-            var message = _mapper.Map<MessageDto>(clinicMessage);
+            var message = new MessageDto
+            {
+                Date = clinicMessageDto.Date,
+                Message = clinicMessageDto.Message,
+                Role = "Clinic"
+            };
             _repository.ClinicMessage.CreateMessage(clinicMessage);
             await _repository.SaveChanges();
             await _messageHub.Clients.All.ReceiveMessage(message);
