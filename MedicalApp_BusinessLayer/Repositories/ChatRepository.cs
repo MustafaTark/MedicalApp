@@ -25,12 +25,12 @@ namespace MedicalApp_BusinessLayer.Repositories
         public async Task<Chat?> GetChatByIdAsync(Guid id)
          => await FindByCondition(c => c.Id == id, trackChanges: false)!.FirstOrDefaultAsync()!;
 
-        public async Task<Guid> GetChatToPatientAndClinic(string patientId, string clinicId)
+        public async Task<Chat> GetChatToPatientAndClinic(string patientId, string clinicId)
         {
-            var chatId = await FindByCondition(c => c.PatientId == patientId && c.ClinicId == clinicId, trackChanges: false)
-                             .Select(c => c.Id)
+            var chat = await FindByCondition(c => c.PatientId == patientId && c.ClinicId == clinicId, trackChanges: false)
+                           
                              .FirstOrDefaultAsync();
-            return chatId;
+            return chat!;
          }
     }
 }

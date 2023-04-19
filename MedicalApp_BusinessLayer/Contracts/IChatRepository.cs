@@ -11,7 +11,7 @@ namespace MedicalApp_BusinessLayer.Contracts
     {
         Task<IEnumerable<Chat>> GetAllToPatient(string patientId);
         Task<IEnumerable<Chat>> GetAllToClinic(string clinicId);
-        Task<Guid> GetChatToPatientAndClinic(string patientId,string clinicId);
+        Task<Chat> GetChatToPatientAndClinic(string patientId,string clinicId);
         Task<Chat?> GetChatByIdAsync(Guid id);
         void CreateChat(Chat chat);
     }

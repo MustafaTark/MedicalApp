@@ -39,7 +39,7 @@ namespace MedicalApp.Controllers
                 _logger.LogInfo("message not availble because : " + ModelState.ToString()!);
                 return BadRequest(ModelState);
             }
-            var chatEntity = _repository.Chat.GetChatToPatientAndClinic(chatDto.PatientId!,chatDto.ClinicId!);
+            var chatEntity = await _repository.Chat.GetChatToPatientAndClinic(chatDto.PatientId!,chatDto.ClinicId!);
             if (chatEntity is not null)
             {
                 return BadRequest("Chat already created");
@@ -99,11 +99,11 @@ namespace MedicalApp.Controllers
                 _logger.LogInfo("Patient Id is null");
                 return BadRequest("Patient Id is null");
             }
-            var chatId =await _repository.Chat.GetChatToPatientAndClinic(patientId, clinicId);
+            var chat =await _repository.Chat.GetChatToPatientAndClinic(patientId, clinicId);
             return Ok(
                 new
                 {
-                    ChatId= chatId,
+                    ChatId= chat.Id,
                 }
                 );
         }
