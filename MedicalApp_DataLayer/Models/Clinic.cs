@@ -27,9 +27,17 @@ namespace MedicalApp_DataLayer.Models
         public double Price { get; set; }
         public string? Description { get; set; }
         public ICollection<ClinicDayes> Dayes { get; set; }
+        public ICollection<Appointment> Appointments { get; set; }
+        public ICollection<Chat> Chats { get; set; }
+        public ICollection<Report> Reports { get; set; }
+        public ICollection<Rate> Rates { get; set; }
         public Clinic()
         {
             Dayes= new List<ClinicDayes>();
+            Appointments= new List<Appointment>();
+            Chats= new List<Chat>();
+            Reports= new List<Report>();
+            Rates= new List<Rate>();
         }
     }
 }

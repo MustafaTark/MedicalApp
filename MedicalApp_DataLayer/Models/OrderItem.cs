@@ -16,6 +16,7 @@ namespace MedicalApp_DataLayer.Models
         public string? ImageUrl { get; set; }
         [ForeignKey(nameof(Order))]
         public int OrderId { get; set; }
+        public Order? OrderObj { get; set; }
 
     }
 }

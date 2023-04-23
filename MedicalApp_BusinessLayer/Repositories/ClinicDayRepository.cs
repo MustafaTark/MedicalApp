@@ -2,6 +2,7 @@
 using MedicalApp_BusinessLayer.ViewModels;
 using MedicalApp_DataLayer.Data;
 using MedicalApp_DataLayer.Models;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -27,19 +28,19 @@ namespace MedicalApp_BusinessLayer.Repositories
          => Delete(clinicDay);
 
         public async Task<ClinicDayes?> GetClinicDay(int clinicDayId)
-          => await FindByCondition(c => c.ID == clinicDayId, trackChanges: false).FirstOrDefaultAsync();
+          => await FindByCondition(c => c.ID == clinicDayId, trackChanges: true).FirstOrDefaultAsync();
 
         public async Task<IEnumerable<ClinicDayVM>> GetClinicDayes(string clinicId)
         {
-            var clinicDayes= await FindByCondition(c => c.ClinicId == clinicId, trackChanges: false)
-                                   .Select(c => new {Id=c.ID,day=c.Day,start=c.Start,end=c.End})
+            var clinicDayes = await FindByCondition(c => c.ClinicId == clinicId, trackChanges: false)
+                                   .Select(c => new { Id = c.ID, day = c.Day, start = c.Start, end = c.End })
                                    .ToListAsync();
             var clnicsDayesVM = new List<ClinicDayVM>();
             var duration = TimeSpan.FromMinutes(30);
-            foreach(var  clinicDay in clinicDayes)
+            foreach (var clinicDay in clinicDayes)
             {
                 var times = new List<string>();
-                for (var time= clinicDay.start; time< clinicDay.end; time += duration)
+                for (var time = clinicDay.start; time < clinicDay.end; time += duration)
                 {
                     times.Add(time.ToString());
                 }
@@ -54,6 +55,12 @@ namespace MedicalApp_BusinessLayer.Repositories
             }
             return clnicsDayesVM;
         }
-        
+        public void UpdateClinicDayes(ClinicDayes clinicDayes)
+        {
+
+
+            Update(clinicDayes);
+
+        }
     }
 }

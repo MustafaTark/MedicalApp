@@ -24,10 +24,10 @@ namespace MedicalApp_BusinessLayer.Repositories
             var time =TimeSpan.Parse(paramters.Time!);
             
            var clinicAppointment = await  FindByCondition(a => a.ClinicId== paramters.ClinicId
-                                                 && a.Time.Equals(time)&& a.Date == paramters.Date,
+                                                 && a.Time.Equals(time)&& a.Date.Day == paramters.Day,
                                                  trackChanges: true).FirstOrDefaultAsync();
             var patientAppointment= await FindByCondition(a => a.PatiantId == paramters.PatientId
-                                                 && a.Time.Equals(time)&& a.Date == paramters.Date
+                                                 && a.Time.Equals(time)&& a.Date.Day == paramters.Day
                                                   , trackChanges: true).FirstOrDefaultAsync();
 
             if (clinicAppointment is null&& patientAppointment is null)

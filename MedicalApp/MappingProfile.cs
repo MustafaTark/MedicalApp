@@ -29,6 +29,9 @@ namespace MedicalApp
             CreateMap<ClinicDayForCreateDto, ClinicDayes>().ForMember(a => a.Start,
                 opt => opt.MapFrom(x => TimeSpan.Parse(x.Start!))).ForMember(a=>a.End,
                 opt=> opt.MapFrom(x => TimeSpan.Parse(x.End!)));
+            CreateMap<ClinicDayForUpdateDto, ClinicDayes>().ForMember(a => a.Start,
+                opt => opt.MapFrom(x => TimeSpan.Parse(x.Start!))).ForMember(a => a.End,
+                opt => opt.MapFrom(x => TimeSpan.Parse(x.End!)));
             CreateMap<ClinicDayes, ClinicDayDto>().ForMember(c => c.Start, opt => opt.MapFrom(x => x.Start.ToString()))
                 .ForMember(c => c.End, opt => opt.MapFrom(x => x.End.ToString()));
 

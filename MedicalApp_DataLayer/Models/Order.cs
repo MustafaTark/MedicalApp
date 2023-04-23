@@ -22,13 +22,18 @@ namespace MedicalApp_DataLayer.Models
         public Status Status { get; set; }
         public double Total { get; set; }
 
-        [ForeignKey(nameof(Pharmacy))]
+        [ForeignKey(nameof(Models.Pharmacy))]
         public string? PharmacyId { get; set; }
+        public Pharmacy? Pharmacy { get; set; }
         [ForeignKey(nameof(Patient))]
         public string? PatientId { get; set; }
+        public Patient? PatientObj { get; set; }
         public ICollection<OrderItem> Items { get; set; }
+        public ICollection<Pharmacy> Pharmices { get; set; }
+        
         public Order() { 
             Items = new List<OrderItem>();
+
         }
     }
 }

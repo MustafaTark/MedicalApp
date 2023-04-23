@@ -39,26 +39,11 @@ namespace MedicalApp_DataLayer.Data
             
            
             base.OnModelCreating(builder);
-          builder.ApplyConfiguration(new RoleConfigrations()); 
-
-            builder.Entity<User>().UseTptMappingStrategy().ToTable("Users");
-            builder.Entity<Patient>()
-                .ToTable("Patients").HasBaseType<User>();
-          
-            builder.Entity<Clinic>()
-                .ToTable("Clinics").HasBaseType<User>();
-         
-            builder.Entity<Pharmacy>()
-                .ToTable("Pharmacies").HasBaseType<User>();
-           builder.Entity<Rate>()
-                  .HasIndex(r => r.ClinicId);
-            builder.Entity<Clinic>().HasIndex(c => c.TxnNumber).IsUnique();
-            builder.Entity<Clinic>().HasIndex(c => c.CategoryId);
-            builder.Entity<Clinic>().HasIndex(c => c.CityId);
-            builder.Entity<Clinic>().HasIndex(c => c.DoctorName);
-            builder.Entity<Clinic>().HasIndex(c => c.Name);
-            builder.Entity<Pharmacy>().HasIndex(p => p.TxnNumber).IsUnique();
-            builder.Entity<Pharmacy>().HasMany(p => p.Products).WithMany(p => p.Pharmacies);
+          builder.ApplyConfiguration(new RoleConfigrations());
+            builder.AddInhertanceTaples();
+            builder.AddIndexes();
+            builder.AddManyToManyTaples();
+           builder.AddOneToManyRelationship();
 
         }
     }

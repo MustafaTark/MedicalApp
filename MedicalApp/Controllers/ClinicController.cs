@@ -177,24 +177,33 @@ namespace MedicalApp.Controllers
             var Categories = await _repository.GetCategories();
             return Ok(Categories);
         }
-        //[HttpGet("ClinicDayes")]
-        //public async Task<IActionResult> GetClinicDay(int clinicDayId)
-        //{
-        //    if (clinicDayId.ToString().IsNullOrEmpty())
-        //    {
-        //        _logger.LogInfo("Clinic Id is null");
-        //        return BadRequest("Clinic Id is null");
-        //    }
-        //    var clinicDay = await _repository.ClinicDays.GetClinicDay(clinicDayId);
-        //    if (clinicDay is null)
-        //    {
-        //        _logger.LogInfo($"Clinic with id: {clinicDayId} doesn't exist in the database.");
-        //        return NotFound();
-        //    }
-        //    var clinicDayDto = _mapper.Map<ClinicDayDto>(clinicDay);
-        //    return Ok(clinicDayDto);
+        [HttpPost("ClinicDayes/New")]
+        public async Task<IActionResult> AddNewDay(ClinicDayForCreateDto clinicDayDto)
+        {
+            var clinicDayEntity = _mapper.Map<ClinicDayes>(clinicDayDto);
+            _repository.ClinicDays.UpdateClinicDayes(clinicDayEntity);
+            await _repository.SaveChanges();
+            return NoContent();
+        }
+        [HttpPut("ClinicDayes/{day}")]
+        public async Task<IActionResult> UpdateDay(int day, [FromBody] ClinicDayForUpdateDto clinicDayDto)
+        {
+            var clinicDay = await _repository.ClinicDays.GetClinicDay(day);
+            if (clinicDay is null)
+            {
+                _logger.LogInfo($"Clinic With ID: {clinicDay} doesn't exist in the database");
+                return NotFound();
+            }
+            if (clinicDayDto is null)
+            {
+                _logger.LogInfo($"ModelState Is not Valid {ModelState}");
+                return BadRequest(ModelState);
+            }
+            _mapper.Map(clinicDayDto, clinicDay);
 
-        //}
+            await _repository.SaveChanges();
+            return NoContent();
+        }
         [HttpDelete("ClinicDayes")]
         public async Task<IActionResult> DeleteClinicDay(int dayId)
         {

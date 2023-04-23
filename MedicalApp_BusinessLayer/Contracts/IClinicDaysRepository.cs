@@ -14,6 +14,7 @@ namespace MedicalApp_BusinessLayer.Contracts
         Task<ClinicDayes?> GetClinicDay(int clinicDayId);
         void Create(List<ClinicDayes> clinicDayes);
         void DeleteClinicDay(ClinicDayes clinicDay);
+        void UpdateClinicDayes(ClinicDayes clinicDayes);
 
     }
 }

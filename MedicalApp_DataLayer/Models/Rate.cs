@@ -13,8 +13,10 @@ namespace MedicalApp_DataLayer.Models
         public int ID { get; set; }
         [ForeignKey(nameof(Clinic))]
         public string? ClinicId { get; set; }
+        public Clinic? ClinicObj { get; set; }
         [ForeignKey(nameof(Patient))]
         public string? PatiantId { get; set; }
+        public Patient? PatientObj { get; set; }
         [MaxLength(5)]
         public byte Number { get; set; }
     }
