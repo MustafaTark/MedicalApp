@@ -10,7 +10,7 @@ namespace MedicalApp_BusinessLayer.Dto
 {
     public class ClinicDayForCreateDto
     {
-        public Day? Day { get; set; }
+        public string? Day { get; set; }
         public string? ClinicId { get; set; }
         public string? Start { get; set; }
         public string? End { get; set; }
