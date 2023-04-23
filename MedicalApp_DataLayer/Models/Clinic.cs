@@ -31,6 +31,7 @@ namespace MedicalApp_DataLayer.Models
         public ICollection<Chat> Chats { get; set; }
         public ICollection<Report> Reports { get; set; }
         public ICollection<Rate> Rates { get; set; }
+        public ICollection<ClinicMessage> ClinicMessages { get; set; }
         public Clinic()
         {
             Dayes= new List<ClinicDayes>();
@@ -38,6 +39,7 @@ namespace MedicalApp_DataLayer.Models
             Chats= new List<Chat>();
             Reports= new List<Report>();
             Rates= new List<Rate>();
+            ClinicMessages = new List<ClinicMessage>();
         }
     }
 }

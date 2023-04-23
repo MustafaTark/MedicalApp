@@ -46,20 +46,17 @@ namespace MedicalApp_DataLayer.Configrations
             modelBuilder.Entity<Order>()
         .HasOne(c => c.Pharmacy)
         .WithMany(o => o.Orders)
-        .HasForeignKey(p => p.PharmacyId)
         .OnDelete(DeleteBehavior.ClientCascade);
 
 
             modelBuilder.Entity<Order>()
                 .HasOne(o=>o.PatientObj)
         .WithMany(c => c.Orders)
-        .HasForeignKey(p => p.PatientId)
         .OnDelete(DeleteBehavior.ClientCascade);
 
             modelBuilder.Entity<Report>()
       .HasOne(c => c.PatientObject)
       .WithMany(o => o.Reports)
-      .HasForeignKey(p => p.PatientId)
       .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Appointment>()
@@ -70,12 +67,21 @@ namespace MedicalApp_DataLayer.Configrations
             modelBuilder.Entity<Chat>()
      .HasOne(c => c.PatientObj)
      .WithMany(o => o.Chats)
-     .HasForeignKey(p => p.PatientId)
      .OnDelete(DeleteBehavior.ClientCascade);
+
+            modelBuilder.Entity<PatientMessage>()
+    .HasOne(c => c.PatientObject)
+    .WithMany(o => o.PatientMessages)
+    .OnDelete(DeleteBehavior.ClientCascade);
+
+            modelBuilder.Entity<ClinicMessage>()
+    .HasOne(c => c.ClinicObject)
+    .WithMany(o => o.ClinicMessages)
+    .OnDelete(DeleteBehavior.ClientCascade);
+
             modelBuilder.Entity<Rate>()
          .HasOne(c => c.PatientObj)
          .WithMany(o => o.Rates)
-         .HasForeignKey(p => p.PatiantId)
          .OnDelete(DeleteBehavior.ClientCascade);
 
 
@@ -83,37 +89,36 @@ namespace MedicalApp_DataLayer.Configrations
             modelBuilder.Entity<Report>()
      .HasOne(c => c.ClinicObject)
      .WithMany(o => o.Reports)
-     .HasForeignKey(p => p.ClinicId)
      .OnDelete(DeleteBehavior.ClientCascade);
 
             modelBuilder.Entity<ClinicDayes>()
      .HasOne(c => c.ClinicObject)
      .WithMany(o => o.Dayes)
-     .HasForeignKey(p => p.ClinicId)
+    
      .OnDelete(DeleteBehavior.ClientCascade);
 
             modelBuilder.Entity<Appointment>()
         .HasOne(c => c.ClinicObj)
         .WithMany(o => o.Appointments)
-        .HasForeignKey(p => p.ClinicId)
+        
         .OnDelete(DeleteBehavior.ClientCascade);
 
             modelBuilder.Entity<Chat>()
      .HasOne(c => c.ClinicObj)
      .WithMany(o => o.Chats)
-     .HasForeignKey(p => p.ClinicId)
+     
      .OnDelete(DeleteBehavior.ClientCascade);
 
             modelBuilder.Entity<Rate>()
                 .HasOne(c => c.ClinicObj)
                 .WithMany(o => o.Rates)
-                .HasForeignKey(p => p.ClinicId)
+                
          .OnDelete(DeleteBehavior.ClientCascade);
 
             modelBuilder.Entity<OrderItem>()
                 .HasOne(o => o.OrderObj)
         .WithMany(c => c.Items)
-        .HasForeignKey(p => p.OrderId)
+       
         .OnDelete(DeleteBehavior.ClientCascade);
         }
     }
