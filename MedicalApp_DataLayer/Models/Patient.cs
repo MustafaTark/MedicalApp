@@ -16,7 +16,7 @@ namespace MedicalApp_DataLayer.Models
             Appointments = new List<Appointment>();
             Chats = new List<Chat>();
             Rates = new List<Rate>();
-            PatientMessages = new List<PatientMessage>();
+            //PatientMessages = new List<PatientMessage>();
         }
         [Required(ErrorMessage ="First Name is Required Field")]
         public string? FirstName { get; set; }
@@ -28,6 +28,6 @@ namespace MedicalApp_DataLayer.Models
         public ICollection<Appointment> Appointments { get; set; }
         public ICollection<Chat> Chats { get; set; }
         public ICollection<Rate> Rates { get; set; }
-        public ICollection<PatientMessage> PatientMessages { get; set; }
+        //public ICollection<PatientMessage> PatientMessages { get; set; }
     }
 }

@@ -12,11 +12,8 @@ namespace MedicalApp_DataLayer.Models
         public Guid Id { get; set; }
         public string? Message { get; set; }
         public DateTime Date { get; set; }
-        [ForeignKey(nameof(Patient))]
-        public string? PatientId { get; set; }
-        
-        public Patient? PatientObject { get; set; }
         [ForeignKey(nameof(Chat))]
         public Guid? ChatId { get; set; }
+        public Chat? ChatObj { get; set; }
     }
 }

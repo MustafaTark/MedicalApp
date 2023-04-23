@@ -46,80 +46,73 @@ namespace MedicalApp_DataLayer.Configrations
             modelBuilder.Entity<Order>()
         .HasOne(c => c.Pharmacy)
         .WithMany(o => o.Orders)
-        .OnDelete(DeleteBehavior.ClientCascade);
+        .OnDelete(DeleteBehavior.NoAction);
 
 
             modelBuilder.Entity<Order>()
                 .HasOne(o=>o.PatientObj)
         .WithMany(c => c.Orders)
-        .OnDelete(DeleteBehavior.ClientCascade);
+        .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Report>()
       .HasOne(c => c.PatientObject)
       .WithMany(o => o.Reports)
-      .OnDelete(DeleteBehavior.Cascade);
+      .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Appointment>()
      .HasOne(c => c.PatientObj)
      .WithMany(o => o.Appointments)
-     .OnDelete(DeleteBehavior.ClientCascade);
+     .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Chat>()
      .HasOne(c => c.PatientObj)
      .WithMany(o => o.Chats)
-     .OnDelete(DeleteBehavior.ClientCascade);
-
+     .OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<PatientMessage>()
-    .HasOne(c => c.PatientObject)
-    .WithMany(o => o.PatientMessages)
-    .OnDelete(DeleteBehavior.ClientCascade);
-
+     .HasOne(c => c.ChatObj)
+     .WithMany(o => o.PatientMessages)
+     .OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<ClinicMessage>()
-    .HasOne(c => c.ClinicObject)
-    .WithMany(o => o.ClinicMessages)
-    .OnDelete(DeleteBehavior.ClientCascade);
+     .HasOne(c => c.ChatObj)
+     .WithMany(o => o.ClinicMessages)
+     .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Rate>()
          .HasOne(c => c.PatientObj)
          .WithMany(o => o.Rates)
-         .OnDelete(DeleteBehavior.ClientCascade);
+         .OnDelete(DeleteBehavior.NoAction);
 
 
 
             modelBuilder.Entity<Report>()
      .HasOne(c => c.ClinicObject)
      .WithMany(o => o.Reports)
-     .OnDelete(DeleteBehavior.ClientCascade);
+     .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<ClinicDayes>()
      .HasOne(c => c.ClinicObject)
      .WithMany(o => o.Dayes)
-    
-     .OnDelete(DeleteBehavior.ClientCascade);
+     .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Appointment>()
         .HasOne(c => c.ClinicObj)
         .WithMany(o => o.Appointments)
-        
-        .OnDelete(DeleteBehavior.ClientCascade);
+        .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Chat>()
      .HasOne(c => c.ClinicObj)
      .WithMany(o => o.Chats)
-     
-     .OnDelete(DeleteBehavior.ClientCascade);
+     .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Rate>()
                 .HasOne(c => c.ClinicObj)
                 .WithMany(o => o.Rates)
-                
-         .OnDelete(DeleteBehavior.ClientCascade);
+         .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<OrderItem>()
                 .HasOne(o => o.OrderObj)
         .WithMany(c => c.Items)
-       
-        .OnDelete(DeleteBehavior.ClientCascade);
+        .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

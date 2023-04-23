@@ -12,7 +12,6 @@ namespace MedicalApp_BusinessLayer.Dto
     {
         public string? Message { get; set; }
         public DateTime Date { get; set; }
-        public string? ClinicId { get; set; }
         public Guid? ChatId { get; set; }
     }
 }
