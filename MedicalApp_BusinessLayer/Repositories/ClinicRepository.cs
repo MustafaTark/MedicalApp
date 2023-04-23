@@ -21,8 +21,19 @@ namespace MedicalApp_BusinessLayer.Repositories
             _filesManager= filesManager;
         }
 
-        public  void DeleteClinic(Clinic clinic)
-         =>Delete(clinic);
+        public void DeleteClinic(Clinic clinic)
+        {
+            var chats = _context.Chats.Where(c => c.ClinicId == clinic.Id).ToList();
+            var clinicMessages = new List<ClinicMessage>();
+            foreach (var chat in chats)
+            {
+                var messages = _context.ClinicMessages.Where(c => c.Id == chat.Id).ToList();
+                clinicMessages.AddRange(messages!);
+            }
+            _context.ClinicMessages.RemoveRange(clinicMessages);
+            _context.Chats.RemoveRange(chats);
+            Delete(clinic);
+        }
 
         public async Task<IEnumerable<Clinic>> GetAllClinics(ClinicParamters paramters)
          =>await FindAll(trackChanges: false).Include(c=>c.Dayes).Include(c=>c.CityObj)

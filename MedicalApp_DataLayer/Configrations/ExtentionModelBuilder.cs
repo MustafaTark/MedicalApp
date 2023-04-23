@@ -67,7 +67,7 @@ namespace MedicalApp_DataLayer.Configrations
             modelBuilder.Entity<Chat>()
      .HasOne(c => c.PatientObj)
      .WithMany(o => o.Chats)
-     .OnDelete(DeleteBehavior.NoAction);
+     .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<PatientMessage>()
      .HasOne(c => c.ChatObj)
      .WithMany(o => o.PatientMessages)

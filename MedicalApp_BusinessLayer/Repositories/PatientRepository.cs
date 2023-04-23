@@ -21,7 +21,18 @@ namespace MedicalApp_BusinessLayer.Repositories
         }
 
         public void DeletePatient(Patient patient)
-           => Delete(patient);
+        {
+            var chats= _context.Chats.Where(c => c.PatientId == patient.Id).ToList();
+            var patientMessages = new List<PatientMessage>();
+            foreach (var chat in chats)
+            {
+                var messages = _context.PatientMessages.Where(c=>c.Id == chat.Id).ToList();
+                patientMessages.AddRange(messages!);
+            }
+            _context.PatientMessages.RemoveRange(patientMessages);
+            _context.Chats.RemoveRange(chats);
+            Delete(patient);
+        }
 
         public async Task<Patient?> GetPatientByIdAsync(string id, bool trackChanges)
           => await FindByCondition(p=>p.Id==id,trackChanges).Include(p=>p.CityObj).FirstOrDefaultAsync();
