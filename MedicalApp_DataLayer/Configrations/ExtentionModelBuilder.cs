@@ -59,10 +59,10 @@ namespace MedicalApp_DataLayer.Configrations
       .WithMany(o => o.Reports)
       .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<Appointment>()
-     .HasOne(c => c.PatientObj)
-     .WithMany(o => o.Appointments)
-     .OnDelete(DeleteBehavior.NoAction);
+     //       modelBuilder.Entity<Appointment>()
+     //.HasOne(c => c.PatientObj)
+     //.WithMany(o => o.Appointments)
+     //.OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Chat>()
      .HasOne(c => c.PatientObj)

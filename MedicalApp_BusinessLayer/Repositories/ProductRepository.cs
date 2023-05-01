@@ -41,8 +41,10 @@ namespace MedicalApp_BusinessLayer.Repositories
             .ToListAsync();
         public void DeleteProduct(string pharmacyId, int productId)
         {
-            var product = _context.Pharmacies.Where(p => p.Id == pharmacyId).SingleOrDefault()!.Products.Where(o => o.ID == productId).FirstOrDefault();
-            _context.Pharmacies.Where(p => p.Id == pharmacyId).SingleOrDefault()!.Products.Remove(product!);
+            var pharmacy = _context.Pharmacies.Where(p => p.Id == pharmacyId).Include(p=>p.Products).SingleOrDefault()!;
+            var product = FindByCondition(o => o.ID == productId,trackChanges:true).FirstOrDefault();
+            pharmacy.Products.Remove(product!);
+            _context.SaveChanges();
         }
         public async Task<Product?> GetProductByIdAsync(int productId, bool trackChanges)
             => await FindByCondition(p => p.ID.Equals(productId), trackChanges)

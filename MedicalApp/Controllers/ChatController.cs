@@ -147,7 +147,7 @@ namespace MedicalApp.Controllers
             return Ok(chatsDto);
         }
         [HttpPost("PatientMessages")]
-        public async Task<IActionResult> PostPatientMessage(PatientMessageForCreationDto patientMessageDto)
+        public async Task<IActionResult> PostPatientMessage([FromBody]PatientMessageForCreationDto patientMessageDto)
         {
            if(!ModelState.IsValid)
             {

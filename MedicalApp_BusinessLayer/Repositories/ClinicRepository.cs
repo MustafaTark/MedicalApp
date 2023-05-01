@@ -36,14 +36,18 @@ namespace MedicalApp_BusinessLayer.Repositories
         }
 
         public async Task<IEnumerable<Clinic>> GetAllClinics(ClinicParamters paramters)
-         =>await FindAll(trackChanges: false).Include(c=>c.Dayes).Include(c=>c.CityObj)
+         =>await FindAll(trackChanges: false)
+            .Include(c=>c.Dayes)
+            .Include(c=>c.CityObj)
+            .Include(c=>c.CategoryObj)
             .Search(paramters.SearchTerm!,paramters.Category!,paramters.City!)
             .Skip((paramters.PageNumber - 1) * paramters.PageSize)
             .Take(paramters.PageSize)
             .ToListAsync();
 
         public async Task<Clinic?> GetClinicById(string clincId , bool trackChanges)
-          => await FindByCondition(c => c.Id == clincId, trackChanges).Include(c => c.CityObj)
+          => await FindByCondition(c => c.Id == clincId, trackChanges)
+            .Include(c => c.CityObj)
             .Include(c => c.CategoryObj)
             .Include(c=>c.Dayes).FirstOrDefaultAsync()!;
 

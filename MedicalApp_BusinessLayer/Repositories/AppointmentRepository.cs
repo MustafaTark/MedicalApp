@@ -30,7 +30,7 @@ namespace MedicalApp_BusinessLayer.Repositories
                                                  && a.Time.Equals(time)&& a.Date.Day == paramters.Day
                                                   , trackChanges: true).FirstOrDefaultAsync();
 
-            if (clinicAppointment is null&& patientAppointment is null)
+            if (clinicAppointment is null && patientAppointment is null)
             {
                 return true;
             }

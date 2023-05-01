@@ -335,7 +335,7 @@ namespace MedicalApp.Controllers
                 _logger.LogError($"Product with ID {productId} doesn't exist in the Pharamcy");
                 return NotFound($"Product with ID {productId} doesn't exist in the Pharamcy");
             }
-              _repository.Product.DeleteProduct(pharmacyId,productId);
+             _repository.Product.DeleteProduct(pharmacyId,productId);
             await _repository.SaveChanges();
             return NoContent();
         }
@@ -351,7 +351,7 @@ namespace MedicalApp.Controllers
             }
             var productsFromDb = await _repository.Product.GetPharmacyProducts(paramters,pharmacyId);
             var productsDto = _mapper.Map<IEnumerable<ProductDto>>(productsFromDb);
-            return Ok(productsFromDb);
+            return Ok(productsDto);
         }
         [HttpGet("OrderForPatient")]
         public async Task<IActionResult> GetOrdersForPatient(string patientId)
