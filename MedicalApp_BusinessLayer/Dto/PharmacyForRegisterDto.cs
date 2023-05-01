@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MedicalApp_DataLayer.Configrations;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace MedicalApp_BusinessLayer.Dto
         public string? Password { get; set; }
         public string? Email { get; set; }
         public string? PhoneNumber { get; set; }
+        [UniqueTxnNumber(ErrorMessage = "TxnNumber already exists.")]
         public string? TxnNumber { get; set; }
         public string? Name { get; set; }
         public string? Address { get; set; }

@@ -134,6 +134,19 @@ namespace MedicalApp.Controllers
             await _repository.SaveChanges();
             return NoContent();
         }
+        [HttpPut("Disable")]
+        public async Task<IActionResult> DisableClinic(string clinicId)
+        {
+            var clinic = await _repository.Clinic.GetClinicById(clinicId, trackChanges: false);
+            if (clinic is null)
+            {
+                _logger.LogInfo($"Clinic with id: {clinicId} doesn't exist in the database.");
+                return NotFound();
+            }
+           await _repository.Clinic.UpdateDisablityAction(clinicId);
+          
+            return Ok("Success");
+        }
         [HttpPost("ClinicDays")]
         public async Task<IActionResult> AddClinicDayes(string clinicId,
             [FromBody] List<ClinicDayForCreateDto> dayesDto)

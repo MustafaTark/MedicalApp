@@ -117,6 +117,19 @@ namespace MedicalApp.Controllers
             await _repository.SaveChanges();
             return NoContent();
         }
+        [HttpPut("Disable")]
+        public async Task<IActionResult> DisableClinic(string pharmacyId)
+        {
+            var pharmacy = await _repository.Pharmacy.GetPharmacyByIdAsync(pharmacyId, trackChanges: false);
+            if (pharmacy is null)
+            {
+                _logger.LogInfo($"Clinic with id: {pharmacyId} doesn't exist in the database.");
+                return NotFound();
+            }
+            await _repository.Pharmacy.UpdateDisablityAction(pharmacyId);
+
+            return Ok("Success");
+        }
         [HttpPost("Upload"), DisableRequestSizeLimit]
         public async Task<IActionResult> Upload(IFormFile file, string pharmacyId)
         {

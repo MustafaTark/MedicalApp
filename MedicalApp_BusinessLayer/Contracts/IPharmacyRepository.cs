@@ -17,6 +17,7 @@ namespace MedicalApp_BusinessLayer.Contracts
         void UploadImage(IFormFile file, string pharmacyId);
         FileStream GetImage(string pharmacyId);
         void AssignProductsForPharmacy(string pharmacyId, List<int> Ids);
+         Task UpdateDisablityAction(string pharmacyId);
 
 
     }

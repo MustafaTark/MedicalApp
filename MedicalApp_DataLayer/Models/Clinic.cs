@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.ComponentModel.DataAnnotations.Schema;
+using MedicalApp_DataLayer.Configrations;
 
 namespace MedicalApp_DataLayer.Models
 {
@@ -18,6 +19,7 @@ namespace MedicalApp_DataLayer.Models
     {
        
         [NotNull]
+        [UniqueTxnNumber(ErrorMessage = "TxnNumber already exists.")]
         public string? TxnNumber { get; set; }
         [NotNull]
         public string? DoctorName { get; set; }
@@ -26,6 +28,7 @@ namespace MedicalApp_DataLayer.Models
         public Category? CategoryObj { get; set; }
         public double Price { get; set; }
         public string? Description { get; set; }
+        public bool IsDisable { get; set; } = false;
         public ICollection<ClinicDayes> Dayes { get; set; }
         public ICollection<Appointment> Appointments { get; set; }
         public ICollection<Chat> Chats { get; set; }

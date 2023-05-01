@@ -66,5 +66,13 @@ namespace MedicalApp_BusinessLayer.Repositories
 
         public void UpdateClinic(Clinic clinic)
          => Update(clinic);
+        public async Task UpdateDisablityAction(string clinicId)
+        {
+          
+            var clinic = await FindByCondition(c => c.Id == clinicId, trackChanges: true).FirstOrDefaultAsync();
+            clinic!.IsDisable=!clinic.IsDisable;
+           await _context.SaveChangesAsync();
+          
+        }
     }
 }

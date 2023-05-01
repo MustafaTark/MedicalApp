@@ -57,6 +57,15 @@ namespace MedicalApp_BusinessLayer.Repositories
             }
         }
 
+        public async Task UpdateDisablityAction(string pharmacyId)
+        {
+
+            var pharmacy = await FindByCondition(c => c.Id == pharmacyId, trackChanges: true).FirstOrDefaultAsync();
+            pharmacy!.IsDisable = !pharmacy.IsDisable;
+            await _context.SaveChangesAsync();
+
+        }
+
 
     }
 }

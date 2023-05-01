@@ -17,5 +17,6 @@ namespace MedicalApp_BusinessLayer.Dto
         public string? Address { get; set; }
         public City? CityObj { get; set; }
         public string? Region { get; set; }
+        public bool IsDisable { get; set; }
     }
 }

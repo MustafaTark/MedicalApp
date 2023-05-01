@@ -22,6 +22,7 @@ namespace MedicalApp_BusinessLayer.Dto
         public ICollection<ClinicDayDto>? Dayes { get; set; }
         public string? Address { get; set; }
         public City? CityObj { get; set; }
+        public bool IsDisable { get; set; }
         public string? Region { get; set; }
     }
 }

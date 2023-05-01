@@ -15,6 +15,7 @@ namespace MedicalApp_BusinessLayer.Contracts
         Task<Clinic?> GetClinicById(string id , bool trackChanges);
         void DeleteClinic(Clinic clinic);
         void UpdateClinic(Clinic clinic);
+         Task UpdateDisablityAction(string clinicId);
         void UploadImage(IFormFile fil,string clinicId);
         FileStream GetImage(string clinicId);
     }
