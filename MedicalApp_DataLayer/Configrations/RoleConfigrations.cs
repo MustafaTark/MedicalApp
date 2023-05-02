@@ -16,7 +16,8 @@ namespace MedicalApp_DataLayer.Configrations
             builder.HasData(
                 new IdentityRole { Name = "Patient", NormalizedName = "PATIENT" },
                 new IdentityRole { Name = "Clinic", NormalizedName = "CLINIC" }, 
-                new IdentityRole { Name = "Pharmacy", NormalizedName = "PHARMACY" }
+                new IdentityRole { Name = "Pharmacy", NormalizedName = "PHARMACY" },
+                new IdentityRole { Name = "Admin", NormalizedName = "ADMIN" }
                 );
         }
     }

@@ -36,7 +36,6 @@ namespace MedicalApp.Controllers
             _repository = repository;
         }
         [HttpPost]
-
         public async Task<IActionResult> RegisterUser([FromBody] PatientForRegisterDto userForRegistration)
         {
             var user = _mapper.Map<Patient>(userForRegistration);

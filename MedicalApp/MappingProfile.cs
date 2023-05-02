@@ -61,6 +61,7 @@ namespace MedicalApp
             CreateMap<City, CityDto>();
             CreateMap<Chat, ChatDto>();
 
+            CreateMap<AdminForRegisterDto, User>();
         }
     }
 }

@@ -104,6 +104,8 @@ namespace MedicalApp.Extentions
             services.AddScoped<RepositoryBase<Order>, OrderRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IReportRepository, ReportRepository>();
+            services.AddScoped<IRepositoryBase<User>, AdminRepository>();
+            services.AddScoped<IAdminRepository, AdminRepository>();
 
         }
        
