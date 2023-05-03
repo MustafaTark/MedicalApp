@@ -57,7 +57,12 @@ namespace MedicalApp.Controllers
                 _logger.LogWarn($"{nameof(Authenticate)}: Authentication failed. Wrong user name or password.");
                 return Unauthorized();
             }
+            
+        
             var patient = await _userAdminManager.FindByNameAsync(user.UserName!);
+            var useradmin =await  _userAdminManager.IsInRoleAsync(patient!,"Admin");
+            if(!useradmin)
+                return NotFound();
             return Ok(
             new
             {
