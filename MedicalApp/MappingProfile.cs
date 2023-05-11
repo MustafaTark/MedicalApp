@@ -48,8 +48,8 @@ namespace MedicalApp
 
             CreateMap<Pharmacy, PharmacyDto>().ReverseMap();
             CreateMap<PharmacyForUpdateDto, Pharmacy>();
-            CreateMap<ProductForCreateDto, Product>().ReverseMap();
-            CreateMap<Product, ProductDto>().ReverseMap();
+            CreateMap<ProductForCreateDto, Product>();
+            CreateMap<Product, ProductDto>();
 
             CreateMap<Order, OrderDto>().ReverseMap();
             CreateMap<OrderForCreateDto, Order>();
@@ -60,6 +60,9 @@ namespace MedicalApp
 
             CreateMap<City, CityDto>();
             CreateMap<Chat, ChatDto>();
+
+            CreateMap<CategoryForCreateDto, Category>();
+            CreateMap<Category, CategoryDto>();
 
             CreateMap<AdminForRegisterDto, User>();
         }

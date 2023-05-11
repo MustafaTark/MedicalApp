@@ -74,5 +74,6 @@ namespace MedicalApp_BusinessLayer.Repositories
                 .FirstOrDefault()!.ImageUrl;
             return _filesManager.GetFile(image!);
         }
+        public void CreateProduct(Product product) => Create(product);
     }
 }
