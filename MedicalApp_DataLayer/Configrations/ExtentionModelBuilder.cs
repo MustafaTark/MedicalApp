@@ -115,6 +115,10 @@ namespace MedicalApp_DataLayer.Configrations
                 .HasOne(o => o.OrderObj)
         .WithMany(c => c.Items)
         .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<OrderItem>()
+               .HasOne(o => o.Product)
+       .WithMany(c => c.OrderItems)
+       .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

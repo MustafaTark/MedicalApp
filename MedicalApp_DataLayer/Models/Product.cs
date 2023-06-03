@@ -15,9 +15,11 @@ namespace MedicalApp_DataLayer.Models
         public double Price { get; set;}
         public string? ImageUrl { get; set; }
         public ICollection<Pharmacy> Pharmacies { get; set; }
+        public ICollection<OrderItem> OrderItems { get; set; }
         public Product()
         {
             Pharmacies = new List<Pharmacy>();
+            OrderItems = new List<OrderItem>();
         }
     }
 }
