@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MedicalApp_DataLayer.Models
+namespace MedicalApp_BusinessLayer.Dto
 {
-    public class Category
+    public class CategoryDto
     {
         public int Id { get; set; }
         public string? Name { get; set; }

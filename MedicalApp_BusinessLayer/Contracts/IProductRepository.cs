@@ -14,6 +14,7 @@ namespace MedicalApp_BusinessLayer.Contracts
        
 
         void AddProductsToPharmacy(string pharmacyId, List<Product> product);
+        void CreateProduct(Product product);
         Task<IEnumerable<Product?>> GetAllProductsAsync(ProductParamters paramters, bool trackChanges);
         Task<Product?> GetProductByIdAsync(int productId, bool trackChanges);
         void DeleteProduct(string pharmacyId, int productId);

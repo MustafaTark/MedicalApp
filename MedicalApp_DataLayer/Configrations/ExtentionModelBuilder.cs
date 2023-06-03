@@ -22,6 +22,8 @@ namespace MedicalApp_DataLayer.Configrations
             modelBuilder.Entity<Clinic>().HasIndex(c => c.DoctorName);
             modelBuilder.Entity<Clinic>().HasIndex(c => c.Name);
             modelBuilder.Entity<Pharmacy>().HasIndex(p => p.TxnNumber).IsUnique();
+            modelBuilder.Entity<Product>().HasIndex(p => p.Name).IsUnique();
+            modelBuilder.Entity<Category>().HasIndex(p => p.Name).IsUnique();
         }
         public static void AddInhertanceTaples(this ModelBuilder modelBuilder)
         {

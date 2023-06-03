@@ -6,6 +6,8 @@ using MedicalApp_DataLayer.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 
 namespace MedicalApp.Controllers
 {
@@ -100,6 +102,73 @@ namespace MedicalApp.Controllers
                 return NotFound("There are no patients in the system yet");
             }
             return Ok(pharmaciesCount);
+        }
+        [HttpPost("Products")]
+        public async Task<IActionResult> AddProduct([FromBody] ProductForCreateDto productDto)
+        {
+            if (productDto == null)
+            {
+                _logger.LogError("ProductForCreateDto object sent from client is null");
+                return BadRequest("ProductForCreateDto object sent from client is null");
+            }
+            try { 
+            var productEntity = _mapper.Map<Product>(productDto);
+            _repository.Product.CreateProduct(productEntity);
+            await _repository.SaveChanges();
+            var productToReturn = _mapper.Map<ProductDto>(productEntity);
+            return Ok(productToReturn);
+            }
+            catch (DbUpdateException ex)
+            {
+                if (ex.InnerException is SqlException sqlEx && sqlEx.Number == 2601)
+                {
+                    return Conflict(new { message = "A Product with the same name already exists." });
+                }
+                else
+                {
+                    return StatusCode(400, new { message = "An error occurred while creating the topic." });
+                }
+            }
+        }
+        [HttpPost("Category")]
+        public async Task<IActionResult> AddCategory([FromBody] CategoryForCreateDto categoryDto)
+        {
+            if (categoryDto == null)
+            {
+                _logger.LogError("CategoryForCreateDto object sent from client is null");
+                return BadRequest("CategoryForCreateDto object sent from client is null");
+            }
+            try
+            {
+                var categoryEntity = _mapper.Map<Category>(categoryDto);
+                _repository.Admin.CreateCategory(categoryEntity);
+                await _repository.SaveChanges();
+                var categoryToReturn = _mapper.Map<CategoryDto>(categoryEntity);
+                return Ok(categoryToReturn);
+            }
+            catch (DbUpdateException ex)
+            {
+                if (ex.InnerException is SqlException sqlEx && sqlEx.Number == 2601)
+                {
+                    return Conflict(new { message = "A Category with the same name already exists." });
+                }
+                else
+                {
+                    return StatusCode(400, new { message = "An error occurred while creating the topic." });
+                }
+            }
+        }
+        [HttpGet("Categories")]
+        public async Task<IActionResult> GetAllCategories()
+        {
+            var categories = await _repository.Admin.GetAllCategories(trackChanges: false);
+            if(categories == null)
+            {
+                _logger.LogInfo("There are no categories inserted in the database yet");
+                return NotFound("There are no categories inserted in the database yet");
+            }
+            var categoryEntities = _mapper.Map<IEnumerable<CategoryDto>>(categories);
+            return Ok(categoryEntities);
         }
     }
 }
