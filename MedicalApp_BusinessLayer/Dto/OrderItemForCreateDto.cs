@@ -11,5 +11,6 @@ namespace MedicalApp_BusinessLayer.Dto
         public double Total { get; set; }
         public int Quntity { get; set; }
         public double Price { get; set; }
+        public int ProductId { get; set; }
     }
 }

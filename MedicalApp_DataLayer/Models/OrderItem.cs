@@ -14,6 +14,9 @@ namespace MedicalApp_DataLayer.Models
         public int Quntity { get; set; }
         public double Price { get; set; }
         public string? ImageUrl { get; set; }
+        [ForeignKey(nameof(Models.Product))]
+        public int ProductId { get; set; }
+        public Product? Product { get; set; }
         [ForeignKey(nameof(Order))]
         public int OrderId { get; set; }
         public Order? OrderObj { get; set; }
