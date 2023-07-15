@@ -35,7 +35,7 @@ namespace MedicalApp_BusinessLayer.Services
         }
         private SigningCredentials GetSigningCredentials()
         {
-            var key = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("SECRET")!);
+            var key = Encoding.UTF8.GetBytes("AppSchedulerSecretKey");
             var secret = new SymmetricSecurityKey(key);
             return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
         }
@@ -53,12 +53,12 @@ namespace MedicalApp_BusinessLayer.Services
         }
         private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)
         {
-            var jwtSettings = _configuration.GetSection("JwtSettings");
+            //var jwtSettings = _configuration.GetSection("JwtSettings");
             var tokenOptions = new JwtSecurityToken(
-                issuer: jwtSettings.GetSection("validIssuer").Value,
-                audience: jwtSettings.GetSection("validAudience").Value,
+                issuer: "MedicalAppAPI",
+                audience: "http://youssef9-001-site1.gtempurl.com",
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(Convert.ToDouble(jwtSettings.GetSection("expires").Value)),
+                expires: DateTime.Now.AddMinutes(Convert.ToDouble(5)),
                 signingCredentials: signingCredentials
                 );
             return tokenOptions;

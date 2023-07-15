@@ -48,7 +48,7 @@ namespace MedicalApp.Extentions
         public static void ConfigureJwt(this IServiceCollection services,IConfiguration configuration)
         {
             var jwtSettings = configuration.GetSection("JwtSettings");
-            var secretKey = configuration.GetSection("SECRET").Value;
+            var secretKey = "AppSchedulerSecretKey";
             services.AddAuthentication(opt =>
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -58,16 +58,16 @@ namespace MedicalApp.Extentions
                 .AddJwtBearer(
                 options =>
                 {
-                    //options.TokenValidationParameters = new TokenValidationParameters
-                    //{
-                    //    ValidateIssuer = true,
-                    //    ValidateAudience = true,
-                    //    ValidateLifetime = true,
-                    //    ValidateIssuerSigningKey = true,
-                    //    ValidIssuer = jwtSettings.GetSection("validIssuer").Value,
-                    //    ValidAudience = jwtSettings.GetSection("validAudience").Value
-                    //   // IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey!))
-                    //};
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = "MedicalAppAPI",
+                        ValidAudience = "http://youssef9-001-site1.gtempurl.com",
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey!))
+                    };
                 })
                 .AddMicrosoftIdentityWebApi(configuration.GetSection("AzureAd"), "jwtBearerScheme2");
 
