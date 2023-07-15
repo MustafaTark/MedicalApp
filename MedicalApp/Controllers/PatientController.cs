@@ -17,19 +17,19 @@ namespace MedicalApp.Controllers
     [EnableCors("_myAllowSpecificOrigins")]
     public class PatientController : ControllerBase
     {
-        private readonly ILoggerManager _logger;
+       // private readonly ILoggerManager _logger;
         private readonly IMapper _mapper;
         private readonly UserManager<Patient> _userPatientManager;
         private readonly IAuthenticationManager _authManager;
         private  IRepositoryManager _repository;
         public PatientController(
-            ILoggerManager logger,
+          //  ILoggerManager logger,
             IMapper mapper,
             UserManager<Patient> userPatientManager,
             IAuthenticationManager authManager,
             IRepositoryManager repository)
         {
-            _logger = logger;
+            //_logger = logger;
             _mapper = mapper;
             _userPatientManager = userPatientManager;
             _authManager = authManager;
@@ -57,7 +57,7 @@ namespace MedicalApp.Controllers
         {
             if (!await _authManager.ValidateUser(user))
             {
-                _logger.LogWarn($"{nameof(Authenticate)}: Authentication failed. Wrong user name or password.");
+               // _logger.LogWarn($"{nameof(Authenticate)}: Authentication failed. Wrong user name or password.");
                 return Unauthorized();
             }
             var patient = await _userPatientManager.FindByNameAsync(user.UserName!);
@@ -75,7 +75,7 @@ namespace MedicalApp.Controllers
             var patient=await _repository.Patient.GetPatientByIdAsync(patientId, trackChanges: false);
             if(patient is null)
             {
-                _logger.LogInfo($"Patient with id: {patientId} doesn't exist in the database.");
+               // _logger.LogInfo($"Patient with id: {patientId} doesn't exist in the database.");
                 return NotFound();
             }
             var patientDto=_mapper.Map<PatientDto>(patient);
@@ -87,7 +87,7 @@ namespace MedicalApp.Controllers
             var patient =await _repository.Patient.GetPatientByIdAsync(patientId, trackChanges: false);
             if (patient is null)
             {
-                _logger.LogInfo($"Patient with id: {patientId} doesn't exist in the database.");
+               // _logger.LogInfo($"Patient with id: {patientId} doesn't exist in the database.");
                 return NotFound();
             }
             _repository.Patient.DeletePatient(patient);
@@ -100,13 +100,13 @@ namespace MedicalApp.Controllers
             var patient = await  _repository.Patient.GetPatientByIdAsync(appointmentDto.PatiantId!, trackChanges: false);
             if (patient is null)
             {
-                _logger.LogInfo($"Patient with id: {appointmentDto.PatiantId} doesn't exist in the database.");
+               // _logger.LogInfo($"Patient with id: {appointmentDto.PatiantId} doesn't exist in the database.");
                 return NotFound();
             }
             var clinic = await  _repository.Clinic.GetClinicById(appointmentDto.ClinicId!, trackChanges: false);
             if(clinic is null)
             {
-                _logger.LogInfo($"Clinic with id: {appointmentDto.ClinicId} doesn't exist in the database.");
+               // _logger.LogInfo($"Clinic with id: {appointmentDto.ClinicId} doesn't exist in the database.");
                 return NotFound();
             }
            
@@ -123,13 +123,13 @@ namespace MedicalApp.Controllers
             var patient = await _repository.Patient.GetPatientByIdAsync(paramters.PatientId!, trackChanges: false);
             if (patient is null)
             {
-                _logger.LogInfo($"Patient with id: {paramters.PatientId} doesn't exist in the database.");
+               // _logger.LogInfo($"Patient with id: {paramters.PatientId} doesn't exist in the database.");
                 return NotFound();
             }
             var clinic = await _repository.Clinic.GetClinicById(paramters.ClinicId! , trackChanges: false);
             if (clinic is null)
             {
-                _logger.LogInfo($"Clinic with id: {paramters.ClinicId} doesn't exist in the database.");
+               // _logger.LogInfo($"Clinic with id: {paramters.ClinicId} doesn't exist in the database.");
                 return NotFound();
             }
             try
@@ -156,13 +156,13 @@ namespace MedicalApp.Controllers
         {
             if(id.ToString().IsNullOrEmpty())
             {
-                _logger.LogInfo($" id is null");
+              //  _logger.LogInfo($" id is null");
                 return BadRequest();
             }
             var appointment=await _repository.Appointment.GetAppointmentByIdAsync(id);
             if(appointment is null)
             {
-                _logger.LogInfo($"Appointment with id: {id} doesn't exist in the database.");
+               // _logger.LogInfo($"Appointment with id: {id} doesn't exist in the database.");
                 return NotFound();
             }
             var appointmentDto=_mapper.Map<AppointmentDto>(appointment);
@@ -174,7 +174,7 @@ namespace MedicalApp.Controllers
             var clinic = await _repository.Patient.GetPatientByIdAsync(patientId, trackChanges: true);
             if (clinic is null)
             {
-                _logger.LogInfo($"Clinic with id: {patientId} doesn't exist in the database.");
+               // _logger.LogInfo($"Clinic with id: {patientId} doesn't exist in the database.");
                 return NotFound();
             }
             var appointments = await _repository.Appointment.GetAllAppointmentsToPatientAsync(patientId);
@@ -186,13 +186,13 @@ namespace MedicalApp.Controllers
         {
             if (clinicId.IsNullOrEmpty())
             {
-                _logger.LogInfo("Clinic Id is null");
+               // _logger.LogInfo("Clinic Id is null");
                 return BadRequest("Clinic Id is null");
             }
             var clinic = await _repository.Clinic.GetClinicById(clinicId, trackChanges: false);
             if (clinic is null)
             {
-                _logger.LogInfo($"Clinic with id: {clinicId} doesn't exist in the database.");
+              //  _logger.LogInfo($"Clinic with id: {clinicId} doesn't exist in the database.");
                 return NotFound();
             }
             var rate = _mapper.Map<Rate>(rateDto);
@@ -205,24 +205,24 @@ namespace MedicalApp.Controllers
         {
             if (clinicId.IsNullOrEmpty())
             {
-                _logger.LogInfo("Clinic Id is null");
+               // _logger.LogInfo("Clinic Id is null");
                 return BadRequest("Clinic Id is null");
             }
             var clinic = await _repository.Clinic.GetClinicById(clinicId, trackChanges: false);
             if (clinic is null)
             {
-                _logger.LogInfo($"Clinic with id: {clinicId} doesn't exist in the database.");
+                //_logger.LogInfo($"Clinic with id: {clinicId} doesn't exist in the database.");
                 return NotFound();
             }
             if (patientId.IsNullOrEmpty())
             {
-                _logger.LogInfo("Patient Id is null");
+               // _logger.LogInfo("Patient Id is null");
                 return BadRequest("Patient Id is null");
             }
             var patient = await _repository.Patient.GetPatientByIdAsync(patientId, trackChanges: false);
             if (patient is null)
             {
-                _logger.LogInfo($"Patient with id: {patientId} doesn't exist in the database.");
+                //_logger.LogInfo($"Patient with id: {patientId} doesn't exist in the database.");
                 return NotFound();
             }
            await _repository.RateRepository.UpdateRate(patientId,clinicId, newNumber);
@@ -234,24 +234,23 @@ namespace MedicalApp.Controllers
         {
             if (clinicId.IsNullOrEmpty())
             {
-                _logger.LogInfo("Clinic Id is null");
+               // _logger.LogInfo("Clinic Id is null");
                 return BadRequest("Clinic Id is null");
             }
             var clinic = await _repository.Clinic.GetClinicById(clinicId, trackChanges: false);
             if (clinic is null)
             {
-                _logger.LogInfo($"Clinic with id: {clinicId} doesn't exist in the database.");
+               // _logger.LogInfo($"Clinic with id: {clinicId} doesn't exist in the database.");
                 return NotFound();
             }
             if (patientId.IsNullOrEmpty())
             {
-                _logger.LogInfo("Patient Id is null");
+//_logger.LogInfo("Patient Id is null");
                 return BadRequest("Patient Id is null");
             }
             var patient = await _repository.Patient.GetPatientByIdAsync(patientId, trackChanges: false);
             if (patient is null)
             {
-                _logger.LogInfo($"Patient with id: {patientId} doesn't exist in the database.");
                 return NotFound();
             }
             int number = await _repository.RateRepository.GetSingleRateToPatient(patientId, clinicId);
@@ -263,13 +262,13 @@ namespace MedicalApp.Controllers
             
             if (patientId.IsNullOrEmpty())
             {
-                _logger.LogInfo("Patient Id is null");
+              //  _logger.LogInfo("Patient Id is null");
                 return BadRequest("Patient Id is null");
             }
             var patient = await _repository.Patient.GetPatientByIdAsync(patientId, trackChanges: false);
             if (patient is null)
             {
-                _logger.LogInfo($"Patient with id: {patientId} doesn't exist in the database.");
+               // _logger.LogInfo($"Patient with id: {patientId} doesn't exist in the database.");
                 return NotFound();
             }
             try
@@ -296,13 +295,13 @@ namespace MedicalApp.Controllers
         {
             if (patientId.IsNullOrEmpty())
             {
-                _logger.LogInfo("Patient Id is null");
+               // _logger.LogInfo("Patient Id is null");
                 return BadRequest("Patient Id is null");
             }
             var patient = await _repository.Patient.GetPatientByIdAsync(patientId, trackChanges: false);
             if (patient is null)
             {
-                _logger.LogInfo($"Patient with id: {patientId} doesn't exist in the database.");
+               // _logger.LogInfo($"Patient with id: {patientId} doesn't exist in the database.");
                 return NotFound();
             }
             var fileStream = _repository.Patient.GetImage(patientId);
@@ -313,14 +312,14 @@ namespace MedicalApp.Controllers
         {
             if (patientId.IsNullOrEmpty())
             {
-                _logger.LogInfo("Patient Id is null");
+               // _logger.LogInfo("Patient Id is null");
                 return BadRequest("Patient Id is null");
 
             }
             var patient = await _repository.Patient.GetPatientByIdAsync(patientId, trackChanges: false);
             if (patient is null)
             {
-                _logger.LogInfo($"Patient With ID: {patientId} doesn't exist in the database");
+               // _logger.LogInfo($"Patient With ID: {patientId} doesn't exist in the database");
                 return NotFound();
             }
             var report = await _repository.Report.GetAllReportsForPatient(patientId, trackChanges: false);
@@ -332,13 +331,13 @@ namespace MedicalApp.Controllers
         {
             if (reportId.ToString().IsNullOrEmpty())
             {
-                _logger.LogInfo($"Report with ID: {reportId} is null");
+               // _logger.LogInfo($"Report with ID: {reportId} is null");
                 return BadRequest();
             }
             var report = await _repository.Report.GetReportById(reportId, trackChanges: false);
             if (report is null)
             {
-                _logger.LogInfo($"Report with ID: {reportId} doesn't exist in the database.");
+              //  _logger.LogInfo($"Report with ID: {reportId} doesn't exist in the database.");
                 return NotFound();
             }
             var reportDto = _mapper.Map<ReportDto>(report);
@@ -349,19 +348,19 @@ namespace MedicalApp.Controllers
         {
             if (patientId.IsNullOrEmpty())
             {
-                _logger.LogInfo("Clinic Id is null");
+              //  _logger.LogInfo("Clinic Id is null");
                 return BadRequest("Clinic Id is null");
 
             }
             var patientDb = await _repository.Patient.GetPatientByIdAsync(patientId, trackChanges: true);
             if (patientDb is null)
             {
-                _logger.LogInfo($"Patient With ID: {patientDb} doesn't exist in the database");
+              //  _logger.LogInfo($"Patient With ID: {patientDb} doesn't exist in the database");
                 return NotFound();
             }
             if (patientDto is null)
             {
-                _logger.LogInfo($"ModelState Is not Valid {ModelState}");
+               // _logger.LogInfo($"ModelState Is not Valid {ModelState}");
                 return BadRequest(ModelState);
             }
             _mapper.Map(patientDto, patientDb);

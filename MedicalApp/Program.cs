@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Identity.Web;
-using NLog;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -37,7 +36,7 @@ builder.Services.ConfigureIdentity<Patient>();
 builder.Services.ConfigureIdentity<Pharmacy>();
 builder.Services.ConfigureJwt(builder.Configuration);
 builder.Services.AddSignalR();
-LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config.xml"));
+//LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config.xml"));
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddControllers().AddJsonOptions(
   opt=>
@@ -52,11 +51,11 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment()||app.Environment.IsProduction())
+//{
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+//}
 
 //ILoggerManager logger = new LoggerManager();
 //app.ConfigureExceptionHandler(logger);

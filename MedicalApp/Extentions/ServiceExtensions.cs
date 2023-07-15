@@ -48,7 +48,7 @@ namespace MedicalApp.Extentions
         public static void ConfigureJwt(this IServiceCollection services,IConfiguration configuration)
         {
             var jwtSettings = configuration.GetSection("JwtSettings");
-            var secretKey = Environment.GetEnvironmentVariable("SECRET");
+            var secretKey = configuration.GetSection("SECRET").Value;
             services.AddAuthentication(opt =>
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -58,16 +58,16 @@ namespace MedicalApp.Extentions
                 .AddJwtBearer(
                 options =>
                 {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidIssuer = jwtSettings.GetSection("validIssuer").Value,
-                        ValidAudience = jwtSettings.GetSection("validAudience").Value,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey!))
-                    };
+                    //options.TokenValidationParameters = new TokenValidationParameters
+                    //{
+                    //    ValidateIssuer = true,
+                    //    ValidateAudience = true,
+                    //    ValidateLifetime = true,
+                    //    ValidateIssuerSigningKey = true,
+                    //    ValidIssuer = jwtSettings.GetSection("validIssuer").Value,
+                    //    ValidAudience = jwtSettings.GetSection("validAudience").Value
+                    //   // IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey!))
+                    //};
                 })
                 .AddMicrosoftIdentityWebApi(configuration.GetSection("AzureAd"), "jwtBearerScheme2");
 
@@ -104,8 +104,8 @@ namespace MedicalApp.Extentions
             services.AddScoped<RepositoryBase<Order>, OrderRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IReportRepository, ReportRepository>();
-            services.AddScoped<IRepositoryBase<User>, AdminRepository>();
-            services.AddScoped<IAdminRepository, AdminRepository>();
+            //services.AddScoped<IRepositoryBase<User>, AdminRepository>();
+            //services.AddScoped<IAdminRepository, AdminRepository>();
 
         }
        

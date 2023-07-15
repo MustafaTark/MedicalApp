@@ -29,7 +29,7 @@ namespace MedicalApp_BusinessLayer.Repositories
         private IProductRepository _product;
         private IOrderRepository _order;
         private IReportRepository _report;
-        private IAdminRepository _admin;
+        //private IAdminRepository _admin;
         public RepositoryManager(IAppointmentRepository appointment,
             IClinicRepository clinic,
             AppDbContext context,
@@ -43,8 +43,8 @@ namespace MedicalApp_BusinessLayer.Repositories
            IPharmacyRepository pharmacy,
            IProductRepository product,
            IOrderRepository order,
-           IReportRepository report,
-           IAdminRepository admin
+           IReportRepository report
+           //IAdminRepository admin
 
             )
         {
@@ -65,7 +65,7 @@ namespace MedicalApp_BusinessLayer.Repositories
             _pharmacy= pharmacy;
             _product= product;
             _report= report;
-            _admin= admin;
+            //_admin= admin;
             
         }
         public IAppointmentRepository Appointment
@@ -97,15 +97,15 @@ namespace MedicalApp_BusinessLayer.Repositories
                 return _Patient;
             }
         }
-        public IAdminRepository Admin
-        {
-            get
-            {
-                if (_admin is null)
-                    _admin = new AdminRepository(_context, _filesManager);
-                return _admin;
-            }
-        }
+        //public IAdminRepository Admin
+        //{
+        //    get
+        //    {
+        //        if (_admin is null)
+        //            _admin = new AdminRepository(_context, _filesManager);
+        //        return _admin;
+        //    }
+        //}
         public IClinicDaysRepository ClinicDays
         {
             get

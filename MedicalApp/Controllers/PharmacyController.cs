@@ -18,19 +18,19 @@ namespace MedicalApp.Controllers
     [EnableCors("_myAllowSpecificOrigins")]
     public class PharmacyController : ControllerBase
     {
-        private readonly ILoggerManager _logger;
+       // private readonly ILoggerManager _logger;
         private readonly IMapper _mapper;
         private readonly UserManager<Pharmacy> _userPharmacyManager;
         private readonly IAuthenticationManager _authManager;
         private readonly IRepositoryManager _repository;
         public PharmacyController(
-            ILoggerManager logger,
+           // ILoggerManager logger,
             IMapper mapper,
             UserManager<Pharmacy> userPharmacyManager,
             IAuthenticationManager authManager,
             IRepositoryManager repository)
         {
-            _logger = logger;
+           // _logger = logger;
             _mapper = mapper;
             _userPharmacyManager = userPharmacyManager;
             _authManager = authManager;
@@ -59,7 +59,7 @@ namespace MedicalApp.Controllers
         {
             if (!await _authManager.ValidateUser(user))
             {
-                _logger.LogWarn($"{nameof(Authenticate)}: Authentication failed. Wrong user name or password.");
+              //  _logger.LogWarn($"{nameof(Authenticate)}: Authentication failed. Wrong user name or password.");
                 return Unauthorized();
             }
             var pharmacy = await _userPharmacyManager.FindByNameAsync(user.UserName!);
@@ -83,7 +83,7 @@ namespace MedicalApp.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong in the {nameof(GetPharmacies)} action {ex}");
+              //  _logger.LogError($"Something went wrong in the {nameof(GetPharmacies)} action {ex}");
                 return StatusCode(500, "Internal Server Error!");
             }
         }
@@ -92,13 +92,13 @@ namespace MedicalApp.Controllers
         {
             if (pharmacyId.IsNullOrEmpty())
             {
-                _logger.LogInfo("Pharmacy ID is null!");
+              //  _logger.LogInfo("Pharmacy ID is null!");
                 return BadRequest("Pharmacy ID is null");
             }
             var pharmacy = await _repository.Pharmacy.GetPharmacyByIdAsync(pharmacyId, trackChanges: false);
             if (pharmacy is null)
             {
-                _logger.LogInfo($"Pharmacy with id: {pharmacyId} doesn't exist in the database.");
+              //  _logger.LogInfo($"Pharmacy with id: {pharmacyId} doesn't exist in the database.");
                 return NotFound();
             }
             var pharmacyDto = _mapper.Map<PharmacyDto>(pharmacy);
@@ -110,7 +110,7 @@ namespace MedicalApp.Controllers
             var pharmacy = await _repository.Pharmacy.GetPharmacyByIdAsync(pharmacyId, trackChanges: false);
             if (pharmacy is null)
             {
-                _logger.LogInfo($"Pharmacy with id: {pharmacyId} doesn't exist in the database.");
+               // _logger.LogInfo($"Pharmacy with id: {pharmacyId} doesn't exist in the database.");
                 return NotFound();
             }
             _repository.Pharmacy.DeletePharmacy(pharmacy);
@@ -123,7 +123,7 @@ namespace MedicalApp.Controllers
             var pharmacy = await _repository.Pharmacy.GetPharmacyByIdAsync(pharmacyId, trackChanges: false);
             if (pharmacy is null)
             {
-                _logger.LogInfo($"Clinic with id: {pharmacyId} doesn't exist in the database.");
+               // _logger.LogInfo($"Clinic with id: {pharmacyId} doesn't exist in the database.");
                 return NotFound();
             }
             await _repository.Pharmacy.UpdateDisablityAction(pharmacyId);
@@ -135,13 +135,13 @@ namespace MedicalApp.Controllers
         {
             if (pharmacyId.IsNullOrEmpty())
             {
-                _logger.LogInfo("Pharmacy Id  is null");
+               // _logger.LogInfo("Pharmacy Id  is null");
                 return BadRequest("Pharmacy Id is null");
             }
             var pharmacy = await _repository.Pharmacy.GetPharmacyByIdAsync(pharmacyId, trackChanges: false);
             if (pharmacy is null)
             {
-                _logger.LogInfo($"Pharmacy with ID: {pharmacyId} doesn't exist in the database.");
+               // _logger.LogInfo($"Pharmacy with ID: {pharmacyId} doesn't exist in the database.");
                 return NotFound();
             }
             try
@@ -168,13 +168,13 @@ namespace MedicalApp.Controllers
         {
             if (pharmacyId.IsNullOrEmpty())
             {
-                _logger.LogInfo("Pharmacy Id is null");
+               // _logger.LogInfo("Pharmacy Id is null");
                 return BadRequest("Pharmacy Id is null");
             }
             var pharmacy = await _repository.Pharmacy.GetPharmacyByIdAsync(pharmacyId, trackChanges: false);
             if (pharmacy is null)
             {
-                _logger.LogInfo($"Pharmacy with ID: {pharmacyId} doesn't exist in the database.");
+               // _logger.LogInfo($"Pharmacy with ID: {pharmacyId} doesn't exist in the database.");
                 return NotFound();
             }
             var fileStream = _repository.Pharmacy.GetImage(pharmacyId);
@@ -191,7 +191,7 @@ namespace MedicalApp.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went Wrong in the {nameof(GetAllProducts)} Action: {ex}");
+               // _logger.LogError($"Something went Wrong in the {nameof(GetAllProducts)} Action: {ex}");
                 return StatusCode(500, "Internal Server Error!");
             }
         }
@@ -201,13 +201,13 @@ namespace MedicalApp.Controllers
         {
             if ( productId is 0)
             {
-                _logger.LogInfo("Product ID is null!");
+               // _logger.LogInfo("Product ID is null!");
                 return BadRequest("Product ID is null");
             }
             var product = await _repository.Product.GetProductByIdAsync(productId, trackChanges: false);
             if (product is null)
             {
-                _logger.LogInfo($"Product with id: {productId} doesn't exist in the database.");
+               // _logger.LogInfo($"Product with id: {productId} doesn't exist in the database.");
                 return NotFound();
             }
             var productDto = _mapper.Map<ProductDto>(product);
@@ -237,13 +237,13 @@ namespace MedicalApp.Controllers
         {
             if (productId == 0)
             {
-                _logger.LogInfo("Prodcut Id  is null");
+               // _logger.LogInfo("Prodcut Id  is null");
                 return BadRequest("Product Id is null");
             }
             var product = await _repository.Product.GetProductByIdAsync(productId, trackChanges: false);
             if (product is null)
             {
-                _logger.LogInfo($"Product with ID: {productId} doesn't exist in the database.");
+               // _logger.LogInfo($"Product with ID: {productId} doesn't exist in the database.");
                 return NotFound();
             }
             try
@@ -270,13 +270,13 @@ namespace MedicalApp.Controllers
         {
             if (productId == 0)
             {
-                _logger.LogInfo("Product Id is null");
+               // _logger.LogInfo("Product Id is null");
                 return BadRequest("Product Id is null");
             }
             var product = await _repository.Product.GetProductByIdAsync(productId, trackChanges: false);
             if (product is null)
             {
-                _logger.LogInfo($"Product with ID: {productId} doesn't exist in the database.");
+               // _logger.LogInfo($"Product with ID: {productId} doesn't exist in the database.");
                 return NotFound();
             }
             var fileStream = _repository.Product.GetImage(productId);
@@ -288,13 +288,13 @@ namespace MedicalApp.Controllers
         {
             if (pharmacyId.IsNullOrEmpty() || ids.IsNullOrEmpty())
             {
-                _logger.LogInfo("Pharmacy Id || Products' Ids is null");
+               // _logger.LogInfo("Pharmacy Id || Products' Ids is null");
                 return BadRequest("Pharmacy Id || Products' Id is null");
             }
             var pharmacy = await _repository.Pharmacy.GetPharmacyByIdAsync(pharmacyId, trackChanges: false);
             if (pharmacy is null)
             {
-                _logger.LogInfo($"Pharmacy with ID: {pharmacyId} doesn't exist in the database.");
+              //  _logger.LogInfo($"Pharmacy with ID: {pharmacyId} doesn't exist in the database.");
                 return NotFound();
             }
             var products = await _repository.Product.GetAllProductsAsync(paramters,trackChanges: true);
@@ -310,19 +310,19 @@ namespace MedicalApp.Controllers
         {
             if (pharmacyId.IsNullOrEmpty() || productId == 0)
             {
-                _logger.LogInfo("Pharmacy/Product Id is null");
+               // _logger.LogInfo("Pharmacy/Product Id is null");
                 return BadRequest("Pharmacy/Product Id is null");
             }
             var pharmacy = await _repository.Pharmacy.GetPharmacyByIdAsync(pharmacyId, trackChanges: false);
             if (pharmacy is null)
             {
-                _logger.LogInfo($"Pharmacy with ID: {pharmacyId} doesn't exist in the database.");
+               // _logger.LogInfo($"Pharmacy with ID: {pharmacyId} doesn't exist in the database.");
                 return NotFound();
             }
             var product = await _repository.Product.GetProdcutForPharmacy(pharmacyId, productId);
             if (product is null)
             {
-                _logger.LogError($"Product with ID {productId} doesn't exist in the Pharamcy");
+                //_logger.LogError($"Product with ID {productId} doesn't exist in the Pharamcy");
                 return NotFound($"Product with ID {productId} doesn't exist in the Pharamcy");
             }
             var productDto = _mapper.Map<ProductDto>(product);
@@ -333,19 +333,19 @@ namespace MedicalApp.Controllers
         {
             if (pharmacyId.IsNullOrEmpty() || productId == 0)
             {
-                _logger.LogInfo("Pharmacy/Product Id is null");
+               // _logger.LogInfo("Pharmacy/Product Id is null");
                 return BadRequest("Pharmacy/Product Id is null");
             }
             var pharmacy = await _repository.Pharmacy.GetPharmacyByIdAsync(pharmacyId, trackChanges: true);
             if (pharmacy is null)
             {
-                _logger.LogInfo($"Pharmacy with ID: {pharmacyId} doesn't exist in the database.");
+              //  _logger.LogInfo($"Pharmacy with ID: {pharmacyId} doesn't exist in the database.");
                 return NotFound();
             }
             var product = await _repository.Product.GetProdcutForPharmacy(pharmacyId, productId);
             if(product is null)
             {
-                _logger.LogError($"Product with ID {productId} doesn't exist in the Pharamcy");
+              //  _logger.LogError($"Product with ID {productId} doesn't exist in the Pharamcy");
                 return NotFound($"Product with ID {productId} doesn't exist in the Pharamcy");
             }
              _repository.Product.DeleteProduct(pharmacyId,productId);
@@ -359,7 +359,7 @@ namespace MedicalApp.Controllers
             var pharmacy = await _repository.Pharmacy.GetPharmacyByIdAsync(pharmacyId, trackChanges: false);
             if (pharmacy is null)
             {
-                _logger.LogInfo($"Pharmacy with id: {pharmacyId} doesn't exist in the database.");
+              //  _logger.LogInfo($"Pharmacy with id: {pharmacyId} doesn't exist in the database.");
                 return NotFound();
             }
             var productsFromDb = await _repository.Product.GetPharmacyProducts(paramters,pharmacyId);
@@ -371,13 +371,13 @@ namespace MedicalApp.Controllers
         {
             if (patientId is null)
             {
-                _logger.LogError("patientId is null!");
+               // _logger.LogError("patientId is null!");
                 return BadRequest("patientId is null");
             }
             var patient = await _repository.Patient.GetPatientByIdAsync(patientId,trackChanges:false);
             if(patient is null)
             {
-                _logger.LogInfo($"Patient with id : {patientId} doesn't exist in database");
+               // _logger.LogInfo($"Patient with id : {patientId} doesn't exist in database");
                 return NotFound($"Patient with id : {patientId} doesn't exist in database");
             }
             var orders = await _repository.Order.GetOrdersForPatientAsync(patientId);
@@ -390,13 +390,13 @@ namespace MedicalApp.Controllers
         {
             if (pharmacyId is null)
             {
-                _logger.LogError("pharmacyId is null!");
+               // _logger.LogError("pharmacyId is null!");
                 return BadRequest("pharmacyId is null");
             }
             var pharmacy =await _repository.Pharmacy.GetPharmacyByIdAsync(pharmacyId,false);
             if(pharmacy is null)
             {
-                _logger.LogInfo($"pharmacy with id : {pharmacyId} doesn't exist in database");
+              //  _logger.LogInfo($"pharmacy with id : {pharmacyId} doesn't exist in database");
                 return NotFound($"pharmacy with id : {pharmacyId} doesn't exist in database");
             }
             var orders =await _repository.Order.GetOrdersForPharmacyAsync(pharmacyId);
@@ -409,7 +409,7 @@ namespace MedicalApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogInfo($"Error in validation of model State {ModelState}");
+               // _logger.LogInfo($"Error in validation of model State {ModelState}");
                 return BadRequest(ModelState);
             }
             var order = _mapper.Map<Order>(orderDto);
@@ -422,13 +422,13 @@ namespace MedicalApp.Controllers
         {
             if (orderId is 0)
             {
-                _logger.LogInfo("orderIdis null!");
+               // _logger.LogInfo("orderIdis null!");
                 return BadRequest("orderId is null");
             }
             var order = await _repository.Order.GetOrderAsync(orderId);
             if (order is null)
             {
-                _logger.LogInfo($"order with id: {orderId} doesn't exist in the database.");
+               // _logger.LogInfo($"order with id: {orderId} doesn't exist in the database.");
                 return NotFound();
             }
             var orderDto=_mapper.Map<OrderDto>(order); 
@@ -439,19 +439,19 @@ namespace MedicalApp.Controllers
         {
             if (pharmacyId.IsNullOrEmpty())
             {
-                _logger.LogInfo("Pharmacy Id is null");
+               // _logger.LogInfo("Pharmacy Id is null");
                 return BadRequest("Pharmacy Id is null");
 
             }
             var pharmacyDb = await _repository.Pharmacy.GetPharmacyByIdAsync(pharmacyId,true);
             if (pharmacyDb is null)
             {
-                _logger.LogInfo($"Pharmacy With ID: {pharmacyDb} doesn't exist in the database");
+              //  _logger.LogInfo($"Pharmacy With ID: {pharmacyDb} doesn't exist in the database");
                 return NotFound();
             }
             if (pharmacyDto is null)
             {
-                _logger.LogInfo($"ModelState Is not Valid {ModelState}");
+               // _logger.LogInfo($"ModelState Is not Valid {ModelState}");
                 return BadRequest(ModelState);
             }
             _mapper.Map(pharmacyDto,pharmacyDb);

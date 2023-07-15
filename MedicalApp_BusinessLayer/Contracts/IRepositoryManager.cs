@@ -13,7 +13,7 @@ namespace MedicalApp_BusinessLayer.Contracts
         IAppointmentRepository Appointment { get; }
         IClinicRepository Clinic { get; }
         IPatientRepository Patient { get; }
-        IAdminRepository Admin { get; }
+        //IAdminRepository Admin { get; }
         IClinicDaysRepository ClinicDays { get; }
         IRateRepository RateRepository { get; }
         IChatRepository Chat { get; }
