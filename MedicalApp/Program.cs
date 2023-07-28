@@ -22,7 +22,9 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                policy =>
                {
-                   policy.WithOrigins("http://localhost:3000")
+                   //policy.WithOrigins("https://64be5a29d2bf0603b25edc62--enchanting-semifreddo-5ca30c.netlify.app/",
+                   policy.SetIsOriginAllowed(origin => true)
+                   //    "http://localhost:3000/")
                    .AllowAnyHeader()
                    .AllowAnyMethod()
                    .AllowCredentials();
