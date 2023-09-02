@@ -19,7 +19,7 @@ The Medical Web App is a comprehensive platform that caters to the needs of both
 ## Technologies Used
 The Medical Website project utilizes the following technologies:
 
-- .NET Core
+- .NET Core 7
 - Entity Framework Core
 - Redis
 - WebSocket
